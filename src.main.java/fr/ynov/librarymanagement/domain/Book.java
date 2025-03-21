@@ -1,6 +1,7 @@
 package fr.ynov.librarymanagement.domain;
 
-public class Book implements Takeable{
+public class Book implements TakeAble{
+    private final int id;
     private final String title;
     private final Author author;
     private final Gender gender;
@@ -8,7 +9,8 @@ public class Book implements Takeable{
     private final int pages;
     private Boolean taked = false;
 
-    public Book(String title, Author author, Gender gender, int year, int pages) {
+    public Book(int id, String title, Author author, Gender gender, int year, int pages) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.gender = gender;
