@@ -1,0 +1,108 @@
+//int id, String name, String surname, String nationality, String dateOfBirth, String biography, String writingStyle
+//int id, String title, Author author, Genre gender, int year, int pages, Illustrator illustrator, String illustrationStyle
+[
+  {
+    "id": 1,
+    "title": "Tintin",
+    "author": {
+      "id": 1,
+      "name": "Georges",
+      "surname": "Rémi",
+      "nationality": "Belgian",
+      "dateOfBirth": "1907-05-22",
+      "biography": "Georges Prosper Remi, known by the pen name Hergé, was a Belgian cartoonist. He is best known for creating The Adventures of Tintin, the series of comic albums which are considered one of the most popular European comics of the 20th century.",
+      "writingStyle": "Comics"
+    },
+    "gender": "COMICS",
+    "year": 1929,
+    "pages": 62,
+    "illustrator": {
+      "id": 1,
+      "name": "Georges",
+      "surname": "Rémi",
+      "nationality": "Belgian",
+      "dateOfBirth": "1907-05-22",
+      "biography": "Georges Prosper Remi, known by the pen name Hergé, was a Belgian cartoonist. He is best known for creating The Adventures of Tintin, the series of comic albums which are considered one of the most popular European comics of the 20th century.",
+      "illustrationStyle": "Clear line"
+    },
+    "illustrationStyle": "Clear line"
+  },
+  {
+    "id": 2,
+    "title": "Asterix",
+    "author": {
+      "id": 2,
+      "name": "René",
+      "surname": "Goscinny",
+      "nationality": "French",
+      "dateOfBirth": "1926-08-14",
+      "biography": "René Goscinny was a French comic editor and writer, who is best known for the comic book Astérix, which he created with illustrator Albert Uderzo, and for his work on the comic series Lucky Luke with Morris (considered the series' golden age) and Iznogoud with Jean Tabary.",
+      "writingStyle": "Comics"
+    },
+    "gender": "COMICS",
+    "year": 1959,
+    "pages": 48,
+    "illustrator": {
+      "id": 2,
+      "name": "Albert",
+      "surname": "Uderzo",
+      "nationality": "French",
+      "dateOfBirth": "1927-04-25",
+      "biography": "Albert Uderzo was a French comic book artist and scriptwriter. The son of Italian immigrants, he is best known for his work on the Astérix series and also drew other comics such as Oumpah-pah, again with René Goscinny.",
+      "illustrationStyle": "Clear line"
+    },
+    "illustrationStyle": "Clear line"
+  },
+  {
+    "id": 3,
+    "title": "Batman",
+    "author": {
+      "id": 3,
+      "name": "Bob",
+      "surname": "Kane",
+      "nationality": "American",
+      "dateOfBirth": "1915-10-24",
+      "biography": "Bob Kane was an American comic book writer and artist who co-created Batman.",
+      "writingStyle": "Comics"
+    },
+    "gender": "COMICS",
+    "year": 1939,
+    "pages": 64,
+    "illustrator": {
+      "id": 3,
+      "name": "Bob",
+      "surname": "Kane",
+      "nationality": "American",
+      "dateOfBirth": "1915-10-24",
+      "biography": "Bob Kane was an American comic book writer and artist who co-created Batman.",
+      "illustrationStyle": "Golden Age"
+    },
+    "illustrationStyle": "Golden Age"
+  },
+  {
+    "id": 4,
+    "title": "Les Légendaires",
+    "author": {
+      "id": 4,
+      "name": "Patrick",
+      "surname": "Sobral",
+        "nationality": "French",
+        "dateOfBirth": "1972-11-04",
+        "biography": "Patrick Sobral is a French comic book writer and artist. He is best known for creating the comic book series Les Légendaires.",
+        "writingStyle": "Comics"
+    },
+    "gender": "COMICS",
+    "year": 2004,
+    "pages": 48,
+    "illustrator": {
+      "id": 4,
+      "name": "Patrick",
+      "surname": "Sobral",
+        "nationality": "French",
+        "dateOfBirth": "1972-11-04",
+        "biography": "Patrick Sobral is a French comic book writer and artist. He is best known for creating the comic book series Les Légendaires.",
+        "illustrationStyle": "Manga"
+    },
+    "illustrationStyle": "Manga"
+  }
+]
