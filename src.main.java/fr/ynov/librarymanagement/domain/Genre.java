@@ -1,6 +1,6 @@
 package fr.ynov.librarymanagement.domain;
 
-public enum Gender {
+public enum Genre {
     FICTION,
     NON_FICTION,
     SCIENCE_FICTION,
@@ -12,4 +12,6 @@ public enum Gender {
     BIOGRAPHY,
     HISTORY,
     COOKBOOK,
+    COMICS,
+    MANGA
 }

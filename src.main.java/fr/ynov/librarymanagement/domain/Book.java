@@ -1,21 +1,25 @@
 package fr.ynov.librarymanagement.domain;
 
-public class Book implements TakeAble{
+public abstract class Book implements Takeable {
     private final int id;
     private final String title;
     private final Author author;
-    private final Gender gender;
+    private final Genre gender;
     private final int year;
     private final int pages;
-    private Boolean taked = false;
+    private Boolean taken = false;
 
-    public Book(int id, String title, Author author, Gender gender, int year, int pages) {
+    public Book(int id, String title, Author author, Genre gender, int year, int pages) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.gender = gender;
         this.year = year;
         this.pages = pages;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -26,7 +30,7 @@ public class Book implements TakeAble{
         return author;
     }
 
-    public Gender getGender() {
+    public Genre getGender() {
         return gender;
     }
 
@@ -38,18 +42,16 @@ public class Book implements TakeAble{
         return pages;
     }
 
-    public Boolean isTaked() {
-        return taked;
+    public Boolean isTaken() {
+        return taken;
     }
 
-    public void take() {
-        taked = true;
+    public void takeBook() {
+        taken = true;
     }
 
     public void returnBook() {
-        taked = false;
+        taken = false;
     }
 
 }
-
-

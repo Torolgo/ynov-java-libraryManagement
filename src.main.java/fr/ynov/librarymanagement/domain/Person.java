@@ -6,14 +6,16 @@ public abstract class Person {
     protected int id;
     protected String name;
     protected String surname;
-    protected int age;
+    protected String nationality;
+    protected String dateOfBirth;
     protected String biography;
 
-    public Person(int id, String name, String surname, int age, String biography) {
+    public Person(int id, String name, String surname, String nationality, String dateOfBirth, String biography) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.nationality = nationality;
+        this.dateOfBirth = dateOfBirth;
         this.biography = biography;
     }
 
@@ -25,15 +27,15 @@ public abstract class Person {
         return name + " " + surname;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public int getBirthYear() {
-        return LocalDate.now().getYear() - age;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public String getBiography() {
         return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 }
