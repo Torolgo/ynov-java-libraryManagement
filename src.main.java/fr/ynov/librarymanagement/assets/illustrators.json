@@ -1,0 +1,20 @@
+[
+  {
+    "illustrationStyle": "Clear line",
+    "id": 2,
+    "name": "Albert",
+    "surname": "Uderzo",
+    "nationality": "French",
+    "dateOfBirth": "1927-04-25",
+    "biography": "Albert Uderzo was a French comic book artist and scriptwriter. The son of Italian immigrants, he is best known for his work on the Astérix series and also drew other comics such as Oumpah-pah, again with René Goscinny."
+  },
+  {
+    "illustrationStyle": "Cartoon",
+    "id": 1,
+    "name": "Quentin",
+    "surname": "Blake",
+    "nationality": "British",
+    "dateOfBirth": "16/12/1932",
+    "biography": "Quentin Saxby Blake, CBE, FCSD, RDI, is a British cartoonist, illustrator and children\u0027s writer. He may be known for illustrating books written by Roald Dahl."
+  }
+]
