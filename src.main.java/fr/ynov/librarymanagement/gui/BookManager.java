@@ -6,6 +6,9 @@ import fr.ynov.librarymanagement.factory.PersonFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import static fr.ynov.librarymanagement.gui.PersonManager.findAuthorByName;
 import static fr.ynov.librarymanagement.gui.PersonManager.findIllustratorByName;
@@ -16,14 +19,9 @@ public class BookManager {
         bookFrame.setSize(400, 300);
         bookFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton btnAddBook = new JButton("Ajouter un Livre");
-        JButton btnViewBooks = new JButton("Consulter les Livres");
+        addButtonToFrame(bookFrame, "Ajouter un Livre", e -> openAddBookTypeWindow());
+        addButtonToFrame(bookFrame, "Consulter les Livres", e -> viewBooks());
 
-        btnAddBook.addActionListener(e -> openAddBookTypeWindow());
-        btnViewBooks.addActionListener(e -> viewBooks());
-
-        bookFrame.add(btnAddBook);
-        bookFrame.add(btnViewBooks);
         bookFrame.setVisible(true);
     }
 
@@ -32,202 +30,181 @@ public class BookManager {
         addBookTypeFrame.setSize(400, 200);
         addBookTypeFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton btnAddManga = new JButton("Ajouter un Manga");
-        JButton btnAddNovel = new JButton("Ajouter un Roman");
-        JButton btnAddBd = new JButton("Ajouter une BD");
-
-        btnAddManga.addActionListener(e -> openAddMangaWindow());
-        btnAddNovel.addActionListener(e -> openAddNovelWindow());
-        btnAddBd.addActionListener(e -> openAddBdWindow());
-
-        addBookTypeFrame.add(btnAddManga);
-        addBookTypeFrame.add(btnAddNovel);
-        addBookTypeFrame.add(btnAddBd);
+        addButtonToFrame(addBookTypeFrame, "Ajouter un Manga", e -> openAddMangaWindow());
+        addButtonToFrame(addBookTypeFrame, "Ajouter un Roman", e -> openAddNovelWindow());
+        addButtonToFrame(addBookTypeFrame, "Ajouter une BD", e -> openAddBdWindow());
 
         addBookTypeFrame.setVisible(true);
     }
 
-    public static void openAddMangaWindow() {
-        JFrame addMangaFrame = new JFrame("Ajouter un Manga");
-        addMangaFrame.setSize(400, 400);
-        addMangaFrame.setLayout(new GridLayout(7, 2, 10, 10));
+    private static void addButtonToFrame(JFrame frame, String buttonText, Consumer<java.awt.event.ActionEvent> action) {
+        JButton button = new JButton(buttonText);
+        button.addActionListener(action::accept);
+        frame.add(button);
+    }
 
+    // Generic method to create book windows
+    private static void createBookWindow(String title, int rows, Consumer<Map<String, JTextField>> onAdd,
+                                         Map<String, String> additionalFields) {
+        JFrame frame = new JFrame(title);
+        frame.setSize(400, 400);
+        frame.setLayout(new GridLayout(rows, 2, 10, 10));
+
+        // Common fields for all books
         JTextField titleField = new JTextField();
         JTextField authorField = new JTextField();
         JTextField genreField = new JTextField();
         JTextField yearField = new JTextField();
         JTextField pagesField = new JTextField();
-        JTextField subGenreField = new JTextField();
+
+        // Add common fields
+        addFieldsToFrame(frame, titleField, authorField, genreField, yearField, pagesField);
+
+        // Create a map to store all fields including additional ones
+        Map<String, JTextField> allFields = Map.of(
+                "title", titleField,
+                "author", authorField,
+                "genre", genreField,
+                "year", yearField,
+                "pages", pagesField
+        );
+
+        // Add additional fields specific to book type
+        Map<String, JTextField> additionalJFields = new java.util.HashMap<>();
+        for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
+            JTextField field = new JTextField();
+            frame.add(new JLabel(entry.getValue() + ":"));
+            frame.add(field);
+            additionalJFields.put(entry.getKey(), field);
+        }
+
+        // Add button
         JButton addButton = new JButton("Ajouter");
+        frame.add(addButton);
 
-        // Removed ID field since it's now automatic
-        addMangaFrame.add(new JLabel("Titre:"));
-        addMangaFrame.add(titleField);
-        addMangaFrame.add(new JLabel("Auteur:"));
-        addMangaFrame.add(authorField);
-        addMangaFrame.add(new JLabel("Genre:"));
-        addMangaFrame.add(genreField);
-        addMangaFrame.add(new JLabel("Année:"));
-        addMangaFrame.add(yearField);
-        addMangaFrame.add(new JLabel("Pages:"));
-        addMangaFrame.add(pagesField);
-        addMangaFrame.add(new JLabel("Sous-genre:"));
-        addMangaFrame.add(subGenreField);
-        addMangaFrame.add(addButton);
-
+        // Set action listener to button
         addButton.addActionListener(e -> {
             try {
-                String title = titleField.getText();
+                // Combine common and additional fields
+                Map<String, JTextField> combinedFields = new java.util.HashMap<>(allFields);
+                combinedFields.putAll(additionalJFields);
 
-                // Find or create author
-                String authorName = authorField.getText();
-                Author author = findAuthorByName(authorName);
-                if (author == null) {
-                    // If author doesn't exist, create a new one
-                    PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
-                    author = findAuthorByName(authorName); // Fetch the newly created author with assigned ID
-                }
-
-                Genre genre = Genre.valueOf(genreField.getText().toUpperCase());
-                int year = Integer.parseInt(yearField.getText());
-                int pages = Integer.parseInt(pagesField.getText());
-                String subGenre = subGenreField.getText();
-
-                BookFactory.WriteMangasFile(title, author, genre, year, pages, subGenre);
-                JOptionPane.showMessageDialog(addMangaFrame, "Manga ajouté avec succès!");
-                addMangaFrame.dispose();
+                // Call the provided consumer with all fields
+                onAdd.accept(combinedFields);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(addMangaFrame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                showError(frame, ex);
             }
         });
 
-        addMangaFrame.setVisible(true);
+        frame.setVisible(true);
+    }
+
+    public static void openAddMangaWindow() {
+        Map<String, String> additionalFields = Map.of("subGenre", "Sous-genre");
+
+        createBookWindow("Ajouter un Manga", 7, fields -> {
+            try {
+                String title = fields.get("title").getText();
+                Author author = findOrCreateAuthor(fields.get("author").getText());
+                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
+                int year = Integer.parseInt(fields.get("year").getText());
+                int pages = Integer.parseInt(fields.get("pages").getText());
+                String subGenre = fields.get("subGenre").getText();
+
+                BookFactory.WriteMangasFile(title, author, genre, year, pages, subGenre);
+                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Manga ajouté avec succès!");
+            } catch (Exception ex) {
+                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
+            }
+        }, additionalFields);
     }
 
     public static void openAddNovelWindow() {
-        JFrame addNovelFrame = new JFrame("Ajouter un Roman");
-        addNovelFrame.setSize(400, 400);
-        addNovelFrame.setLayout(new GridLayout(7, 2, 10, 10));
+        Map<String, String> additionalFields = Map.of("chapters", "Chapitres");
 
-        JTextField titleField = new JTextField();
-        JTextField authorField = new JTextField();
-        JTextField genreField = new JTextField();
-        JTextField yearField = new JTextField();
-        JTextField pagesField = new JTextField();
-        JTextField chaptersField = new JTextField();
-        JButton addButton = new JButton("Ajouter");
-
-        // Removed ID field since it's now automatic
-        addNovelFrame.add(new JLabel("Titre:"));
-        addNovelFrame.add(titleField);
-        addNovelFrame.add(new JLabel("Auteur:"));
-        addNovelFrame.add(authorField);
-        addNovelFrame.add(new JLabel("Genre:"));
-        addNovelFrame.add(genreField);
-        addNovelFrame.add(new JLabel("Année:"));
-        addNovelFrame.add(yearField);
-        addNovelFrame.add(new JLabel("Pages:"));
-        addNovelFrame.add(pagesField);
-        addNovelFrame.add(new JLabel("Chapitres:"));
-        addNovelFrame.add(chaptersField);
-        addNovelFrame.add(addButton);
-
-        addButton.addActionListener(e -> {
+        createBookWindow("Ajouter un Roman", 7, fields -> {
             try {
-                String title = titleField.getText();
-
-                // Find or create author
-                String authorName = authorField.getText();
-                Author author = findAuthorByName(authorName);
-                if (author == null) {
-                    // If author doesn't exist, create a new one
-                    PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
-                    author = findAuthorByName(authorName); // Fetch the newly created author with assigned ID
-                }
-
-                Genre genre = Genre.valueOf(genreField.getText().toUpperCase());
-                int year = Integer.parseInt(yearField.getText());
-                int pages = Integer.parseInt(pagesField.getText());
-                int chapters = Integer.parseInt(chaptersField.getText());
+                String title = fields.get("title").getText();
+                Author author = findOrCreateAuthor(fields.get("author").getText());
+                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
+                int year = Integer.parseInt(fields.get("year").getText());
+                int pages = Integer.parseInt(fields.get("pages").getText());
+                int chapters = Integer.parseInt(fields.get("chapters").getText());
 
                 BookFactory.WriteNovelsFile(title, author, genre, year, pages, chapters);
-                JOptionPane.showMessageDialog(addNovelFrame, "Roman ajouté avec succès!");
-                addNovelFrame.dispose();
+                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Roman ajouté avec succès!");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(addNovelFrame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
             }
-        });
-
-        addNovelFrame.setVisible(true);
+        }, additionalFields);
     }
 
     public static void openAddBdWindow() {
-        JFrame addBdFrame = new JFrame("Ajouter une BD");
-        addBdFrame.setSize(400, 400);
-        addBdFrame.setLayout(new GridLayout(8, 2, 10, 10));
+        Map<String, String> additionalFields = Map.of(
+                "illustrator", "Illustrateur",
+                "illustrationStyle", "Style d'illustration"
+        );
 
-        JTextField titleField = new JTextField();
-        JTextField authorField = new JTextField();
-        JTextField genreField = new JTextField();
-        JTextField yearField = new JTextField();
-        JTextField pagesField = new JTextField();
-        JTextField illustratorField = new JTextField();
-        JTextField illustrationStyleField = new JTextField();
-        JButton addButton = new JButton("Ajouter");
-
-        // Removed ID field since it's now automatic
-        addBdFrame.add(new JLabel("Titre:"));
-        addBdFrame.add(titleField);
-        addBdFrame.add(new JLabel("Auteur:"));
-        addBdFrame.add(authorField);
-        addBdFrame.add(new JLabel("Genre:"));
-        addBdFrame.add(genreField);
-        addBdFrame.add(new JLabel("Année:"));
-        addBdFrame.add(yearField);
-        addBdFrame.add(new JLabel("Pages:"));
-        addBdFrame.add(pagesField);
-        addBdFrame.add(new JLabel("Illustrateur:"));
-        addBdFrame.add(illustratorField);
-        addBdFrame.add(new JLabel("Style d'illustration:"));
-        addBdFrame.add(illustrationStyleField);
-        addBdFrame.add(addButton);
-
-        addButton.addActionListener(e -> {
+        createBookWindow("Ajouter une BD", 8, fields -> {
             try {
-                String title = titleField.getText();
+                String title = fields.get("title").getText();
+                Author author = findOrCreateAuthor(fields.get("author").getText());
 
-                // Find or create author
-                String authorName = authorField.getText();
-                Author author = findAuthorByName(authorName);
-                if (author == null) {
-                    // If author doesn't exist, create a new one
-                    PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
-                    author = findAuthorByName(authorName); // Fetch the newly created author with assigned ID
-                }
+                String illustratorName = fields.get("illustrator").getText();
+                String illustrationStyle = fields.get("illustrationStyle").getText();
+                Illustrator illustrator = findOrCreateIllustrator(illustratorName, illustrationStyle);
 
-                // Find or create illustrator
-                String illustratorName = illustratorField.getText();
-                String illustrationStyle = illustrationStyleField.getText();
-                Illustrator illustrator = findIllustratorByName(illustratorName);
-                if (illustrator == null) {
-                    // If illustrator doesn't exist, create a new one
-                    PersonFactory.WriteIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
-                    illustrator = findIllustratorByName(illustratorName); // Fetch the newly created illustrator with assigned ID
-                }
-
-                Genre genre = Genre.valueOf(genreField.getText().toUpperCase());
-                int year = Integer.parseInt(yearField.getText());
-                int pages = Integer.parseInt(pagesField.getText());
+                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
+                int year = Integer.parseInt(fields.get("year").getText());
+                int pages = Integer.parseInt(fields.get("pages").getText());
 
                 BookFactory.WriteBdsFile(title, author, genre, year, pages, illustrator, illustrationStyle);
-                JOptionPane.showMessageDialog(addBdFrame, "BD ajoutée avec succès!");
-                addBdFrame.dispose();
+                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "BD ajoutée avec succès!");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(addBdFrame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
             }
-        });
+        }, additionalFields);
+    }
 
-        addBdFrame.setVisible(true);
+    private static void addFieldsToFrame(JFrame frame, JTextField titleField, JTextField authorField,
+                                         JTextField genreField, JTextField yearField, JTextField pagesField) {
+        frame.add(new JLabel("Titre:"));
+        frame.add(titleField);
+        frame.add(new JLabel("Auteur:"));
+        frame.add(authorField);
+        frame.add(new JLabel("Genre:"));
+        frame.add(genreField);
+        frame.add(new JLabel("Année:"));
+        frame.add(yearField);
+        frame.add(new JLabel("Pages:"));
+        frame.add(pagesField);
+    }
+
+    private static Author findOrCreateAuthor(String authorName) {
+        Author author = findAuthorByName(authorName);
+        if (author == null) {
+            PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
+            author = findAuthorByName(authorName);
+        }
+        return author;
+    }
+
+    private static Illustrator findOrCreateIllustrator(String illustratorName, String illustrationStyle) {
+        Illustrator illustrator = findIllustratorByName(illustratorName);
+        if (illustrator == null) {
+            PersonFactory.WriteIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
+            illustrator = findIllustratorByName(illustratorName);
+        }
+        return illustrator;
+    }
+
+    private static void showSuccessAndClose(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(frame, message);
+        frame.dispose();
+    }
+
+    private static void showError(JFrame frame, Exception ex) {
+        JOptionPane.showMessageDialog(frame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void viewBooks() {
@@ -235,45 +212,15 @@ public class BookManager {
         viewBooksFrame.setSize(500, 500);
         viewBooksFrame.setLayout(new BorderLayout());
 
-        // Clear existing book list and reload all books
-        BookFactory.clearBookList();
-        BookFactory.ReadNovelsFile();
-        BookFactory.ReadBdsFile();
-        BookFactory.ReadMangasFile();
+        // Load all books
+        loadAllBooks();
 
-        // Create a list model for the books
-        DefaultListModel<Book> bookListModel = new DefaultListModel<>();
-        for (Book book : BookFactory.getBookList()) {
-            bookListModel.addElement(book);
-        }
-
-        // Create and configure the JList
-        JList<Book> bookList = new JList<>(bookListModel);
-        bookList.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Book) {
-                    Book book = (Book) value;
-                    setText(book.getTitle() + " by " + book.getAuthor().getNameAndSurname() +
-                            (book.isTaken() ? " (Emprunté)" : " (Disponible)"));
-                }
-                return c;
-            }
-        });
-
-        // Add selection listener to display book details when clicked
-        bookList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                Book selectedBook = bookList.getSelectedValue();
-                if (selectedBook != null) {
-                    showBookDetails(selectedBook, viewBooksFrame);
-                }
-            }
-        });
-
+        // Create list model and JList
+        DefaultListModel<Book> bookListModel = createBookListModel();
+        JList<Book> bookList = createBookJList(bookListModel, viewBooksFrame);
         JScrollPane scrollPane = new JScrollPane(bookList);
 
+        // Add refresh button
         JPanel buttonPanel = new JPanel();
         JButton refreshButton = new JButton("Actualiser");
         refreshButton.addActionListener(e -> {
@@ -282,9 +229,52 @@ public class BookManager {
         });
         buttonPanel.add(refreshButton);
 
+        // Assemble frame
         viewBooksFrame.add(scrollPane, BorderLayout.CENTER);
         viewBooksFrame.add(buttonPanel, BorderLayout.SOUTH);
         viewBooksFrame.setVisible(true);
+    }
+
+    private static void loadAllBooks() {
+        BookFactory.clearBookList();
+        BookFactory.ReadNovelsFile();
+        BookFactory.ReadBdsFile();
+        BookFactory.ReadMangasFile();
+    }
+
+    private static DefaultListModel<Book> createBookListModel() {
+        DefaultListModel<Book> model = new DefaultListModel<>();
+        for (Book book : BookFactory.getBookList()) {
+            model.addElement(book);
+        }
+        return model;
+    }
+
+    private static JList<Book> createBookJList(DefaultListModel<Book> model, JFrame parentFrame) {
+        JList<Book> list = new JList<>(model);
+        list.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Book book) {
+                    setText(book.getTitle() + " by " + book.getAuthor().getNameAndSurname() +
+                            (book.isTaken() ? " (Emprunté)" : " (Disponible)"));
+                }
+                return c;
+            }
+        });
+
+        list.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                Book selectedBook = list.getSelectedValue();
+                if (selectedBook != null) {
+                    showBookDetails(selectedBook, parentFrame);
+                }
+            }
+        });
+
+        return list;
     }
 
     private static void showBookDetails(Book book, JFrame parentFrame) {
@@ -292,53 +282,63 @@ public class BookManager {
         detailFrame.setSize(500, 600);
         detailFrame.setLayout(new BorderLayout());
 
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Create details panel
+        JPanel detailsPanel = createDetailsPanel(book);
 
-        // Common book details
-        addDetailRow(detailsPanel, "Titre", book.getTitle());
-        addDetailRow(detailsPanel, "Auteur", book.getAuthor().getNameAndSurname());
-        addDetailRow(detailsPanel, "Genre", book.getGenre().toString());
-        addDetailRow(detailsPanel, "Année", String.valueOf(book.getYear()));
-        addDetailRow(detailsPanel, "Pages", String.valueOf(book.getPages()));
-        addDetailRow(detailsPanel, "Statut", book.isTaken() ? "Emprunté" : "Disponible");
-
-        // Specific details based on book type
-        switch (book) {
-            case Novel novel -> addDetailRow(detailsPanel, "Chapitres", String.valueOf(novel.getChapters()));
-            case Bd bd -> {
-                addDetailRow(detailsPanel, "Illustrateur", bd.getIllustrator().getNameAndSurname());
-                addDetailRow(detailsPanel, "Style d'illustration", bd.getIllustrationStyle());
-            }
-            case Manga manga -> addDetailRow(detailsPanel, "Sous-genre", manga.getSubGenre());
-            default -> {
-            }
-        }
-
-        // Buttons for actions
+        // Create borrow/return button
         JPanel buttonPanel = new JPanel();
         JButton borrowButton = new JButton(book.isTaken() ? "Retourner" : "Emprunter");
-        borrowButton.addActionListener(e -> {
-            if (book.isTaken()) {
-                book.returnBook();
-                BookFactory.updateBookStatus(book);
-                JOptionPane.showMessageDialog(detailFrame, "Livre retourné avec succès!");
-            } else {
-                book.takeBook();
-                BookFactory.updateBookStatus(book);
-                JOptionPane.showMessageDialog(detailFrame, "Livre emprunté avec succès!");
-            }
-            detailFrame.dispose();
-            parentFrame.dispose();
-            viewBooks(); // Refresh the book list view
-        });
+        borrowButton.addActionListener(e -> handleBorrowReturn(book, detailFrame, parentFrame));
         buttonPanel.add(borrowButton);
 
+        // Assemble frame
         JScrollPane scrollPane = new JScrollPane(detailsPanel);
         detailFrame.add(scrollPane, BorderLayout.CENTER);
         detailFrame.add(buttonPanel, BorderLayout.SOUTH);
         detailFrame.setVisible(true);
+    }
+
+    private static JPanel createDetailsPanel(Book book) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Common book details
+        addDetailRow(panel, "Titre", book.getTitle());
+        addDetailRow(panel, "Auteur", book.getAuthor().getNameAndSurname());
+        addDetailRow(panel, "Genre", book.getGenre().toString());
+        addDetailRow(panel, "Année", String.valueOf(book.getYear()));
+        addDetailRow(panel, "Pages", String.valueOf(book.getPages()));
+        addDetailRow(panel, "Statut", book.isTaken() ? "Emprunté" : "Disponible");
+
+        // Specific details based on book type
+        switch (book) {
+            case Novel novel -> addDetailRow(panel, "Chapitres", String.valueOf(novel.getChapters()));
+            case Bd bd -> {
+                addDetailRow(panel, "Illustrateur", bd.getIllustrator().getNameAndSurname());
+                addDetailRow(panel, "Style d'illustration", bd.getIllustrationStyle());
+            }
+            case Manga manga -> addDetailRow(panel, "Sous-genre", manga.getSubGenre());
+            default -> {}
+        }
+
+        return panel;
+    }
+
+    private static void handleBorrowReturn(Book book, JFrame detailFrame, JFrame parentFrame) {
+        if (book.isTaken()) {
+            book.returnBook();
+        } else {
+            book.takeBook();
+        }
+
+        BookFactory.updateBookStatus(book);
+        JOptionPane.showMessageDialog(detailFrame,
+                book.isTaken() ? "Livre emprunté avec succès!" : "Livre retourné avec succès!");
+
+        detailFrame.dispose();
+        parentFrame.dispose();
+        viewBooks(); // Refresh the book list view
     }
 
     private static void addDetailRow(JPanel panel, String label, String value) {

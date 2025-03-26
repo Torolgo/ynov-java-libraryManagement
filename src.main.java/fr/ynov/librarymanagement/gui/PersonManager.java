@@ -10,6 +10,22 @@ import java.awt.*;
 import java.util.List;
 
 public class PersonManager {
+    public static void openAuthorWindow() {
+        JFrame authorFrame = new JFrame("Gérer les Auteurs et Illustrateurs");
+        authorFrame.setSize(400, 300);
+        authorFrame.setLayout(new GridLayout(3, 1, 10, 10));
+
+        JButton btnAddPerson = new JButton("Ajouter une Personne");
+        JButton btnViewAuthors = new JButton("Consulter les Auteurs");
+
+        btnAddPerson.addActionListener(e -> openAddPersonTypeWindow());
+        btnViewAuthors.addActionListener(e -> viewPersonsList());
+
+        authorFrame.add(btnAddPerson);
+        authorFrame.add(btnViewAuthors);
+        authorFrame.setVisible(true);
+    }
+
     private static void openAddPersonTypeWindow() {
         JFrame addPersonTypeFrame = new JFrame("Choisir le type de personne");
         addPersonTypeFrame.setSize(400, 200);
@@ -18,8 +34,8 @@ public class PersonManager {
         JButton btnAddAuthor = new JButton("Ajouter un Auteur");
         JButton btnAddIllustrator = new JButton("Ajouter un Illustrateur");
 
-        btnAddAuthor.addActionListener(e -> openAddAuthorWindow());
-        btnAddIllustrator.addActionListener(e -> openAddIllustratorWindow());
+        btnAddAuthor.addActionListener(e -> openAddPersonWindow(true));
+        btnAddIllustrator.addActionListener(e -> openAddPersonWindow(false));
 
         addPersonTypeFrame.add(btnAddAuthor);
         addPersonTypeFrame.add(btnAddIllustrator);
@@ -27,90 +43,55 @@ public class PersonManager {
         addPersonTypeFrame.setVisible(true);
     }
 
-    private static void openAddAuthorWindow() {
-        JFrame addAuthorFrame = new JFrame("Ajouter un Auteur");
-        addAuthorFrame.setSize(400, 400);
-        addAuthorFrame.setLayout(new GridLayout(7, 2, 10, 10));
+    private static void openAddPersonWindow(boolean isAuthor) {
+        String personType = isAuthor ? "Auteur" : "Illustrateur";
+        String styleLabel = isAuthor ? "Style d'écriture:" : "Style d'illustration:";
+
+        JFrame addPersonFrame = new JFrame("Ajouter un " + personType);
+        addPersonFrame.setSize(400, 400);
+        addPersonFrame.setLayout(new GridLayout(7, 2, 10, 10));
 
         JTextField nameField = new JTextField();
         JTextField surnameField = new JTextField();
         JTextField nationalityField = new JTextField();
         JTextField dobField = new JTextField();
         JTextField bioField = new JTextField();
-        JTextField writingStyleField = new JTextField();
+        JTextField styleField = new JTextField();
         JButton addButton = new JButton("Ajouter");
 
-        // Removed ID field since it's now automatic
-        addAuthorFrame.add(new JLabel("Nom:"));
-        addAuthorFrame.add(nameField);
-        addAuthorFrame.add(new JLabel("Prénom:"));
-        addAuthorFrame.add(surnameField);
-        addAuthorFrame.add(new JLabel("Nationalité:"));
-        addAuthorFrame.add(nationalityField);
-        addAuthorFrame.add(new JLabel("Date de naissance:"));
-        addAuthorFrame.add(dobField);
-        addAuthorFrame.add(new JLabel("Biographie:"));
-        addAuthorFrame.add(bioField);
-        addAuthorFrame.add(new JLabel("Style d'écriture:"));
-        addAuthorFrame.add(writingStyleField);
-        addAuthorFrame.add(addButton);
+        addPersonFrame.add(new JLabel("Nom:"));
+        addPersonFrame.add(nameField);
+        addPersonFrame.add(new JLabel("Prénom:"));
+        addPersonFrame.add(surnameField);
+        addPersonFrame.add(new JLabel("Nationalité:"));
+        addPersonFrame.add(nationalityField);
+        addPersonFrame.add(new JLabel("Date de naissance:"));
+        addPersonFrame.add(dobField);
+        addPersonFrame.add(new JLabel("Biographie:"));
+        addPersonFrame.add(bioField);
+        addPersonFrame.add(new JLabel(styleLabel));
+        addPersonFrame.add(styleField);
+        addPersonFrame.add(addButton);
 
         addButton.addActionListener(e -> {
             try {
-                PersonFactory.WriteAuthorFile(nameField.getText(), surnameField.getText(), nationalityField.getText(), dobField.getText(), bioField.getText(), writingStyleField.getText());
-                JOptionPane.showMessageDialog(addAuthorFrame, "Auteur ajouté avec succès!");
-                addAuthorFrame.dispose();
+                if (isAuthor) {
+                    PersonFactory.WriteAuthorFile(nameField.getText(), surnameField.getText(),
+                            nationalityField.getText(), dobField.getText(), bioField.getText(), styleField.getText());
+                    JOptionPane.showMessageDialog(addPersonFrame, "Auteur ajouté avec succès!");
+                } else {
+                    PersonFactory.WriteIllustratorFile(nameField.getText(), surnameField.getText(),
+                            nationalityField.getText(), dobField.getText(), bioField.getText(), styleField.getText());
+                    JOptionPane.showMessageDialog(addPersonFrame, "Illustrateur ajouté avec succès!");
+                }
+                addPersonFrame.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(addAuthorFrame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(addPersonFrame, "Erreur: " + ex.getMessage(),
+                        "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        addAuthorFrame.setVisible(true);
-    }
-
-    private static void openAddIllustratorWindow() {
-        JFrame addIllustratorFrame = new JFrame("Ajouter un Illustrateur");
-        addIllustratorFrame.setSize(400, 400);
-        addIllustratorFrame.setLayout(new GridLayout(7, 2, 10, 10));
-
-        JTextField nameField = new JTextField();
-        JTextField surnameField = new JTextField();
-        JTextField nationalityField = new JTextField();
-        JTextField dobField = new JTextField();
-        JTextField bioField = new JTextField();
-        JTextField illustrationStyleField = new JTextField();
-        JButton addButton = new JButton("Ajouter");
-
-        // Removed ID field since it's now automatic
-        addIllustratorFrame.add(new JLabel("Nom:"));
-        addIllustratorFrame.add(nameField);
-        addIllustratorFrame.add(new JLabel("Prénom:"));
-        addIllustratorFrame.add(surnameField);
-        addIllustratorFrame.add(new JLabel("Nationalité:"));
-        addIllustratorFrame.add(nationalityField);
-        addIllustratorFrame.add(new JLabel("Date de naissance:"));
-        addIllustratorFrame.add(dobField);
-        addIllustratorFrame.add(new JLabel("Biographie:"));
-        addIllustratorFrame.add(bioField);
-        addIllustratorFrame.add(new JLabel("Style d'illustration:"));
-        addIllustratorFrame.add(illustrationStyleField);
-        addIllustratorFrame.add(addButton);
-
-        addButton.addActionListener(e -> {
-            try {
-                PersonFactory.WriteIllustratorFile(nameField.getText(), surnameField.getText(), nationalityField.getText(), dobField.getText(), bioField.getText(), illustrationStyleField.getText());
-                JOptionPane.showMessageDialog(addIllustratorFrame, "Illustrateur ajouté avec succès!");
-                addIllustratorFrame.dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(addIllustratorFrame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        addIllustratorFrame.setVisible(true);
-    }
-
-    private static void viewAuthors() {
-        viewPersonsList();
+        addPersonFrame.setVisible(true);
     }
 
     private static JList<Person> getPersonJList(DefaultListModel<Person> personListModel) {
@@ -251,43 +232,29 @@ public class PersonManager {
         panel.add(rowPanel);
     }
 
-    public static void openAuthorWindow() {
-        JFrame authorFrame = new JFrame("Gérer les Auteurs et Illustrateurs");
-        authorFrame.setSize(400, 300);
-        authorFrame.setLayout(new GridLayout(3, 1, 10, 10));
+    private static <person extends Person> person findPersonByName(String name, Class<person> personClass) {
+        PersonFactory.clearPersonList();
 
-        JButton btnAddPerson = new JButton("Ajouter une Personne");
-        JButton btnViewAuthors = new JButton("Consulter les Auteurs");
+        if (personClass == Author.class) {
+            PersonFactory.ReadAuthorFile();
+        } else if (personClass == Illustrator.class) {
+            PersonFactory.ReadIllustratorFile();
+        }
 
-        btnAddPerson.addActionListener(e -> openAddPersonTypeWindow());
-        btnViewAuthors.addActionListener(e -> viewAuthors());
-
-        authorFrame.add(btnAddPerson);
-        authorFrame.add(btnViewAuthors);
-        authorFrame.setVisible(true);
+        for (Person person : PersonFactory.getPersonList()) {
+            if (personClass.isInstance(person) &&
+                    person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
+                return personClass.cast(person);
+            }
+        }
+        return null;
     }
 
     public static Author findAuthorByName(String name) {
-        PersonFactory.clearPersonList();
-        PersonFactory.ReadAuthorFile();
-
-        for (Person person : PersonFactory.getPersonList()) {
-            if (person instanceof Author && person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
-                return (Author) person;
-            }
-        }
-        return null;
+        return findPersonByName(name, Author.class);
     }
 
     public static Illustrator findIllustratorByName(String name) {
-        PersonFactory.clearPersonList();
-        PersonFactory.ReadIllustratorFile();
-
-        for (Person person : PersonFactory.getPersonList()) {
-            if (person instanceof Illustrator && person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
-                return (Illustrator) person;
-            }
-        }
-        return null;
+        return findPersonByName(name, Illustrator.class);
     }
 }
