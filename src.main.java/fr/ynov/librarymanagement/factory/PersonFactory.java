@@ -84,4 +84,8 @@ public class PersonFactory {
             e.printStackTrace();
         }
     }
+
+    public static List<Person> getPersonList() {
+        return PersonList;
+    }
 }

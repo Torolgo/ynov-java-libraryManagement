@@ -119,7 +119,7 @@ public class BookFactory {
         }
     }
 
-    public static Book createBook() {
-        return null;
+    public static List<Book> getBookList() {
+        return bookList;
     }
 }
