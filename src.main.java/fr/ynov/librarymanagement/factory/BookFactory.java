@@ -13,6 +13,9 @@ import java.util.List;
 public class BookFactory {
     private static final ArrayList<Book> bookList = new ArrayList<Book>();
 
+    public static List<Book> getBookList() {
+        return bookList;
+    }
     public static void clearBookList() {
         bookList.clear();
     }
@@ -53,7 +56,7 @@ public class BookFactory {
 
     public static void ReadMangasFile() {
         Gson gson = new Gson();
-        List<Manga> mangaJson;
+        List<Manga> mangaJson = null;
         try {
             File file = new File("src.main.java/fr/ynov/librarymanagement/assets/manga.json");
             if (file.exists() && file.length() > 0) {
@@ -66,27 +69,6 @@ public class BookFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // New method to get the next available ID
-    public static int getNextAvailableId() {
-        int maxId = 0;
-
-        // Clear and reload all books to ensure we have the latest data
-        clearBookList();
-        ReadNovelsFile();
-        ReadBdsFile();
-        ReadMangasFile();
-
-        // Find the maximum ID currently in use
-        for (Book book : bookList) {
-            if (book.getId() > maxId) {
-                maxId = book.getId();
-            }
-        }
-
-        // Return max ID + 1
-        return maxId + 1;
     }
 
     public static void WriteNovelsFile(String title, Author author, Genre genre, int year, int pages, int chapters) {
@@ -258,7 +240,25 @@ public class BookFactory {
         }
     }
 
-    public static List<Book> getBookList() {
-        return bookList;
+    // New method to get the next available ID
+    private static int getNextAvailableId() {
+        int maxId = 0;
+
+        // Clear and reload all books to ensure we have the latest data
+        clearBookList();
+        ReadNovelsFile();
+        ReadBdsFile();
+        ReadMangasFile();
+
+        // Find the maximum ID currently in use
+        for (Book book : bookList) {
+            if (book.getId() > maxId) {
+                maxId = book.getId();
+            }
+        }
+
+        // Return max ID + 1
+        return maxId + 1;
     }
+
 }

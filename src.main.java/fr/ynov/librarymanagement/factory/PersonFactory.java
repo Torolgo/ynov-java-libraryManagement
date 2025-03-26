@@ -13,6 +13,10 @@ import java.util.List;
 public class PersonFactory {
     private static final ArrayList<Person> PersonList = new ArrayList<>();
 
+    public static List<Person> getPersonList() {
+        return PersonList;
+    }
+
     public static void clearPersonList() {
         PersonList.clear();
     }
@@ -170,9 +174,5 @@ public class PersonFactory {
 
         // Return max ID + 1
         return maxId + 1;
-    }
-
-    public static List<Person> getPersonList() {
-        return PersonList;
     }
 }
