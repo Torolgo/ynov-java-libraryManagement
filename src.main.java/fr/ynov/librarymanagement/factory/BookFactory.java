@@ -19,7 +19,7 @@ public class BookFactory {
 
     public static void ReadNovelsFile() {
         Gson gson = new Gson();
-        List<Novel> novelJson = null;
+        List<Novel> novelJson;
         try {
             File file = new File("src.main.java/fr/ynov/librarymanagement/assets/novels.json");
             if (file.exists() && file.length() > 0) {
@@ -36,7 +36,7 @@ public class BookFactory {
 
     public static void ReadBdsFile() {
         Gson gson = new Gson();
-        List<Bd> bdJson = null;
+        List<Bd> bdJson;
         try {
             File file = new File("src.main.java/fr/ynov/librarymanagement/assets/bd.json");
             if (file.exists() && file.length() > 0) {
@@ -53,7 +53,7 @@ public class BookFactory {
 
     public static void ReadMangasFile() {
         Gson gson = new Gson();
-        List<Manga> mangaJson = null;
+        List<Manga> mangaJson;
         try {
             File file = new File("src.main.java/fr/ynov/librarymanagement/assets/manga.json");
             if (file.exists() && file.length() > 0) {
@@ -68,7 +68,29 @@ public class BookFactory {
         }
     }
 
-    public static void WriteNovelsFile(int id, String title, Author author, Genre genre, int year, int pages, int chapters) {
+    // New method to get the next available ID
+    public static int getNextAvailableId() {
+        int maxId = 0;
+
+        // Clear and reload all books to ensure we have the latest data
+        clearBookList();
+        ReadNovelsFile();
+        ReadBdsFile();
+        ReadMangasFile();
+
+        // Find the maximum ID currently in use
+        for (Book book : bookList) {
+            if (book.getId() > maxId) {
+                maxId = book.getId();
+            }
+        }
+
+        // Return max ID + 1
+        return maxId + 1;
+    }
+
+    public static void WriteNovelsFile(String title, Author author, Genre genre, int year, int pages, int chapters) {
+        int nextId = getNextAvailableId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/novels.json");
         List<Novel> novelJson = new ArrayList<>();
@@ -80,12 +102,7 @@ public class BookFactory {
             if (novelJson == null) {
                 novelJson = new ArrayList<>();
             }
-            novelJson.forEach(novel -> {
-                if (novel.getId() == id) {
-                    throw new IllegalArgumentException("This id already exists");
-                }
-            });
-            novelJson.add(new Novel(id, title, author, genre, year, pages, chapters));
+            novelJson.add(new Novel(nextId, title, author, genre, year, pages, chapters));
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(gson.toJson(novelJson));
             fileWriter.close();
@@ -94,7 +111,8 @@ public class BookFactory {
         }
     }
 
-    public static void WriteBdsFile(int id, String title, Author author, Genre genre, int year, int pages, Illustrator illustrator, String illustrationStyle) {
+    public static void WriteBdsFile(String title, Author author, Genre genre, int year, int pages, Illustrator illustrator, String illustrationStyle) {
+        int nextId = getNextAvailableId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/bd.json");
         List<Bd> bdJson = new ArrayList<>();
@@ -106,12 +124,7 @@ public class BookFactory {
             if (bdJson == null) {
                 bdJson = new ArrayList<>();
             }
-            bdJson.forEach(bd -> {
-                if (bd.getId() == id) {
-                    throw new IllegalArgumentException("This id already exists");
-                }
-            });
-            bdJson.add(new Bd(id, title, author, genre, year, pages, illustrator, illustrationStyle));
+            bdJson.add(new Bd(nextId, title, author, genre, year, pages, illustrator, illustrationStyle));
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(gson.toJson(bdJson));
             fileWriter.close();
@@ -120,7 +133,8 @@ public class BookFactory {
         }
     }
 
-    public static void WriteMangasFile(int id, String title, Author author, Genre genre, int year, int pages, String subGender) {
+    public static void WriteMangasFile(String title, Author author, Genre genre, int year, int pages, String subGender) {
+        int nextId = getNextAvailableId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/manga.json");
         List<Manga> mangaJson = new ArrayList<>();
@@ -132,12 +146,7 @@ public class BookFactory {
             if (mangaJson == null) {
                 mangaJson = new ArrayList<>();
             }
-            mangaJson.forEach(manga -> {
-                if (manga.getId() == id) {
-                    throw new IllegalArgumentException("This id already exists");
-                }
-            });
-            mangaJson.add(new Manga(id, title, author, genre, year, pages, subGender));
+            mangaJson.add(new Manga(nextId, title, author, genre, year, pages, subGender));
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(gson.toJson(mangaJson));
             fileWriter.close();

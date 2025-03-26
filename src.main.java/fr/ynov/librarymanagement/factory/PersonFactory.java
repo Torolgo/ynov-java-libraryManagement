@@ -45,7 +45,8 @@ public class PersonFactory {
         }
     }
 
-    public static void WriteAuthorFile(int id, String name, String surname, String nationality, String dateOfBirth, String Biography, String wrintingStyle) {
+    public static void WriteAuthorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String writingStyle) {
+        int nextId = getNextAvailablePersonId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/authors.json");
         List<Author> authorJson = new ArrayList<>();
@@ -57,12 +58,7 @@ public class PersonFactory {
             if (authorJson == null) {
                 authorJson = new ArrayList<>();
             }
-            for (Author author : authorJson) {
-                if (author.getId() == id) {
-                    throw new IllegalArgumentException("This id already exists");
-                }
-            }
-            authorJson.add(new Author(id, name, surname, nationality, dateOfBirth, Biography, wrintingStyle));
+            authorJson.add(new Author(nextId, name, surname, nationality, dateOfBirth, biography, writingStyle));
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(gson.toJson(authorJson));
             fileWriter.close();
@@ -71,7 +67,8 @@ public class PersonFactory {
         }
     }
 
-    public static void WriteIllustratorFile(int id, String name, String surname, String nationality, String dateOfBirth, String Biography, String illustrationStyle) {
+    public static void WriteIllustratorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String illustrationStyle) {
+        int nextId = getNextAvailablePersonId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/illustrators.json");
         List<Illustrator> illustratorJson = new ArrayList<>();
@@ -83,12 +80,7 @@ public class PersonFactory {
             if (illustratorJson == null) {
                 illustratorJson = new ArrayList<>();
             }
-            for (Illustrator illustrator : illustratorJson) {
-                if (illustrator.getId() == id) {
-                    throw new IllegalArgumentException("This id already exists");
-                }
-            }
-            illustratorJson.add(new Illustrator(id, name, surname, nationality, dateOfBirth, Biography, illustrationStyle));
+            illustratorJson.add(new Illustrator(nextId, name, surname, nationality, dateOfBirth, biography, illustrationStyle));
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(gson.toJson(illustratorJson));
             fileWriter.close();
@@ -159,6 +151,25 @@ public class PersonFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static int getNextAvailablePersonId() {
+        int maxId = 0;
+
+        // Clear and reload all persons to ensure we have the latest data
+        clearPersonList();
+        ReadAuthorFile();
+        ReadIllustratorFile();
+
+        // Find the maximum ID currently in use
+        for (Person person : PersonList) {
+            if (person.getId() > maxId) {
+                maxId = person.getId();
+            }
+        }
+
+        // Return max ID + 1
+        return maxId + 1;
     }
 
     public static List<Person> getPersonList() {
