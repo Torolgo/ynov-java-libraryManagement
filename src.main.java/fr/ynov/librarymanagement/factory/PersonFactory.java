@@ -24,7 +24,7 @@ public class PersonFactory {
         PersonList.clear();
     }
 
-    public static void ReadAuthorFile() {
+    public static void readAuthorFile() {
         Gson gson = new Gson();
         List<Person> authorList;
         try {
@@ -38,7 +38,7 @@ public class PersonFactory {
         }
     }
 
-    public static void ReadIllustratorFile() {
+    public static void readIllustratorFile() {
         Gson gson = new Gson();
         List<Person> illustratorList;
         try {
@@ -52,7 +52,7 @@ public class PersonFactory {
         }
     }
 
-    public static void WriteAuthorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String writingStyle) {
+    public static void writeAuthorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String writingStyle) {
         int nextId = getNextAvailablePersonId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/authors.json");
@@ -74,7 +74,7 @@ public class PersonFactory {
         }
     }
 
-    public static void WriteIllustratorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String illustrationStyle) {
+    public static void writeIllustratorFile(String name, String surname, String nationality, String dateOfBirth, String biography, String illustrationStyle) {
         int nextId = getNextAvailablePersonId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/illustrators.json");
@@ -165,8 +165,8 @@ public class PersonFactory {
 
         // Clear and reload all persons to ensure we have the latest data
         clearPersonList();
-        ReadAuthorFile();
-        ReadIllustratorFile();
+        readAuthorFile();
+        readIllustratorFile();
 
         // Find the maximum ID currently in use
         for (Person person : PersonList) {
@@ -182,7 +182,7 @@ public class PersonFactory {
     public static Author findOrCreateAuthor(String authorName) {
         Author author = findAuthorByName(authorName);
         if (author == null) {
-            PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
+            PersonFactory.writeAuthorFile(authorName, "", "", "", "", "");
             author = findAuthorByName(authorName);
         }
         return author;
@@ -191,7 +191,7 @@ public class PersonFactory {
     public static Illustrator findOrCreateIllustrator(String illustratorName, String illustrationStyle) {
         Illustrator illustrator = findIllustratorByName(illustratorName);
         if (illustrator == null) {
-            PersonFactory.WriteIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
+            PersonFactory.writeIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
             illustrator = findIllustratorByName(illustratorName);
         }
         return illustrator;
@@ -201,9 +201,9 @@ public class PersonFactory {
         PersonFactory.clearPersonList();
 
         if (personClass == Author.class) {
-            PersonFactory.ReadAuthorFile();
+            PersonFactory.readAuthorFile();
         } else if (personClass == Illustrator.class) {
-            PersonFactory.ReadIllustratorFile();
+            PersonFactory.readIllustratorFile();
         }
 
         for (Person person : PersonFactory.getPersonList()) {
