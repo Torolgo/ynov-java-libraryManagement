@@ -1,8 +1,14 @@
 package fr.ynov.librarymanagement.factory;
 
 import com.google.gson.reflect.TypeToken;
-import fr.ynov.librarymanagement.domain.*;
 import com.google.gson.Gson;
+import fr.ynov.librarymanagement.domain.Book;
+import fr.ynov.librarymanagement.domain.Bd;
+import fr.ynov.librarymanagement.domain.Manga;
+import fr.ynov.librarymanagement.domain.Novel;
+import fr.ynov.librarymanagement.domain.Genre;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookFactory {
-    private static final ArrayList<Book> bookList = new ArrayList<Book>();
+    private static final ArrayList<Book> bookList = new ArrayList<>();
 
     public static List<Book> getBookList() {
         return bookList;
@@ -56,7 +62,7 @@ public class BookFactory {
 
     public static void ReadMangasFile() {
         Gson gson = new Gson();
-        List<Manga> mangaJson = null;
+        List<Manga> mangaJson;
         try {
             File file = new File("src.main.java/fr/ynov/librarymanagement/assets/manga.json");
             if (file.exists() && file.length() > 0) {
@@ -72,7 +78,7 @@ public class BookFactory {
     }
 
     public static void WriteNovelsFile(String title, Author author, Genre genre, int year, int pages, int chapters) {
-        int nextId = getNextAvailableId();
+        int nextId = getNextAvailableBookId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/novels.json");
         List<Novel> novelJson = new ArrayList<>();
@@ -94,7 +100,7 @@ public class BookFactory {
     }
 
     public static void WriteBdsFile(String title, Author author, Genre genre, int year, int pages, Illustrator illustrator, String illustrationStyle) {
-        int nextId = getNextAvailableId();
+        int nextId = getNextAvailableBookId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/bd.json");
         List<Bd> bdJson = new ArrayList<>();
@@ -116,7 +122,7 @@ public class BookFactory {
     }
 
     public static void WriteMangasFile(String title, Author author, Genre genre, int year, int pages, String subGender) {
-        int nextId = getNextAvailableId();
+        int nextId = getNextAvailableBookId();
         Gson gson = new Gson();
         File file = new File("src.main.java/fr/ynov/librarymanagement/assets/manga.json");
         List<Manga> mangaJson = new ArrayList<>();
@@ -241,7 +247,7 @@ public class BookFactory {
     }
 
     // New method to get the next available ID
-    private static int getNextAvailableId() {
+    private static int getNextAvailableBookId() {
         int maxId = 0;
 
         // Clear and reload all books to ensure we have the latest data

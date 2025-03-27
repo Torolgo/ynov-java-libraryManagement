@@ -5,8 +5,26 @@ import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.domain.Person;
 import fr.ynov.librarymanagement.factory.PersonFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Font;
+
 import java.util.List;
 
 public class PersonManager {
@@ -101,8 +119,7 @@ public class PersonManager {
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Person) {
-                    Person person = (Person) value;
+                if (value instanceof Person person) {
                     String type = (person instanceof Author) ? "Auteur" : "Illustrateur";
                     setText(type + ": " + person.getNameAndSurname());
                 }
@@ -232,29 +249,5 @@ public class PersonManager {
         panel.add(rowPanel);
     }
 
-    private static <person extends Person> person findPersonByName(String name, Class<person> personClass) {
-        PersonFactory.clearPersonList();
 
-        if (personClass == Author.class) {
-            PersonFactory.ReadAuthorFile();
-        } else if (personClass == Illustrator.class) {
-            PersonFactory.ReadIllustratorFile();
-        }
-
-        for (Person person : PersonFactory.getPersonList()) {
-            if (personClass.isInstance(person) &&
-                    person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
-                return personClass.cast(person);
-            }
-        }
-        return null;
-    }
-
-    public static Author findAuthorByName(String name) {
-        return findPersonByName(name, Author.class);
-    }
-
-    public static Illustrator findIllustratorByName(String name) {
-        return findPersonByName(name, Illustrator.class);
-    }
 }

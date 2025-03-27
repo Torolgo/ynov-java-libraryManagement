@@ -2,7 +2,10 @@ package fr.ynov.librarymanagement.factory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fr.ynov.librarymanagement.domain.*;
+
+import fr.ynov.librarymanagement.domain.Person;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
 
 import java.io.File;
 import java.io.FileReader;
@@ -174,5 +177,49 @@ public class PersonFactory {
 
         // Return max ID + 1
         return maxId + 1;
+    }
+
+    public static Author findOrCreateAuthor(String authorName) {
+        Author author = findAuthorByName(authorName);
+        if (author == null) {
+            PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
+            author = findAuthorByName(authorName);
+        }
+        return author;
+    }
+
+    public static Illustrator findOrCreateIllustrator(String illustratorName, String illustrationStyle) {
+        Illustrator illustrator = findIllustratorByName(illustratorName);
+        if (illustrator == null) {
+            PersonFactory.WriteIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
+            illustrator = findIllustratorByName(illustratorName);
+        }
+        return illustrator;
+    }
+
+    private static <person extends Person> person findPersonByName(String name, Class<person> personClass) {
+        PersonFactory.clearPersonList();
+
+        if (personClass == Author.class) {
+            PersonFactory.ReadAuthorFile();
+        } else if (personClass == Illustrator.class) {
+            PersonFactory.ReadIllustratorFile();
+        }
+
+        for (Person person : PersonFactory.getPersonList()) {
+            if (personClass.isInstance(person) &&
+                    person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
+                return personClass.cast(person);
+            }
+        }
+        return null;
+    }
+
+    public static Author findAuthorByName(String name) {
+        return findPersonByName(name, Author.class);
+    }
+
+    public static Illustrator findIllustratorByName(String name) {
+        return findPersonByName(name, Illustrator.class);
     }
 }

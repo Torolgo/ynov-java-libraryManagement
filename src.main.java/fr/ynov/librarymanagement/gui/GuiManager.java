@@ -1,7 +1,14 @@
 package fr.ynov.librarymanagement.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
 
 import static fr.ynov.librarymanagement.gui.BookManager.openBookWindow;
 import static fr.ynov.librarymanagement.gui.LoanManager.openLoanWindow;

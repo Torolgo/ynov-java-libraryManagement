@@ -1,17 +1,35 @@
 package fr.ynov.librarymanagement.gui;
 
 import fr.ynov.librarymanagement.domain.*;
-import fr.ynov.librarymanagement.factory.BookFactory;
-import fr.ynov.librarymanagement.factory.PersonFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import fr.ynov.librarymanagement.factory.BookFactory;
+import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreateAuthor;
+import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreateIllustrator;
+
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.BiConsumer;
 
-import static fr.ynov.librarymanagement.gui.PersonManager.findAuthorByName;
-import static fr.ynov.librarymanagement.gui.PersonManager.findIllustratorByName;
+
+
 
 public class BookManager {
     public static void openBookWindow() {
@@ -35,68 +53,6 @@ public class BookManager {
         addButtonToFrame(addBookTypeFrame, "Ajouter une BD", e -> openAddBdWindow());
 
         addBookTypeFrame.setVisible(true);
-    }
-
-    private static void addButtonToFrame(JFrame frame, String buttonText, Consumer<java.awt.event.ActionEvent> action) {
-        JButton button = new JButton(buttonText);
-        button.addActionListener(action::accept);
-        frame.add(button);
-    }
-
-    // Generic method to create book windows
-    private static void createBookWindow(String title, int rows, Consumer<Map<String, JTextField>> onAdd,
-                                         Map<String, String> additionalFields) {
-        JFrame frame = new JFrame(title);
-        frame.setSize(400, 400);
-        frame.setLayout(new GridLayout(rows, 2, 10, 10));
-
-        // Common fields for all books
-        JTextField titleField = new JTextField();
-        JTextField authorField = new JTextField();
-        JTextField genreField = new JTextField();
-        JTextField yearField = new JTextField();
-        JTextField pagesField = new JTextField();
-
-        // Add common fields
-        addFieldsToFrame(frame, titleField, authorField, genreField, yearField, pagesField);
-
-        // Create a map to store all fields including additional ones
-        Map<String, JTextField> allFields = Map.of(
-                "title", titleField,
-                "author", authorField,
-                "genre", genreField,
-                "year", yearField,
-                "pages", pagesField
-        );
-
-        // Add additional fields specific to book type
-        Map<String, JTextField> additionalJFields = new java.util.HashMap<>();
-        for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
-            JTextField field = new JTextField();
-            frame.add(new JLabel(entry.getValue() + ":"));
-            frame.add(field);
-            additionalJFields.put(entry.getKey(), field);
-        }
-
-        // Add button
-        JButton addButton = new JButton("Ajouter");
-        frame.add(addButton);
-
-        // Set action listener to button
-        addButton.addActionListener(e -> {
-            try {
-                // Combine common and additional fields
-                Map<String, JTextField> combinedFields = new java.util.HashMap<>(allFields);
-                combinedFields.putAll(additionalJFields);
-
-                // Call the provided consumer with all fields
-                onAdd.accept(combinedFields);
-            } catch (Exception ex) {
-                showError(frame, ex);
-            }
-        });
-
-        frame.setVisible(true);
     }
 
     public static void openAddMangaWindow() {
@@ -166,6 +122,25 @@ public class BookManager {
         }, additionalFields);
     }
 
+    private static void addButtonToFrame(JFrame frame, String buttonText, Consumer<java.awt.event.ActionEvent> action) {
+        JButton button = new JButton(buttonText);
+        button.addActionListener(action::accept);
+        frame.add(button);
+    }
+
+    // Generic method to create book windows
+
+    private static void addDetailRow(JPanel panel, String label, String value) {
+        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelComponent = new JLabel(label + ":");
+        labelComponent.setFont(new Font("Arial", Font.BOLD, 12));
+        JLabel valueComponent = new JLabel(value);
+
+        rowPanel.add(labelComponent);
+        rowPanel.add(valueComponent);
+        panel.add(rowPanel);
+    }
+
     private static void addFieldsToFrame(JFrame frame, JTextField titleField, JTextField authorField,
                                          JTextField genreField, JTextField yearField, JTextField pagesField) {
         frame.add(new JLabel("Titre:"));
@@ -180,23 +155,6 @@ public class BookManager {
         frame.add(pagesField);
     }
 
-    private static Author findOrCreateAuthor(String authorName) {
-        Author author = findAuthorByName(authorName);
-        if (author == null) {
-            PersonFactory.WriteAuthorFile(authorName, "", "", "", "", "");
-            author = findAuthorByName(authorName);
-        }
-        return author;
-    }
-
-    private static Illustrator findOrCreateIllustrator(String illustratorName, String illustrationStyle) {
-        Illustrator illustrator = findIllustratorByName(illustratorName);
-        if (illustrator == null) {
-            PersonFactory.WriteIllustratorFile(illustratorName, "", "", "", "", illustrationStyle);
-            illustrator = findIllustratorByName(illustratorName);
-        }
-        return illustrator;
-    }
 
     private static void showSuccessAndClose(JFrame frame, String message) {
         JOptionPane.showMessageDialog(frame, message);
@@ -205,6 +163,27 @@ public class BookManager {
 
     private static void showError(JFrame frame, Exception ex) {
         JOptionPane.showMessageDialog(frame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private static void showBookDetails(Book book, JFrame parentFrame) {
+        JFrame detailFrame = new JFrame("Détails du livre: " + book.getTitle());
+        detailFrame.setSize(500, 600);
+        detailFrame.setLayout(new BorderLayout());
+
+        // Create details panel
+        JPanel detailsPanel = createDetailsPanel(book);
+
+        // Create borrow/return button
+        JPanel buttonPanel = new JPanel();
+        JButton borrowButton = new JButton(book.isTaken() ? "Retourner" : "Emprunter");
+        borrowButton.addActionListener(e -> handleBorrowReturn(book, detailFrame, parentFrame));
+        buttonPanel.add(borrowButton);
+
+        // Assemble frame
+        JScrollPane scrollPane = new JScrollPane(detailsPanel);
+        detailFrame.add(scrollPane, BorderLayout.CENTER);
+        detailFrame.add(buttonPanel, BorderLayout.SOUTH);
+        detailFrame.setVisible(true);
     }
 
     public static void viewBooks() {
@@ -243,11 +222,67 @@ public class BookManager {
     }
 
     private static DefaultListModel<Book> createBookListModel() {
+        //à deplacer dans une factory
         DefaultListModel<Book> model = new DefaultListModel<>();
         for (Book book : BookFactory.getBookList()) {
             model.addElement(book);
         }
         return model;
+    }
+
+    private static void createBookWindow(String title, int rows, Consumer<Map<String, JTextField>> onAdd,
+                                         Map<String, String> additionalFields) {
+        JFrame frame = new JFrame(title);
+        frame.setSize(400, 400);
+        frame.setLayout(new GridLayout(rows, 2, 10, 10));
+
+        // Common fields for all books
+        JTextField titleField = new JTextField();
+        JTextField authorField = new JTextField();
+        JTextField genreField = new JTextField();
+        JTextField yearField = new JTextField();
+        JTextField pagesField = new JTextField();
+
+        // Add common fields
+        addFieldsToFrame(frame, titleField, authorField, genreField, yearField, pagesField);
+
+        // Create a map to store all fields including additional ones
+        Map<String, JTextField> allFields = Map.of(
+                "title", titleField,
+                "author", authorField,
+                "genre", genreField,
+                "year", yearField,
+                "pages", pagesField
+        );
+
+        // Add additional fields specific to book type
+        Map<String, JTextField> additionalJFields = new java.util.HashMap<>();
+        for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
+            JTextField field = new JTextField();
+            frame.add(new JLabel(entry.getValue() + ":"));
+            frame.add(field);
+            additionalJFields.put(entry.getKey(), field);
+        }
+
+        // Add button
+        JButton addButton = new JButton("Ajouter");
+        frame.add(addButton);
+
+        // Set action listener to button
+        addButton.addActionListener(e -> {
+            try {
+                // Combine common and additional fields
+                Map<String, JTextField> combinedFields = new java.util.HashMap<>(allFields);
+                combinedFields.putAll(additionalJFields);
+
+                // Call the provided consumer with all fields
+                onAdd.accept(combinedFields);
+            } catch (Exception ex) {
+                showError(frame, ex);
+            }
+        });
+
+        frame.setVisible(true);
     }
 
     private static JList<Book> createBookJList(DefaultListModel<Book> model, JFrame parentFrame) {
@@ -275,27 +310,6 @@ public class BookManager {
         });
 
         return list;
-    }
-
-    private static void showBookDetails(Book book, JFrame parentFrame) {
-        JFrame detailFrame = new JFrame("Détails du livre: " + book.getTitle());
-        detailFrame.setSize(500, 600);
-        detailFrame.setLayout(new BorderLayout());
-
-        // Create details panel
-        JPanel detailsPanel = createDetailsPanel(book);
-
-        // Create borrow/return button
-        JPanel buttonPanel = new JPanel();
-        JButton borrowButton = new JButton(book.isTaken() ? "Retourner" : "Emprunter");
-        borrowButton.addActionListener(e -> handleBorrowReturn(book, detailFrame, parentFrame));
-        buttonPanel.add(borrowButton);
-
-        // Assemble frame
-        JScrollPane scrollPane = new JScrollPane(detailsPanel);
-        detailFrame.add(scrollPane, BorderLayout.CENTER);
-        detailFrame.add(buttonPanel, BorderLayout.SOUTH);
-        detailFrame.setVisible(true);
     }
 
     private static JPanel createDetailsPanel(Book book) {
@@ -339,16 +353,5 @@ public class BookManager {
         detailFrame.dispose();
         parentFrame.dispose();
         viewBooks(); // Refresh the book list view
-    }
-
-    private static void addDetailRow(JPanel panel, String label, String value) {
-        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel labelComponent = new JLabel(label + ":");
-        labelComponent.setFont(new Font("Arial", Font.BOLD, 12));
-        JLabel valueComponent = new JLabel(value);
-
-        rowPanel.add(labelComponent);
-        rowPanel.add(valueComponent);
-        panel.add(rowPanel);
     }
 }

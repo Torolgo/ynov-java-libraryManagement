@@ -3,8 +3,13 @@ package fr.ynov.librarymanagement.gui;
 import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.factory.BookFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import java.awt.GridLayout;
 
 public class LoanManager {
     public static void openLoanWindow() {
