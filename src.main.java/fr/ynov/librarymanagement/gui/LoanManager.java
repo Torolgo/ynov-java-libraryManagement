@@ -11,7 +11,16 @@ import javax.swing.JTextField;
 
 import java.awt.GridLayout;
 
+/**
+ * Manages book loan operations through a graphical user interface.
+ * Provides functionality for borrowing and returning books from the library.
+ */
 public class LoanManager {
+
+    /**
+     * Opens the main loan management window with options to borrow or return books.
+     * Creates a window with two buttons for the main loan operations.
+     */
     public static void openLoanWindow() {
         JFrame loanFrame = new JFrame("Gérer les Emprunts");
         loanFrame.setSize(400, 300);
@@ -28,12 +37,16 @@ public class LoanManager {
         loanFrame.setVisible(true);
     }
 
+    /**
+     * Opens a window for borrowing a book.
+     * Allows the user to enter a book ID and borrow it if available.
+     * Updates the book's status in the storage system after a successful loan.
+     */
     private static void openTakeBookWindow() {
-        // Clear and load books to ensure up-to-date data
         BookFactory.clearBookList();
-        BookFactory.ReadNovelsFile();
-        BookFactory.ReadBdsFile();
-        BookFactory.ReadMangasFile();
+        BookFactory.readNovelsFile();
+        BookFactory.readBdsFile();
+        BookFactory.readMangasFile();
 
         JFrame takeBookFrame = new JFrame("Emprunter un Livre");
         takeBookFrame.setSize(400, 200);
@@ -72,12 +85,16 @@ public class LoanManager {
         takeBookFrame.setVisible(true);
     }
 
+    /**
+     * Opens a window for returning a previously borrowed book.
+     * Allows the user to enter a book ID and return it to the library.
+     * Updates the book's status in the storage system after a successful return.
+     */
     private static void openReturnBookWindow() {
-        // Clear and load books to ensure up-to-date data
         BookFactory.clearBookList();
-        BookFactory.ReadNovelsFile();
-        BookFactory.ReadBdsFile();
-        BookFactory.ReadMangasFile();
+        BookFactory.readNovelsFile();
+        BookFactory.readBdsFile();
+        BookFactory.readMangasFile();
 
         JFrame returnBookFrame = new JFrame("Retourner un Livre");
         returnBookFrame.setSize(400, 200);
