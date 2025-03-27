@@ -1,7 +1,5 @@
 package fr.ynov.librarymanagement.domain;
 
-import java.time.LocalDate;
-
 public abstract class Person {
     protected int id;
     protected String name;
