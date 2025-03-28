@@ -9,12 +9,15 @@ import static fr.ynov.librarymanagement.factory.person.PersonFactory.findOrCreat
 import static fr.ynov.librarymanagement.factory.person.PersonFactory.findOrCreateIllustrator;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -25,7 +28,7 @@ public class BookFormManager {
      * Opens a form window for adding a new manga to the library.
      * <p>
      * This method creates and displays a form with fields for entering manga details.
-     * It includes fields for title, author, genre, year, pages, and sub-genre.
+     * It includes fields for title, author, genre (as a dropdown), year, pages, and sub-genre.
      * When the user submits the form, it creates a new manga entry using the BookWriter
      * and displays a success message if the operation completes without errors.
      * </p>
@@ -35,12 +38,12 @@ public class BookFormManager {
 
         createBookWindow("Ajouter un Manga", 7, fields -> {
             try {
-                String title = fields.get("title").getText();
-                Author author = findOrCreateAuthor(fields.get("author").getText());
-                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
-                int year = Integer.parseInt(fields.get("year").getText());
-                int pages = Integer.parseInt(fields.get("pages").getText());
-                String subGenre = fields.get("subGenre").getText();
+                String title = ((JTextField)fields.get("title")).getText();
+                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
+                Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
+                int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
+                int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
+                String subGenre = ((JTextField)fields.get("subGenre")).getText();
 
                 BookWriter.writeMangaFile(title, author, genre, year, pages, subGenre);
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Manga ajouté avec succès!");
@@ -54,7 +57,7 @@ public class BookFormManager {
      * Opens a form window for adding a new novel to the library.
      * <p>
      * This method creates and displays a form with fields for entering novel details.
-     * It includes fields for title, author, genre, year, pages, and chapters.
+     * It includes fields for title, author, genre (as a dropdown), year, pages, and chapters.
      * When the user submits the form, it creates a new novel entry using the BookWriter
      * and displays a success message if the operation completes without errors.
      * </p>
@@ -64,12 +67,12 @@ public class BookFormManager {
 
         createBookWindow("Ajouter un Roman", 7, fields -> {
             try {
-                String title = fields.get("title").getText();
-                Author author = findOrCreateAuthor(fields.get("author").getText());
-                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
-                int year = Integer.parseInt(fields.get("year").getText());
-                int pages = Integer.parseInt(fields.get("pages").getText());
-                int chapters = Integer.parseInt(fields.get("chapters").getText());
+                String title = ((JTextField)fields.get("title")).getText();
+                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
+                Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
+                int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
+                int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
+                int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
 
                 BookWriter.writeNovelFile(title, author, genre, year, pages, chapters);
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Roman ajouté avec succès!");
@@ -83,7 +86,7 @@ public class BookFormManager {
      * Opens a form window for adding a new BD (comic book) to the library.
      * <p>
      * This method creates and displays a form with fields for entering BD details.
-     * It includes fields for title, author, genre, year, pages, illustrator, and illustration style.
+     * It includes fields for title, author, genre (as a dropdown), year, pages, illustrator, and illustration style.
      * When the user submits the form, it creates a new BD entry using the BookWriter
      * and displays a success message if the operation completes without errors.
      * </p>
@@ -96,16 +99,16 @@ public class BookFormManager {
 
         createBookWindow("Ajouter une BD", 8, fields -> {
             try {
-                String title = fields.get("title").getText();
-                Author author = findOrCreateAuthor(fields.get("author").getText());
+                String title = ((JTextField)fields.get("title")).getText();
+                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
 
-                String illustratorName = fields.get("illustrator").getText();
-                String illustrationStyle = fields.get("illustrationStyle").getText();
+                String illustratorName = ((JTextField)fields.get("illustrator")).getText();
+                String illustrationStyle = ((JTextField)fields.get("illustrationStyle")).getText();
                 Illustrator illustrator = findOrCreateIllustrator(illustratorName, illustrationStyle);
 
-                Genre genre = Genre.valueOf(fields.get("genre").getText().toUpperCase());
-                int year = Integer.parseInt(fields.get("year").getText());
-                int pages = Integer.parseInt(fields.get("pages").getText());
+                Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
+                int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
+                int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
 
                 BookWriter.writeBdFile(title, author, genre, year, pages, illustrator, illustrationStyle);
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "BD ajoutée avec succès!");
@@ -129,7 +132,7 @@ public class BookFormManager {
      * @param onAdd            A consumer function to handle the form submission
      * @param additionalFields A map of additional fields to be included in the form
      */
-    private static void createBookWindow(String title, int rows, Consumer<Map<String, JTextField>> onAdd,
+    private static void createBookWindow(String title, int rows, Consumer<Map<String, JComponent>> onAdd,
                                          Map<String, String> additionalFields) {
         JFrame frame = new JFrame(title);
         frame.setSize(400, 400);
@@ -137,26 +140,26 @@ public class BookFormManager {
 
         JTextField titleField = new JTextField();
         JTextField authorField = new JTextField();
-        JTextField genreField = new JTextField();
+        JComboBox<Genre> genreComboBox = createGenreComboBox();
         JTextField yearField = new JTextField();
         JTextField pagesField = new JTextField();
 
-        addFieldsToFrame(frame, titleField, authorField, genreField, yearField, pagesField);
+        addFieldsToFrame(frame, titleField, authorField, genreComboBox, yearField, pagesField);
 
-        Map<String, JTextField> allFields = Map.of(
-                "title", titleField,
-                "author", authorField,
-                "genre", genreField,
-                "year", yearField,
-                "pages", pagesField
-        );
+        Map<String, JComponent> allFields = new HashMap<>();
+        allFields.put("title", titleField);
+        allFields.put("author", authorField);
+        allFields.put("genre", genreComboBox);
+        allFields.put("year", yearField);
+        allFields.put("pages", pagesField);
 
-        Map<String, JTextField> additionalJFields = new java.util.HashMap<>();
+        Map<String, JTextField> additionalJFields = new HashMap<>();
         for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
             JTextField field = new JTextField();
             frame.add(new JLabel(entry.getValue() + ":"));
             frame.add(field);
             additionalJFields.put(entry.getKey(), field);
+            allFields.put(entry.getKey(), field);
         }
 
         JButton addButton = new JButton("Ajouter");
@@ -164,12 +167,7 @@ public class BookFormManager {
 
         addButton.addActionListener(e -> {
             try {
-                // Combiner les champs communs et additionnels
-                Map<String, JTextField> combinedFields = new java.util.HashMap<>(allFields);
-                combinedFields.putAll(additionalJFields);
-
-                // Appeler le consumer avec tous les champs
-                onAdd.accept(combinedFields);
+                onAdd.accept(allFields);
             } catch (Exception ex) {
                 showError(frame, ex);
             }
@@ -179,27 +177,36 @@ public class BookFormManager {
     }
 
     /**
+     * Creates a dropdown combobox containing all values of the Genre enum.
+     *
+     * @return A JComboBox containing all Genre values
+     */
+    private static JComboBox<Genre> createGenreComboBox() {
+        return new JComboBox<>(Genre.values());
+    }
+
+    /**
      * Adds common fields to the book form frame.
      * <p>
-     * This method adds labels and text fields for title, author, genre, year, and pages
+     * This method adds labels and input fields for title, author, genre, year, and pages
      * to the provided JFrame. It is used to set up the layout of the book form window.
      * </p>
      *
      * @param frame        The JFrame to which the fields will be added
      * @param titleField   The text field for the book title
      * @param authorField  The text field for the author's name
-     * @param genreField   The text field for the book genre
+     * @param genreComboBox The dropdown for the book genre
      * @param yearField    The text field for the publication year
      * @param pagesField   The text field for the number of pages
      */
     private static void addFieldsToFrame(JFrame frame, JTextField titleField, JTextField authorField,
-                                         JTextField genreField, JTextField yearField, JTextField pagesField) {
+                                         JComboBox<Genre> genreComboBox, JTextField yearField, JTextField pagesField) {
         frame.add(new JLabel("Titre:"));
         frame.add(titleField);
         frame.add(new JLabel("Auteur:"));
         frame.add(authorField);
         frame.add(new JLabel("Genre:"));
-        frame.add(genreField);
+        frame.add(genreComboBox);
         frame.add(new JLabel("Année:"));
         frame.add(yearField);
         frame.add(new JLabel("Pages:"));
