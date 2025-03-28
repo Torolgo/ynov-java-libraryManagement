@@ -1,17 +1,23 @@
 package fr.ynov.librarymanagement.domain;
 
 public enum Genre {
-    FICTION,
-    NON_FICTION,
-    SCIENCE_FICTION,
     FANTASY,
+    FICTION,
+    SCIENCE_FICTION,
     MYSTERY,
-    HORROR,
-    ROMANCE,
     THRILLER,
+    ROMANCE,
+    HORROR,
+    NON_FICTION,
     BIOGRAPHY,
+    SELF_HELP,
     HISTORY,
-    COOKBOOK,
-    COMICS,
-    MANGA
+    POETRY,
+    MYTHOLOGY,
+    COMIC,
+    MANGA,
+    CHILDREN,
+    YOUNG_ADULT,
+    ADULT,
+    FABLES,
 }
