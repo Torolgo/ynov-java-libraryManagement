@@ -1,8 +1,10 @@
-package fr.ynov.librarymanagement.factory.book;
+package fr.ynov.librarymanagement.factory;
 
 import fr.ynov.librarymanagement.domain.Book;
 import java.util.ArrayList;
 import java.util.List;
+
+import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
 public class BookFactory {
     private static final ArrayList<Book> BOOK_LIST = new ArrayList<>();
@@ -10,24 +12,19 @@ public class BookFactory {
     public static List<Book> getBookList() {
         return BOOK_LIST;
     }
-
     public static void clearBookList() {
         BOOK_LIST.clear();
     }
 
     /**
-     * Loads all books from the files into the book list.
-     * This method clears the current book list before loading new data.
-     */
-    public static void loadAllBooks() {
-        clearBookList();
-        BookReader.readNovelsFile();
-        BookReader.readBdsFile();
-        BookReader.readMangasFile();
-    }
-
-    /**
-     * Returns the next available book ID by checking the current maximum ID in the list.
+     * Returns the next available book ID.
+     * <p>
+     * This method reloads all books from storage, then finds the highest ID
+     * among existing books and returns that value plus one. This ensures
+     * that new books receive a unique ID that doesn't conflict with any existing book.
+     * </p>
+     *
+     * @return The next available unique ID for a new book
      */
     public static int getNextAvailableBookId() {
         int maxId = 0;

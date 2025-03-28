@@ -1,6 +1,8 @@
 package fr.ynov.librarymanagement.gui.person;
 
-import fr.ynov.librarymanagement.factory.person.PersonWriter;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
+import fr.ynov.librarymanagement.factory.Writer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+
+import static fr.ynov.librarymanagement.gui.GuiManager.showError;
 
 public class PersonFormManager {
 
@@ -45,7 +49,7 @@ public class PersonFormManager {
                 savePerson(isAuthor, addPersonFrame, nameField, surnameField, nationalityField,
                         dobField, bioField, styleField);
             } catch (Exception ex) {
-                showError(addPersonFrame, ex);
+                showError(addPersonFrame);
             }
         });
 
@@ -109,28 +113,15 @@ public class PersonFormManager {
                                    JTextField surnameField, JTextField nationalityField,
                                    JTextField dobField, JTextField bioField, JTextField styleField) {
         if (isAuthor) {
-            PersonWriter.writeAuthorFile(nameField.getText(), surnameField.getText(),
-                    nationalityField.getText(), dobField.getText(), bioField.getText(), styleField.getText());
+            Writer.writePersonFile(nameField.getText(), surnameField.getText(), nationalityField.getText(),
+                    dobField.getText(), bioField.getText(), styleField.getText(), Author.class, "authors.json");
             JOptionPane.showMessageDialog(frame, "Auteur ajouté avec succès!");
+
         } else {
-            PersonWriter.writeIllustratorFile(nameField.getText(), surnameField.getText(),
-                    nationalityField.getText(), dobField.getText(), bioField.getText(), styleField.getText());
+            Writer.writePersonFile(nameField.getText(), surnameField.getText(), nationalityField.getText(),
+                    dobField.getText(), bioField.getText(), styleField.getText(), Illustrator.class, "illustrators.json");
             JOptionPane.showMessageDialog(frame, "Illustrateur ajouté avec succès!");
         }
         frame.dispose();
-    }
-
-    /**
-     * Displays an error message in a dialog.
-     * <p>
-     * This method shows a dialog with the specified error message.
-     * </p>
-     *
-     * @param frame The parent JFrame for the dialog
-     * @param ex    The exception containing the error message
-     */
-    static void showError(JFrame frame, Exception ex) {
-        JOptionPane.showMessageDialog(frame, "Erreur: " + ex.getMessage(),
-                "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 }

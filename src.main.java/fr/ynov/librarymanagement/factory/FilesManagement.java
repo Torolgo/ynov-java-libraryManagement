@@ -11,13 +11,17 @@ public class FilesManagement {
     protected static final Gson GSON = new Gson();
 
     /**
-     * Reads existing data from a file and returns it as a list of the specified type.
+     * Reads existing data from a JSON file and returns it as an object of the specified type.
+     * <p>
+     * This method uses Gson to deserialize the JSON data into the specified type.
+     * </p>
      *
-     * @param file The file to read from.
-     * @param type The type of data to read.
-     * @return The list of data read from the file, or null if the file is empty or an error occurs.
+     * @param <T> The type of the object to be read
+     * @param file The file to read from
+     * @param type The type of the object to be read
+     * @return The deserialized object, or null if the file is invalid or an error occurs
      */
-    public static <T> T readExistingData(File file, java.lang.reflect.Type type) {
+    protected static <T> T readExistingData(File file, java.lang.reflect.Type type) {
         try {
             if (isValidFile(file)) {
                 return GSON.fromJson(new FileReader(file), type);
@@ -29,14 +33,17 @@ public class FilesManagement {
     }
 
     /**
-     * Writes the given data to a file in JSON format.
+     * Writes data to a JSON file.
+     * <p>
+     * This method uses Gson to serialize the provided data into JSON format and writes it to the specified file.
+     * </p>
      *
-     * @param file The file to write to.
-     * @param data The data to write.
-     * @param <T>  The type of the data.
-     * @throws Exception If an error occurs while writing to the file.
+     * @param <T> The type of the object to be written
+     * @param file The file to write to
+     * @param data The data to be written
+     * @throws Exception If an error occurs during writing
      */
-    public static <T> void writeToFile(File file, T data) throws Exception {
+    protected static <T> void writeToFile(File file, T data) throws Exception {
         try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(GSON.toJson(data));
         }

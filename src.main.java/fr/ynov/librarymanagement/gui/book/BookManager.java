@@ -27,10 +27,12 @@ public class BookManager {
     }
 
     /**
-     * Opens a window to choose the type of book to add.
+     * Opens a window for selecting the type of book to add.
      * <p>
-     * This method creates and displays a window with options for adding different types of books.
-     * It includes buttons for adding Manga, Novel, and BD (Bandes Dessinées).
+     * This method creates and displays a window with buttons for different book types
+     * (Manga, Novel, and Comic Book). When a button is clicked, it opens the corresponding
+     * form for adding that specific type of book to the library. The window uses a simple
+     * vertical grid layout with three action buttons.
      * </p>
      */
     private static void openAddBookTypeWindow() {

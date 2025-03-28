@@ -1,12 +1,8 @@
 package fr.ynov.librarymanagement.gui.book;
 
-import fr.ynov.librarymanagement.domain.Author;
-import fr.ynov.librarymanagement.domain.Genre;
-import fr.ynov.librarymanagement.domain.Illustrator;
-import fr.ynov.librarymanagement.factory.book.BookWriter;
-
-import static fr.ynov.librarymanagement.factory.person.PersonFactory.findOrCreateAuthor;
-import static fr.ynov.librarymanagement.factory.person.PersonFactory.findOrCreateIllustrator;
+import fr.ynov.librarymanagement.domain.*;
+import fr.ynov.librarymanagement.factory.BookFactory;
+import fr.ynov.librarymanagement.factory.Writer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +16,9 @@ import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static fr.ynov.librarymanagement.factory.PersonFactory.*;
+import static fr.ynov.librarymanagement.gui.GuiManager.showError;
 
 
 public class BookFormManager {
@@ -39,16 +38,20 @@ public class BookFormManager {
         createBookWindow("Ajouter un Manga", 7, fields -> {
             try {
                 String title = ((JTextField)fields.get("title")).getText();
-                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
+                Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
                 Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
                 String subGenre = ((JTextField)fields.get("subGenre")).getText();
 
-                BookWriter.writeMangaFile(title, author, genre, year, pages, subGenre);
+                Writer.writeBookFile(
+                        () -> new Manga(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, subGenre),
+                        "mangas.json",
+                        Manga.class
+                );
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Manga ajouté avec succès!");
             } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
+                showError((JFrame)fields.get("title").getTopLevelAncestor());
             }
         }, additionalFields);
     }
@@ -68,16 +71,20 @@ public class BookFormManager {
         createBookWindow("Ajouter un Roman", 7, fields -> {
             try {
                 String title = ((JTextField)fields.get("title")).getText();
-                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
+                Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
                 Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
                 int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
 
-                BookWriter.writeNovelFile(title, author, genre, year, pages, chapters);
+                Writer.writeBookFile(
+                        () -> new Novel(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, chapters),
+                        "novels.json",
+                        Novel.class
+                );
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Roman ajouté avec succès!");
             } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
+                showError((JFrame)fields.get("title").getTopLevelAncestor());
             }
         }, additionalFields);
     }
@@ -100,20 +107,24 @@ public class BookFormManager {
         createBookWindow("Ajouter une BD", 8, fields -> {
             try {
                 String title = ((JTextField)fields.get("title")).getText();
-                Author author = findOrCreateAuthor(((JTextField)fields.get("author")).getText());
+                Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
 
                 String illustratorName = ((JTextField)fields.get("illustrator")).getText();
                 String illustrationStyle = ((JTextField)fields.get("illustrationStyle")).getText();
-                Illustrator illustrator = findOrCreateIllustrator(illustratorName, illustrationStyle);
+                Illustrator illustrator = findOrCreatePerson(illustratorName, Illustrator.class, illustrationStyle);
 
                 Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
 
-                BookWriter.writeBdFile(title, author, genre, year, pages, illustrator, illustrationStyle);
+                Writer.writeBookFile(
+                        () -> new Bd(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, illustrator, illustrationStyle),
+                        "bds.json",
+                        Bd.class
+                );
                 showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "BD ajoutée avec succès!");
             } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor(), ex);
+                showError((JFrame)fields.get("title").getTopLevelAncestor());
             }
         }, additionalFields);
     }
@@ -169,7 +180,7 @@ public class BookFormManager {
             try {
                 onAdd.accept(allFields);
             } catch (Exception ex) {
-                showError(frame, ex);
+                showError(frame);
             }
         });
 
@@ -225,18 +236,5 @@ public class BookFormManager {
     static void showSuccessAndClose(JFrame frame, String message) {
         JOptionPane.showMessageDialog(frame, message);
         frame.dispose();
-    }
-
-    /**
-     * Displays an error message in a dialog.
-     * <p>
-     * This method shows a message dialog with the provided exception message.
-     * </p>
-     *
-     * @param frame The JFrame from which the error is displayed
-     * @param ex    The exception whose message will be shown
-     */
-    static void showError(JFrame frame, Exception ex) {
-        JOptionPane.showMessageDialog(frame, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -1,39 +1,44 @@
 package fr.ynov.librarymanagement.gui.book;
 
 import fr.ynov.librarymanagement.domain.Book;
-import fr.ynov.librarymanagement.factory.book.BookFactory;
+import fr.ynov.librarymanagement.factory.BookFactory;
 
-import javax.swing.JPanel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
+import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
+
 public class BookDisplayManager {
 
     /**
      * Displays a window with a list of all books.
      * <p>
-     * This method creates a new JFrame that contains a JList of all books.
-     * It also includes a button to refresh the list.
+     * This method creates and displays a window showing all books in the system.
+     * It loads the complete list of books from the data storage and presents them
+     * in a scrollable list. Each book is displayed with its title, author, and status
+     * (available or borrowed). Selecting a book in the list opens its detailed information view.
+     * The window includes a refresh button that reloads the list with the most current data.
      * </p>
      */
     public static void viewBooks() {
-        JFrame viewBooksFrame = new JFrame("Consulter les Livres");
-        viewBooksFrame.setSize(500, 500);
+        JFrame viewBooksFrame = new JFrame("Liste des Livres");
+        viewBooksFrame.setSize(600, 500);
         viewBooksFrame.setLayout(new BorderLayout());
 
-        BookFactory.loadAllBooks();
-
+        loadAllBooks();
         DefaultListModel<Book> bookListModel = createBookListModel();
+
         JList<Book> bookList = createBookJList(bookListModel, viewBooksFrame);
         JScrollPane scrollPane = new JScrollPane(bookList);
 
@@ -53,7 +58,8 @@ public class BookDisplayManager {
     /**
      * Creates a DefaultListModel containing all books.
      * <p>
-     * This method populates the model with all books from the BookFactory.
+     * This method initializes a DefaultListModel and populates it with the list of books
+     * retrieved from the BookFactory. Each book is added to the model for display in the JList.
      * </p>
      *
      * @return A DefaultListModel containing all books
@@ -67,14 +73,15 @@ public class BookDisplayManager {
     }
 
     /**
-     * Creates a JList with a custom cell renderer for displaying book details.
+     * Creates a JList with a custom cell renderer for displaying books.
      * <p>
-     * This method sets up the JList to display book titles, authors, and availability status.
+     * This method sets up a JList to display books with their title, author, and status.
+     * It also adds a selection listener to handle book selection events.
      * </p>
      *
-     * @param model       The DefaultListModel containing the books
-     * @param parentFrame The parent JFrame for context
-     * @return A JList configured to display book details
+     * @param model        The model containing the list of books
+     * @param parentFrame  The parent frame from which this list is opened
+     * @return A JList configured to display books
      */
     private static JList<Book> createBookJList(DefaultListModel<Book> model, JFrame parentFrame) {
         JList<Book> list = new JList<>(model);
@@ -104,14 +111,15 @@ public class BookDisplayManager {
     }
 
     /**
-     * Adds a row to the details panel with a label and value.
+     * Adds a detail row to the given panel.
      * <p>
-     * This method creates a new JPanel for the row and adds it to the provided panel.
+     * This method creates a new row with a label and value, and adds it to the specified panel.
+     * The label is displayed in bold font for emphasis.
      * </p>
      *
-     * @param panel  The parent panel to which the row will be added
-     * @param label  The label for the row
-     * @param value  The value for the row
+     * @param panel  The panel to which the detail row will be added
+     * @param label  The label for the detail row
+     * @param value  The value corresponding to the label
      */
     static void addDetailRow(JPanel panel, String label, String value) {
         JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

@@ -2,7 +2,7 @@ package fr.ynov.librarymanagement.gui.person;
 
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Person;
-import fr.ynov.librarymanagement.factory.person.PersonFactory;
+import fr.ynov.librarymanagement.factory.PersonFactory;
 
 
 import javax.swing.JButton;
@@ -20,6 +20,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 import java.util.List;
+
+import static fr.ynov.librarymanagement.factory.Reader.loadAllPersons;
 
 
 public class PersonDisplayManager {
@@ -39,7 +41,7 @@ public class PersonDisplayManager {
         viewPersonsFrame.setSize(500, 500);
         viewPersonsFrame.setLayout(new BorderLayout());
 
-        PersonFactory.loadAllPersons();
+        loadAllPersons();
         List<Person> personList = PersonFactory.getPersonList();
 
         DefaultListModel<Person> personListModel = new DefaultListModel<>();

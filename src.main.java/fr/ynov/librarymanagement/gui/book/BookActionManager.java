@@ -4,8 +4,7 @@ import fr.ynov.librarymanagement.domain.Bd;
 import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.domain.Manga;
 import fr.ynov.librarymanagement.domain.Novel;
-import fr.ynov.librarymanagement.factory.book.BookFactory;
-import fr.ynov.librarymanagement.factory.book.BookUpdater;
+import fr.ynov.librarymanagement.factory.Updater;
 
 import static fr.ynov.librarymanagement.gui.book.BookDisplayManager.addDetailRow;
 
@@ -105,7 +104,7 @@ public class BookActionManager {
             book.takeBook();
         }
 
-        BookUpdater.updateBookStatus(book);
+        Updater.updateBookStatus(book);
         JOptionPane.showMessageDialog(detailFrame,
                 book.isTaken() ? "Livre emprunté avec succès!" : "Livre retourné avec succès!");
 

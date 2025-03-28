@@ -7,15 +7,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.factory.book.BookFactory.loadAllBooks;
+import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
 public class LoanWindowManager {
 
     /**
-     * Opens the window for borrowing a book.
+     * Opens a window for borrowing books.
      * <p>
-     * This method creates and displays a window with a text field for entering the book ID
-     * and a button to borrow the book. It also loads all books from the factory.
+     * This method creates and displays a form that allows users to borrow books from the library.
+     * It first loads all books from storage to ensure the book database is up-to-date, then displays
+     * a simple form where the user can enter the ID of the book they wish to borrow. Upon clicking
+     * the borrow button, the application attempts to process the book loan and displays appropriate
+     * success or error messages.
      * </p>
      */
     static void openTakeBookWindow() {
@@ -46,10 +49,13 @@ public class LoanWindowManager {
     }
 
     /**
-     * Opens the window for returning a book.
+     * Opens a window for returning books.
      * <p>
-     * This method creates and displays a window with a text field for entering the book ID
-     * and a button to return the book. It also loads all books from the factory.
+     * This method creates and displays a form that allows users to return books to the library.
+     * It first loads all books from storage to ensure the book database is up-to-date, then displays
+     * a simple form where the user can enter the ID of the book they wish to return. Upon clicking
+     * the return button, the application attempts to process the book return and displays appropriate
+     * success or error messages.
      * </p>
      */
     static void openReturnBookWindow() {

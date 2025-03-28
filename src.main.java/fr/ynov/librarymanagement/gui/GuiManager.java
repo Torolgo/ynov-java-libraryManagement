@@ -1,9 +1,6 @@
 package fr.ynov.librarymanagement.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -85,5 +82,18 @@ public class GuiManager {
         frame.add(panel, BorderLayout.CENTER);
 
         frame.setVisible(true);
+    }
+
+    /**
+     * Displays an error message in a dialog.
+     * <p>
+     * This method shows a dialog with the specified error message.
+     * </p>
+     *
+     * @param frame The parent JFrame for the dialog
+     */
+    public static void showError(JFrame frame) {
+        JOptionPane.showMessageDialog(frame, "Erreur: Une erreur est survenue lors de l'enregistrement ",
+                "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 }
