@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookFactory {
-    private static final ArrayList<Book> bookList = new ArrayList<>();
+    private static final ArrayList<Book> BOOK_LIST = new ArrayList<>();
 
     public static List<Book> getBookList() {
-        return bookList;
+        return BOOK_LIST;
     }
 
     public static void clearBookList() {
-        bookList.clear();
+        BOOK_LIST.clear();
     }
 
     /**
@@ -42,7 +42,7 @@ public class BookFactory {
         int maxId = 0;
         loadAllBooks();
 
-        for (Book book : bookList) {
+        for (Book book : BOOK_LIST) {
             if (book.getId() > maxId) {
                 maxId = book.getId();
             }

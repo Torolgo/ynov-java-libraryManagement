@@ -1,20 +1,18 @@
 package fr.ynov.librarymanagement.factory.book;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import fr.ynov.librarymanagement.domain.Bd;
 import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.domain.Manga;
 import fr.ynov.librarymanagement.domain.Novel;
-import static fr.ynov.librarymanagement.factory.book.BookReader.readExistingData;
+import fr.ynov.librarymanagement.factory.FilesManagement;
 
+import java.io.File;
 import java.util.List;
 
 
-public class BookUpdater {
-    private static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
-    private static final Gson gson = new Gson();
+public class BookUpdater extends FilesManagement {
 
     /**
      * Updates the status of a book (taken or returned).
@@ -37,11 +35,12 @@ public class BookUpdater {
      * @param novel The novel to update.
      */
     private static void updateNovelStatus(Novel novel) {
+        File file = new File(BASE_PATH + "novels.json");
         try {
-            List<Novel> novels = readExistingData("novels.json", new TypeToken<List<Novel>>() {}.getType());
+            List<Novel> novels = readExistingData(file, new TypeToken<List<Novel>>() {}.getType());
             if (novels != null) {
                 updateEntityStatus(novels, novel);
-                BookWriter.writeToFile("novels.json", novels);
+                writeToFile(file, novels);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,11 +53,12 @@ public class BookUpdater {
      * @param bd The BD to update.
      */
     private static void updateBdStatus(Bd bd) {
+        File file = new File(BASE_PATH + "novels.json");
         try {
-            List<Bd> bds = readExistingData("bd.json", new TypeToken<List<Bd>>() {}.getType());
+            List<Bd> bds = readExistingData(file, new TypeToken<List<Bd>>() {}.getType());
             if (bds != null) {
                 updateEntityStatus(bds, bd);
-                BookWriter.writeToFile("bd.json", bds);
+                writeToFile(file, bds);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,11 +71,12 @@ public class BookUpdater {
      * @param manga The manga to update.
      */
     private static void updateMangaStatus(Manga manga) {
+        File file = new File(BASE_PATH + "mangas.json");
         try {
-            List<Manga> mangas = readExistingData("manga.json", new TypeToken<List<Manga>>() {}.getType());
+            List<Manga> mangas = readExistingData(file, new TypeToken<List<Manga>>() {}.getType());
             if (mangas != null) {
                 updateEntityStatus(mangas, manga);
-                BookWriter.writeToFile("manga.json", mangas);
+                writeToFile(file, mangas);
             }
         } catch (Exception e) {
             e.printStackTrace();

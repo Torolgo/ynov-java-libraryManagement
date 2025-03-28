@@ -1,19 +1,14 @@
 package fr.ynov.librarymanagement.factory.person;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
+import fr.ynov.librarymanagement.factory.FilesManagement;
 
 import java.io.File;
 import java.util.List;
 
-import static fr.ynov.librarymanagement.factory.person.PersonReader.readExistingData;
-import static fr.ynov.librarymanagement.factory.person.PersonWriter.writeToFile;
-
-public class PersonUpdater {
-    private static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
-    private static final Gson gson = new Gson();
+public class PersonUpdater extends FilesManagement {
 
     /**
      * Updates the biography of an author in the JSON file.

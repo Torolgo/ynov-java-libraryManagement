@@ -1,20 +1,16 @@
 package fr.ynov.librarymanagement.factory.person;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
+import fr.ynov.librarymanagement.factory.FilesManagement;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.ynov.librarymanagement.factory.person.PersonReader.readExistingData;
 
-public class PersonWriter {
-    private static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
-    private static final Gson gson = new Gson();
+public class PersonWriter extends FilesManagement {
 
     /**
      * Writes a new author's information to the authors JSON file.
@@ -86,17 +82,4 @@ public class PersonWriter {
         }
     }
 
-    /**
-     * Writes the given data to a file in JSON format.
-     *
-     * @param file The file to write to.
-     * @param data The data to write.
-     * @param <T>  The type of the data.
-     * @throws Exception If an error occurs while writing to the file.
-     */
-    public static <T> void writeToFile(File file, T data) throws Exception {
-        try (FileWriter fileWriter = new FileWriter(file)) {
-            fileWriter.write(gson.toJson(data));
-        }
-    }
 }

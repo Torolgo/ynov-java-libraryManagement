@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonFactory {
-    private static final ArrayList<Person> personList = new ArrayList<>();
+    private static final ArrayList<Person> PERSON_LIST = new ArrayList<>();
 
     public static List<Person> getPersonList() {
-        return personList;
+        return PERSON_LIST;
     }
 
     public static void clearPersonList() {
-        personList.clear();
+        PERSON_LIST.clear();
     }
 
     /**
@@ -33,7 +33,7 @@ public class PersonFactory {
     public static int getNextAvailablePersonId() {
         int maxId = 0;
         loadAllPersons();
-        for (Person person : personList) {
+        for (Person person : PERSON_LIST) {
             if (person.getId() > maxId) {
                 maxId = person.getId();
             }

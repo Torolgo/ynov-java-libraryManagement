@@ -1,6 +1,5 @@
 package fr.ynov.librarymanagement.factory.book;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import fr.ynov.librarymanagement.domain.Author;
@@ -9,18 +8,14 @@ import fr.ynov.librarymanagement.domain.Genre;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.domain.Manga;
 import fr.ynov.librarymanagement.domain.Novel;
-import static fr.ynov.librarymanagement.factory.book.BookReader.readExistingData;
+import fr.ynov.librarymanagement.factory.FilesManagement;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class BookWriter {
-    private static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
-    private static final Gson gson = new Gson();
-
+public class BookWriter extends FilesManagement {
     /**
      * Writes a new novel to the JSON file.
      *
@@ -33,14 +28,15 @@ public class BookWriter {
      */
     public static void writeNovelFile(String title, Author author, Genre genre, int year, int pages, int chapters) {
         int nextId = BookFactory.getNextAvailableBookId();
+        File file = new File(BASE_PATH + "novels.json");
         try {
-            List<Novel> novels = readExistingData("novels.json", new TypeToken<List<Novel>>() {}.getType());
+            List<Novel> novels = readExistingData(file, new TypeToken<List<Novel>>() {}.getType());
             if (novels == null) {
                 novels = new ArrayList<>();
             }
 
             novels.add(new Novel(nextId, title, author, genre, year, pages, chapters));
-            writeToFile("novels.json", novels);
+            writeToFile(file, novels);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,14 +56,15 @@ public class BookWriter {
     public static void writeBdFile(String title, Author author, Genre genre, int year, int pages,
                                    Illustrator illustrator, String illustrationStyle) {
         int nextId = BookFactory.getNextAvailableBookId();
+        File file = new File(BASE_PATH + "bd.json");
         try {
-            List<Bd> bds = readExistingData("bd.json", new TypeToken<List<Bd>>() {}.getType());
+            List<Bd> bds = readExistingData(file, new TypeToken<List<Bd>>() {}.getType());
             if (bds == null) {
                 bds = new ArrayList<>();
             }
 
             bds.add(new Bd(nextId, title, author, genre, year, pages, illustrator, illustrationStyle));
-            writeToFile("bd.json", bds);
+            writeToFile(file, bds);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,29 +82,18 @@ public class BookWriter {
      */
     public static void writeMangaFile(String title, Author author, Genre genre, int year, int pages, String subGender) {
         int nextId = BookFactory.getNextAvailableBookId();
+        File file = new File(BASE_PATH + "manga.json");
         try {
-            List<Manga> mangas = readExistingData("manga.json", new TypeToken<List<Manga>>() {}.getType());
+            List<Manga> mangas = readExistingData(file, new TypeToken<List<Manga>>() {}.getType());
             if (mangas == null) {
                 mangas = new ArrayList<>();
             }
 
             mangas.add(new Manga(nextId, title, author, genre, year, pages, subGender));
-            writeToFile("manga.json", mangas);
+            writeToFile(file, mangas);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Writes data to a file.
-     *
-     * @param fileName The name of the file to write to.
-     * @param data The data to write.
-     * @throws IOException If an I/O error occurs.
-     */
-    public static <T> void writeToFile(String fileName, T data) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(BASE_PATH + fileName)) {
-            fileWriter.write(gson.toJson(data));
-        }
-    }
 }
