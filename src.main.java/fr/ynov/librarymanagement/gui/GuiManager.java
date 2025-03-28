@@ -10,19 +10,27 @@ import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Font;
 
-import static fr.ynov.librarymanagement.gui.BookManager.openBookWindow;
-import static fr.ynov.librarymanagement.gui.LoanManager.openLoanWindow;
-import static fr.ynov.librarymanagement.gui.PersonManager.openAuthorWindow;
+import static fr.ynov.librarymanagement.gui.book.BookManager.openBookWindow;
+import static fr.ynov.librarymanagement.gui.loan.LoanManager.openLoanWindow;
+import static fr.ynov.librarymanagement.gui.person.PersonManager.openAuthorWindow;
 
-/**
- * Manages the main graphical user interface of the library management system.
- */
 public class GuiManager {
 
     /**
-     * Creates and configures a panel containing the main navigation buttons.
+     * Creates and configures the main navigation panel for the library application.
+     * <p>
+     * This method builds a panel containing three primary navigation buttons:
+     * - AUTEUR: Opens the Authors and Illustrators management window
+     * - LIVRE: Opens the Books management window
+     * - EMPRUNT: Opens the Loans management window
+     * </p>
+     * <p>
+     * The panel uses a vertical grid layout with each button styled with the same
+     * font characteristics. Each button has an action listener that directs to
+     * the appropriate management screen when clicked.
+     * </p>
      *
-     * @return A JPanel containing buttons for Author, Book, and Loan management
+     * @return A configured JPanel with navigation buttons
      */
     private static JPanel getJPanel() {
         JPanel panel = new JPanel();
@@ -49,9 +57,18 @@ public class GuiManager {
     }
 
     /**
-     * Creates and displays the main application window with navigation options.
-     * Sets up the main frame with a welcome message and navigation buttons
-     * to access different modules of the library management system.
+     * Creates and displays the main application window for the library management system.
+     * <p>
+     * This is the entry point for the GUI application. It sets up the primary window with:
+     * - A title "BIBLIO-Torolgo"
+     * - A welcome message at the top
+     * - A navigation panel in the center with buttons for accessing different modules
+     *   (Authors/Illustrators, Books, and Loans)
+     * </p>
+     * <p>
+     * The window uses BorderLayout to organize its components, with the navigation panel
+     * taking up the center portion and the welcome message at the top.
+     * </p>
      */
     public static void guiInterfaceManager() {
         JFrame frame = new JFrame("BIBLIO-Torolgo");
