@@ -27,15 +27,6 @@ public class BookFactory {
     }
 
     /**
-     * Adds a book to the list of books.
-     *
-     * @param book The book to add
-     */
-    public static void updateBookStatus(Book book) {
-        BookUpdater.updateBookStatus(book);
-    }
-
-    /**
      * Returns the next available book ID by checking the current maximum ID in the list.
      */
     public static int getNextAvailableBookId() {

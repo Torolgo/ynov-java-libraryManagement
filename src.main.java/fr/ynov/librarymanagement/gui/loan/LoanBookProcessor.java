@@ -2,6 +2,7 @@ package fr.ynov.librarymanagement.gui.loan;
 
 import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.factory.book.BookFactory;
+import fr.ynov.librarymanagement.factory.book.BookUpdater;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,7 +30,7 @@ public class LoanBookProcessor {
                     return;
                 }
                 book.takeBook();
-                BookFactory.updateBookStatus(book);
+                BookUpdater.updateBookStatus(book);
                 JOptionPane.showMessageDialog(parentFrame, "Livre emprunté avec succès!");
                 parentFrame.dispose();
                 return;
@@ -59,7 +60,7 @@ public class LoanBookProcessor {
                     return;
                 }
                 book.returnBook();
-                BookFactory.updateBookStatus(book);
+                BookUpdater.updateBookStatus(book);
                 JOptionPane.showMessageDialog(parentFrame, "Livre retourné avec succès!");
                 parentFrame.dispose();
                 return;
