@@ -1,8 +1,5 @@
 package fr.ynov.librarymanagement.gui.loan;
 
-import fr.ynov.librarymanagement.domain.Book;
-import fr.ynov.librarymanagement.factory.BookFactory;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -10,12 +7,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 
+import static fr.ynov.librarymanagement.factory.book.BookFactory.loadAllBooks;
+
 public class LoanWindowManager {
+
     /**
-     * Opens a window for borrowing a book.
+     * Opens the window for borrowing a book.
+     * <p>
+     * This method creates and displays a window with a text field for entering the book ID
+     * and a button to borrow the book. It also loads all books from the factory.
+     * </p>
      */
     static void openTakeBookWindow() {
-        LoanBookProcessor.loadBooks();
+        loadAllBooks();
 
         JFrame takeBookFrame = new JFrame("Emprunter un Livre");
         takeBookFrame.setSize(400, 200);
@@ -42,10 +46,14 @@ public class LoanWindowManager {
     }
 
     /**
-     * Opens a window for returning a previously borrowed book.
+     * Opens the window for returning a book.
+     * <p>
+     * This method creates and displays a window with a text field for entering the book ID
+     * and a button to return the book. It also loads all books from the factory.
+     * </p>
      */
     static void openReturnBookWindow() {
-        LoanBookProcessor.loadBooks();
+        loadAllBooks();
 
         JFrame returnBookFrame = new JFrame("Retourner un Livre");
         returnBookFrame.setSize(400, 200);

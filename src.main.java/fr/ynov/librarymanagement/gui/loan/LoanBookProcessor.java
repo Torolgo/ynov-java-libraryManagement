@@ -1,27 +1,24 @@
 package fr.ynov.librarymanagement.gui.loan;
 
 import fr.ynov.librarymanagement.domain.Book;
-import fr.ynov.librarymanagement.factory.BookFactory;
+import fr.ynov.librarymanagement.factory.book.BookFactory;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class LoanBookProcessor {
-    /**
-     * Loads all books from storage.
-     */
-    static void loadBooks() {
-        BookFactory.clearBookList();
-        BookFactory.readNovelsFile();
-        BookFactory.readBdsFile();
-        BookFactory.readMangasFile();
-    }
 
     /**
-     * Processes the borrowing of a book by its ID.
+     * Processes a book borrowing request using the book's ID.
+     * <p>
+     * This method searches for a book with the specified ID in the book collection.
+     * If found, it checks if the book is available for borrowing. If available,
+     * the book's status is updated to borrowed, and a success message is displayed.
+     * If the book is already borrowed or not found, an appropriate message is shown.
+     * </p>
      *
-     * @param id The ID of the book to borrow
-     * @param parentFrame The frame from which the request was made
+     * @param id          The unique identifier of the book to borrow
+     * @param parentFrame The parent frame from which this action was triggered
      */
     static void processBorrowBook(int id, JFrame parentFrame) {
         for (Book book : BookFactory.getBookList()) {
@@ -43,9 +40,15 @@ public class LoanBookProcessor {
 
     /**
      * Processes the return of a book by its ID.
+     * <p>
+     * This method searches for a book with the specified ID in the book collection.
+     * If found, it checks if the book is currently borrowed. If borrowed,
+     * the book's status is updated to available, and a success message is displayed.
+     * If the book is not borrowed or not found, an appropriate message is shown.
+     * </p>
      *
-     * @param id The ID of the book to return
-     * @param parentFrame The frame from which the request was made
+     * @param id          The unique identifier of the book to return
+     * @param parentFrame The parent frame from which this action was triggered
      */
     static void processReturnBook(int id, JFrame parentFrame) {
         for (Book book : BookFactory.getBookList()) {

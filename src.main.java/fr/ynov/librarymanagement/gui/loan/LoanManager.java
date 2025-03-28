@@ -5,8 +5,15 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 
 public class LoanManager {
+
     /**
-     * Opens the main loan management window with options to borrow or return books.
+     * Opens the main loan management window.
+     * <p>
+     * This method creates and displays a window with options for managing book loans in the library.
+     * It includes buttons for borrowing books and returning books that have been previously borrowed.
+     * The window uses a vertical grid layout with two main action buttons that trigger their
+     * respective loan operation windows.
+     * </p>
      */
     public static void openLoanWindow() {
         JFrame loanFrame = new JFrame("Gérer les Emprunts");
