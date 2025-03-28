@@ -37,8 +37,6 @@ public class BookFactory {
 
     /**
      * Returns the next available book ID by checking the current maximum ID in the list.
-     *
-     * @return The next available book ID
      */
     public static int getNextAvailableBookId() {
         int maxId = 0;
