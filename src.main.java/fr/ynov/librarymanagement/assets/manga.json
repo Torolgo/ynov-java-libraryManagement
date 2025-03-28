@@ -1,21 +1,3 @@
-//(int id, String title, Author author, Genre gender, int year, int pages, String subGender)
-
 [
-  {
-    "id": 1,
-    "title": "Naruto",
-    "author": {
-      "id": 1,
-      "name": "Masashi",
-      "surname": "Kishimoto",
-      "nationality": "Japanese",
-      "dateOfBirth": "1974-11-08",
-      "biography": "Masashi Kishimoto is a Japanese manga artist. His best known work, Naruto, was in serialization from 1999 to 2014 and has sold over 250 million copies worldwide in 46 countries as of May 2019. The series has been adapted into three anime and multiple films, video games, and related media.",
-      "writingStyle": "Manga"
-    },
-    "gender": "MANGA",
-    "year": 1999,
-    "pages": 700,
-    "subGender": "Shonen"
-  }
+
 ]

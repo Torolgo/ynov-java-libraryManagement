@@ -1,20 +1,3 @@
 [
-  {
-    "writingStyle": "Comics",
-    "id": 4,
-    "name": "Patrick",
-    "surname": "Sobral",
-    "nationality": "French",
-    "dateOfBirth": "1972-11-04",
-    "biography": "Patrick Sobral is a French comic book writer and artist. He is best known for creating the comic book series Les Légendaires."
-  },
-  {
-    "writingStyle": "Fantasy",
-    "id": 1,
-    "name": "J.K",
-    "surname": "Rowling",
-    "nationality": "British",
-    "dateOfBirth": "31/07/1965",
-    "biography": "Joanne Rowling, better known by her pen name J. K. Rowling, is a British author, philanthropist, film producer, television producer, and screenwriter. She is best known for writing the Harry Potter fantasy series, which has won multiple awards and sold more than 500 million copies, becoming the best-selling book series in history."
-  }
+
 ]

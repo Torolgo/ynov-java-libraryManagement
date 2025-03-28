@@ -11,10 +11,10 @@ public class PersonFinder {
      *
      * @param name        The name of the person to find.
      * @param personClass The class type of the person (Author or Illustrator).
-     * @param <T>        The type of the person (Author or Illustrator).
+     * @param <P>        The type of the person (Author or Illustrator).
      * @return The found person, or null if not found.
      */
-    private static <T extends Person> T findPersonByName(String name, Class<T> personClass) {
+    private static <P extends Person> P findPersonByName(String name, Class<P> personClass) {
         PersonFactory.clearPersonList();
 
         if (personClass == Author.class) {
