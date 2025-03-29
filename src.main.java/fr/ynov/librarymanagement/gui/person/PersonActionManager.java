@@ -4,8 +4,17 @@ import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.domain.Person;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
 
 public class PersonActionManager {
 

@@ -1,6 +1,12 @@
 package fr.ynov.librarymanagement.gui.book;
 
-import fr.ynov.librarymanagement.domain.*;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
+import fr.ynov.librarymanagement.domain.Genre;
+import fr.ynov.librarymanagement.domain.Bd;
+import fr.ynov.librarymanagement.domain.Manga;
+import fr.ynov.librarymanagement.domain.Novel;
+
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Writer;
 
@@ -17,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static fr.ynov.librarymanagement.factory.PersonFactory.*;
+import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreatePerson;
 import static fr.ynov.librarymanagement.gui.GuiManager.showError;
 
 

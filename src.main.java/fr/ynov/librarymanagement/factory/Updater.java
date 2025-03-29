@@ -1,7 +1,13 @@
 package fr.ynov.librarymanagement.factory;
 
 import com.google.gson.reflect.TypeToken;
-import fr.ynov.librarymanagement.domain.*;
+import fr.ynov.librarymanagement.domain.Person;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
+import fr.ynov.librarymanagement.domain.Book;
+import fr.ynov.librarymanagement.domain.Bd;
+import fr.ynov.librarymanagement.domain.Manga;
+import fr.ynov.librarymanagement.domain.Novel;
 
 import java.io.File;
 import java.lang.reflect.Type;
