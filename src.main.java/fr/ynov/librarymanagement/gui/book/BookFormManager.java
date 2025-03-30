@@ -9,6 +9,8 @@ import fr.ynov.librarymanagement.domain.Novel;
 
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Writer;
+import fr.ynov.librarymanagement.gui.uiutils.Creater;
+import fr.ynov.librarymanagement.gui.uiutils.Display;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -21,23 +23,28 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreatePerson;
-import static fr.ynov.librarymanagement.gui.UiUtils.*;
+import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
 
 
 public class BookFormManager {
 
     /**
-     * Ouvre une fenêtre pour ajouter un nouveau livre (Roman, Manga ou BD).
+     * Opens a window for adding a new book (Novel, Manga, or Comic).
      * <p>
-     * Cette méthode crée et affiche un formulaire pour saisir les détails du livre selon son type.
-     * Les champs communs incluent titre, auteur, genre, année et nombre de pages.
-     * Des champs spécifiques sont ajoutés selon le type:
-     * - Roman: chapitres
-     * - Manga: sous-genre
-     * - BD: illustrateur et style d'illustration
+     * This method creates and displays a form to input book details based on the book type.
+     * Common fields include title, author, genre, year, and number of pages.
+     * Type-specific fields are added depending on the book type:
+     * - Novel: chapters
+     * - Manga: sub-genre
+     * - Comic: illustrator and illustration style
+     * </p>
+     * <p>
+     * After the user fills in the form and submits it, the method creates the appropriate
+     * book object, saves it to the corresponding JSON file, and displays a success message.
      * </p>
      *
-     * @param bookType Le type de livre à ajouter ("novel", "manga" ou "bd")
+     * @param bookType The type of book to add ("novel", "manga", or "bd")
+     * @throws IllegalArgumentException If the book type is not recognized
      */
     public static void openAddBookWindow(String bookType) {
         String windowTitle;
@@ -72,7 +79,6 @@ public class BookFormManager {
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
 
                 String successMessage;
-                String filename;
 
                 switch (bookType) {
                     case "novel":
@@ -108,9 +114,9 @@ public class BookFormManager {
                         throw new IllegalArgumentException("Type de livre non reconnu");
                 }
 
-                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), successMessage);
+                Display.showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), successMessage);
             } catch (Exception ex) {
-                showError(fields.get("title").getTopLevelAncestor(), ex);
+                Display.showError(fields.get("title").getTopLevelAncestor(), ex);
             }
         }, additionalFields);
     }
@@ -135,11 +141,11 @@ public class BookFormManager {
         frame.setSize(400, 400);
         frame.setLayout(new GridLayout(rows, 2, 10, 10));
 
-        JTextField titleField = createLabeledTextField(frame, "Titre");
-        JTextField authorField = createLabeledTextField(frame, "Auteur");
-        JComboBox<Genre> genreComboBox = createLabeledComboBox(frame, "Genre", Genre.values());
-        JTextField yearField = createLabeledTextField(frame, "Année");
-        JTextField pagesField = createLabeledTextField(frame, "Pages");
+        JTextField titleField = Creater.createLabeledTextField(frame, "Titre");
+        JTextField authorField = Creater.createLabeledTextField(frame, "Auteur");
+        JComboBox<Genre> genreComboBox = Creater.createLabeledComboBox(frame, "Genre", Genre.values());
+        JTextField yearField = Creater.createLabeledTextField(frame, "Année");
+        JTextField pagesField = Creater.createLabeledTextField(frame, "Pages");
 
         Map<String, JComponent> allFields = new HashMap<>();
         allFields.put("title", titleField);
@@ -150,7 +156,7 @@ public class BookFormManager {
 
         Map<String, JTextField> additionalJFields = new HashMap<>();
         for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
-            JTextField field = createLabeledTextField(frame, entry.getValue());
+            JTextField field = Creater.createLabeledTextField(frame, entry.getValue());
             additionalJFields.put(entry.getKey(), field);
             allFields.put(entry.getKey(), field);
         }
@@ -159,7 +165,7 @@ public class BookFormManager {
             try {
                 onAdd.accept(allFields);
             } catch (Exception ex) {
-                showError(frame, ex);
+                Display.showError(frame, ex);
             }
         });
 

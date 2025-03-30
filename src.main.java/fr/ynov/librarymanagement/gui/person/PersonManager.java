@@ -1,10 +1,9 @@
 package fr.ynov.librarymanagement.gui.person;
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.gui.UiUtils.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
 
 public class PersonManager {
 

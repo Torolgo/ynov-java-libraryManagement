@@ -3,12 +3,17 @@ package fr.ynov.librarymanagement.gui.person;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.factory.Writer;
+import fr.ynov.librarymanagement.gui.uiutils.Creater;
+import fr.ynov.librarymanagement.gui.uiutils.Display;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.gui.UiUtils.*;
+import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
 
 public class PersonFormManager {
 
@@ -26,12 +31,12 @@ public class PersonFormManager {
         addPersonFrame.setSize(500, 600);
         addPersonFrame.setLayout(new GridLayout(7, 2, 10, 10));
 
-        JTextField nameField = createLabeledTextField(addPersonFrame, "Nom");
-        JTextField surnameField = createLabeledTextField(addPersonFrame, "Prénom");
-        JTextField nationalityField = createLabeledTextField(addPersonFrame, "Nationalité");
-        JTextField dateOfBirthField = createLabeledTextField(addPersonFrame, "Date de naissance");
-        JTextArea biographyField = createLabeledTextArea(addPersonFrame, "Biographie", 5, 20);
-        JTextField styleField = createLabeledTextField(addPersonFrame,
+        JTextField nameField = Creater.createLabeledTextField(addPersonFrame, "Nom");
+        JTextField surnameField = Creater.createLabeledTextField(addPersonFrame, "Prénom");
+        JTextField nationalityField = Creater.createLabeledTextField(addPersonFrame, "Nationalité");
+        JTextField dateOfBirthField = Creater.createLabeledTextField(addPersonFrame, "Date de naissance");
+        JTextArea biographyField = Creater.createLabeledTextArea(addPersonFrame, "Biographie", 5, 20);
+        JTextField styleField = Creater.createLabeledTextField(addPersonFrame,
                 isAuthor ? "Style d'écriture" : "Style d'illustration");
 
         addButtonToFrame(addPersonFrame, "Ajouter", e -> {
@@ -49,10 +54,10 @@ public class PersonFormManager {
                 Writer.writePersonFile(name, surname, nationality, dateOfBirth, biography, style,
                         (Class)personClass, filename);
 
-                showSuccessAndClose(addPersonFrame,
+                Display.showSuccessAndClose(addPersonFrame,
                         isAuthor ? "Auteur ajouté avec succès!" : "Illustrateur ajouté avec succès!");
             } catch (Exception ex) {
-                showError(addPersonFrame, ex);
+                Display.showError(addPersonFrame, ex);
             }
         });
 
@@ -80,12 +85,12 @@ public class PersonFormManager {
     private static void addFieldsToFrame(JFrame frame, JTextField nameField, JTextField surnameField,
                                          JTextField nationalityField, JTextField dobField,
                                          JTextField bioField, JTextField styleField, String styleLabel) {
-        createLabeledTextField(frame, "Nom");
-        createLabeledTextField(frame, "Prénom");
-        createLabeledTextField(frame, "Nationalité");
-        createLabeledTextField(frame, "Date de naissance");
-        createLabeledTextField(frame, "Biographie");
-        createLabeledTextField(frame, styleLabel);
+        Creater.createLabeledTextField(frame, "Nom");
+        Creater.createLabeledTextField(frame, "Prénom");
+        Creater.createLabeledTextField(frame, "Nationalité");
+        Creater.createLabeledTextField(frame, "Date de naissance");
+        Creater.createLabeledTextField(frame, "Biographie");
+        Creater.createLabeledTextField(frame, styleLabel);
     }
 
     /**

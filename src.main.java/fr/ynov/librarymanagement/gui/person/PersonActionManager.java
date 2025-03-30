@@ -3,11 +3,11 @@ package fr.ynov.librarymanagement.gui.person;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.domain.Person;
+import fr.ynov.librarymanagement.gui.uiutils.Display;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -17,8 +17,7 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 
 import static fr.ynov.librarymanagement.factory.Updater.updateBiography;
-import static fr.ynov.librarymanagement.gui.UiUtils.addDetailRow;
-import static fr.ynov.librarymanagement.gui.UiUtils.showSuccessAndClose;
+import static fr.ynov.librarymanagement.gui.uiutils.Adder.addDetailRow;
 
 public class PersonActionManager {
 
@@ -69,6 +68,7 @@ public class PersonActionManager {
         addDetailRow(panel, "ID", String.valueOf(person.getId()));
         addDetailRow(panel, "Nom", person.getNameAndSurname());
         addDetailRow(panel, "Date de naissance", person.getDateOfBirth());
+        addDetailRow(panel, "Nationalité", person.getNationality());
         addDetailRow(panel, "Biographie", person.getBiography());
 
         if (isAuthor) {
@@ -104,7 +104,7 @@ public class PersonActionManager {
         JButton updateButton = new JButton("Mettre à jour");
         updateButton.addActionListener(e -> {
             updateBiography(person, bioTextArea.getText());
-            showSuccessAndClose(parentFrame, "Biographie mise à jour!");
+            Display.showSuccessAndClose(parentFrame, "Biographie mise à jour!");
             showPersonDetails(person);
         });
 

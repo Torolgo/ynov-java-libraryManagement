@@ -3,7 +3,7 @@ package fr.ynov.librarymanagement.gui.book;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.gui.UiUtils.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
 
 public class BookManager {
 
