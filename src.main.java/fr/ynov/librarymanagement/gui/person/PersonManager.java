@@ -11,18 +11,18 @@ public class PersonManager {
      * Opens the main window for managing Authors and Illustrators.
      * <p>
      * This method creates and displays a window with options for managing persons in the library system.
-     * It provides buttons for adding new persons (either Authors or Illustrators) and viewing
-     * the complete list of all persons. When buttons are clicked, they trigger their respective
-     * management windows for further operations.
+     * It provides buttons for adding new persons, viewing the complete list, and deleting persons.
+     * The window uses a vertical grid layout with three main action buttons.
      * </p>
      */
     public static void openPersonWindows() {
         JFrame authorFrame = new JFrame("Gérer les Auteurs et Illustrateurs");
         authorFrame.setSize(400, 300);
-        authorFrame.setLayout(new GridLayout(3, 1, 10, 10));
+        authorFrame.setLayout(new GridLayout(4, 1, 10, 10));
 
         addButtonToFrame(authorFrame, "Ajouter un Auteur/Illustrateur", e -> openAddPersonTypeWindow());
         addButtonToFrame(authorFrame, "Consulter les Auteurs/Illustrateurs", e -> PersonDisplayManager.viewPersonsList());
+        addButtonToFrame(authorFrame, "Supprimer un Auteur/Illustrateur", e -> PersonDeleteManager.openDeletePersonWindow());
 
         authorFrame.setVisible(true);
     }

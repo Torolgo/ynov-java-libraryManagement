@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 
 public class FilesManagement {
     protected static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
@@ -21,7 +22,7 @@ public class FilesManagement {
      * @param type The type of the object to be read
      * @return The deserialized object, or null if the file is invalid or an error occurs
      */
-    protected static <T> T readExistingData(File file, java.lang.reflect.Type type) {
+    protected static <T> T readExistingData(File file, Type type) {
         try {
             if (isValidFile(file)) {
                 return GSON.fromJson(new FileReader(file), type);

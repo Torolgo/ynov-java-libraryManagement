@@ -78,11 +78,30 @@ public class BookFormManager {
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
 
+                if (title.isEmpty()) {
+                    throw new Exception("Le titre est obligatoire");
+                }
+                if (author == null) {
+                    throw new Exception("L'auteur est obligatoire");
+                }
+                if (genre == null) {
+                    throw new Exception("Le genre est obligatoire");
+                }
+                if (year <= 0) {
+                    throw new Exception("L'année est obligatoire et doit être positive");
+                }
+                if (pages <= 0) {
+                    throw new Exception("Le nombre de pages est obligatoire et doit être positif");
+                }
+
                 String successMessage;
 
                 switch (bookType) {
                     case "novel":
                         int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
+                        if (chapters <= 0) {
+                            throw new Exception("Le nombre de chapitres est obligatoire et doit être positif");
+                        }
                         Writer.writeBookFile(
                                 () -> new Novel(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, chapters),
                                 "novels.json",
@@ -92,6 +111,9 @@ public class BookFormManager {
                         break;
                     case "manga":
                         String subGenre = ((JTextField)fields.get("subGenre")).getText();
+                        if (subGenre.isEmpty()) {
+                            throw new Exception("Le sous-genre est obligatoire");
+                        }
                         Writer.writeBookFile(
                                 () -> new Manga(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, subGenre),
                                 "mangas.json",
@@ -102,6 +124,12 @@ public class BookFormManager {
                     case "bd":
                         String illustratorName = ((JTextField)fields.get("illustrator")).getText();
                         String illustrationStyle = ((JTextField)fields.get("illustrationStyle")).getText();
+                        if (illustratorName.isEmpty()) {
+                            throw new Exception("L'illustrateur est obligatoire");
+                        }
+                        if (illustrationStyle.isEmpty()) {
+                            throw new Exception("Le style d'illustration est obligatoire");
+                        }
                         Illustrator illustrator = findOrCreatePerson(illustratorName, Illustrator.class, illustrationStyle);
                         Writer.writeBookFile(
                                 () -> new Bd(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, illustrator, illustrationStyle),

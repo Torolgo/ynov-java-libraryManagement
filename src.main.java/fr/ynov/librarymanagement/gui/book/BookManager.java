@@ -11,17 +11,18 @@ public class BookManager {
      * Opens the main book management window.
      * <p>
      * This method creates and displays a window with options for managing books in the library.
-     * It includes buttons for adding new books and viewing the existing book collection.
-     * The window uses a vertical grid layout with two main action buttons.
+     * It includes buttons for adding new books, viewing and deleting existing books.
+     * The window uses a vertical grid layout with three main action buttons.
      * </p>
      */
     public static void openBookWindow() {
         JFrame bookFrame = new JFrame("Gérer les Livres");
         bookFrame.setSize(400, 300);
-        bookFrame.setLayout(new GridLayout(3, 1, 10, 10));
+        bookFrame.setLayout(new GridLayout(4, 1, 10, 10));
 
         addButtonToFrame(bookFrame, "Ajouter un Livre", e -> openAddBookTypeWindow());
         addButtonToFrame(bookFrame, "Consulter les Livres", e -> BookDisplayManager.viewBooks());
+        addButtonToFrame(bookFrame, "Supprimer un Livre", e -> BookDeleteManager.openDeleteBookWindow());
 
         bookFrame.setVisible(true);
     }

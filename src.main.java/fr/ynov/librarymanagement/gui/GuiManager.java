@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import static fr.ynov.librarymanagement.gui.book.BookManager.openBookWindow;
+import static fr.ynov.librarymanagement.gui.loan.LoanManager.openLoanWindow;
+import static fr.ynov.librarymanagement.gui.person.PersonManager.openPersonWindows;
 import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
 
 public class GuiManager {
@@ -26,9 +29,6 @@ public class GuiManager {
      * </p>
      */
     public static void guiInterfaceManager() {
-        // Assurez-vous que l'énumération Genre est correctement initialisée
-        // L'énumération est maintenant disponible pour être utilisée dans toute l'application
-
         JFrame frame = new JFrame("BIBLIO-Torolgo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 500);
@@ -59,12 +59,9 @@ public class GuiManager {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1, 10, 10));
 
-        addButtonToFrame(panel, "Gérer les Auteurs/Illustrateurs",
-                e -> fr.ynov.librarymanagement.gui.person.PersonManager.openPersonWindows());
-        addButtonToFrame(panel, "Gérer les Livres",
-                e -> fr.ynov.librarymanagement.gui.book.BookManager.openBookWindow());
-        addButtonToFrame(panel, "Gérer les Emprunts",
-                e -> fr.ynov.librarymanagement.gui.loan.LoanManager.openLoanWindow());
+        addButtonToFrame(panel, "Gérer les Auteurs/Illustrateurs", e -> openPersonWindows());
+        addButtonToFrame(panel, "Gérer les Livres", e -> openBookWindow());
+        addButtonToFrame(panel, "Gérer les Emprunts", e -> openLoanWindow());
 
         return panel;
     }

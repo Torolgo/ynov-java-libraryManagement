@@ -9,7 +9,6 @@ import fr.ynov.librarymanagement.gui.uiutils.Display;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JOptionPane;
 
 import java.awt.GridLayout;
 
@@ -48,6 +47,25 @@ public class PersonFormManager {
                 String biography = biographyField.getText();
                 String style = styleField.getText();
 
+                if (name.isEmpty()) {
+                    throw new Exception("Le nom est obligatoire");
+                }
+                if (surname.isEmpty()) {
+                    throw new Exception("Le prénom est obligatoire");
+                }
+                if (nationality.isEmpty()) {
+                    throw new Exception("La nationalité est obligatoire");
+                }
+                if (dateOfBirth.isEmpty()) {
+                    throw new Exception("La date de naissance est obligatoire");
+                }
+                if (biography.isEmpty()) {
+                    throw new Exception("La biographie est obligatoire");
+                }
+                if (style.isEmpty()) {
+                    throw new Exception("Le style est obligatoire");
+                }
+
                 String filename = isAuthor ? "authors.json" : "illustrators.json";
                 Class<?> personClass = isAuthor ? Author.class : Illustrator.class;
 
@@ -62,68 +80,5 @@ public class PersonFormManager {
         });
 
         addPersonFrame.setVisible(true);
-    }
-
-    /**
-     * Adds form fields to the person creation frame.
-     * <p>
-     * This helper method populates the frame with labeled text fields for entering
-     * person details, including name, surname, nationality, date of birth, biography,
-     * and a style field that varies based on the person type (writing style for authors
-     * or illustration style for illustrators).
-     * </p>
-     *
-     * @param frame             The JFrame to which the fields will be added
-     * @param nameField         Text field for the person's name
-     * @param surnameField      Text field for the person's surname
-     * @param nationalityField  Text field for the person's nationality
-     * @param dobField          Text field for the person's date of birth
-     * @param bioField          Text field for the person's biography
-     * @param styleField        Text field for the person's style (writing or illustration)
-     * @param styleLabel        The label text for the style field
-     */
-    private static void addFieldsToFrame(JFrame frame, JTextField nameField, JTextField surnameField,
-                                         JTextField nationalityField, JTextField dobField,
-                                         JTextField bioField, JTextField styleField, String styleLabel) {
-        Creater.createLabeledTextField(frame, "Nom");
-        Creater.createLabeledTextField(frame, "Prénom");
-        Creater.createLabeledTextField(frame, "Nationalité");
-        Creater.createLabeledTextField(frame, "Date de naissance");
-        Creater.createLabeledTextField(frame, "Biographie");
-        Creater.createLabeledTextField(frame, styleLabel);
-    }
-
-    /**
-     * Saves a new person (Author or Illustrator) to the system.
-     * <p>
-     * This method collects data from form fields and passes it to the appropriate writer method
-     * based on whether the person is an Author or an Illustrator. Upon successful addition,
-     * it displays a confirmation message and closes the input form.
-     * </p>
-     *
-     * @param isAuthor          True if the person is an Author, false if an Illustrator
-     * @param frame             The parent frame for displaying messages and closing upon completion
-     * @param nameField         Text field containing the person's name
-     * @param surnameField      Text field containing the person's surname
-     * @param nationalityField  Text field containing the person's nationality
-     * @param dobField          Text field containing the person's date of birth
-     * @param bioField          Text field containing the person's biography
-     * @param styleField        Text field containing the person's specific style
-     *                          (writing style for Authors, illustration style for Illustrators)
-     */
-    private static void savePerson(boolean isAuthor, JFrame frame, JTextField nameField,
-                                   JTextField surnameField, JTextField nationalityField,
-                                   JTextField dobField, JTextField bioField, JTextField styleField) {
-        if (isAuthor) {
-            Writer.writePersonFile(nameField.getText(), surnameField.getText(), nationalityField.getText(),
-                    dobField.getText(), bioField.getText(), styleField.getText(), Author.class, "authors.json");
-            JOptionPane.showMessageDialog(frame, "Auteur ajouté avec succès!");
-
-        } else {
-            Writer.writePersonFile(nameField.getText(), surnameField.getText(), nationalityField.getText(),
-                    dobField.getText(), bioField.getText(), styleField.getText(), Illustrator.class, "illustrators.json");
-            JOptionPane.showMessageDialog(frame, "Illustrateur ajouté avec succès!");
-        }
-        frame.dispose();
     }
 }
