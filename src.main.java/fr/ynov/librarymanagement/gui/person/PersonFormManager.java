@@ -4,15 +4,11 @@ import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.factory.Writer;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.gui.GuiManager.showError;
+import static fr.ynov.librarymanagement.gui.UiUtils.*;
 
 public class PersonFormManager {
 
@@ -26,30 +22,37 @@ public class PersonFormManager {
      * @param isAuthor true if the person is an author, false if an illustrator
      */
     public static void openAddPersonWindow(boolean isAuthor) {
-        String personType = isAuthor ? "Auteur" : "Illustrateur";
-        String styleLabel = isAuthor ? "Style d'écriture:" : "Style d'illustration:";
-
-        JFrame addPersonFrame = new JFrame("Ajouter un " + personType);
-        addPersonFrame.setSize(400, 400);
+        JFrame addPersonFrame = new JFrame(isAuthor ? "Ajouter un Auteur" : "Ajouter un Illustrateur");
+        addPersonFrame.setSize(500, 600);
         addPersonFrame.setLayout(new GridLayout(7, 2, 10, 10));
 
-        JTextField nameField = new JTextField();
-        JTextField surnameField = new JTextField();
-        JTextField nationalityField = new JTextField();
-        JTextField dobField = new JTextField();
-        JTextField bioField = new JTextField();
-        JTextField styleField = new JTextField();
-        JButton addButton = new JButton("Ajouter");
+        JTextField nameField = createLabeledTextField(addPersonFrame, "Nom");
+        JTextField surnameField = createLabeledTextField(addPersonFrame, "Prénom");
+        JTextField nationalityField = createLabeledTextField(addPersonFrame, "Nationalité");
+        JTextField dateOfBirthField = createLabeledTextField(addPersonFrame, "Date de naissance");
+        JTextArea biographyField = createLabeledTextArea(addPersonFrame, "Biographie", 5, 20);
+        JTextField styleField = createLabeledTextField(addPersonFrame,
+                isAuthor ? "Style d'écriture" : "Style d'illustration");
 
-        addFieldsToFrame(addPersonFrame, nameField, surnameField, nationalityField, dobField, bioField, styleField, styleLabel);
-        addPersonFrame.add(addButton);
-
-        addButton.addActionListener(e -> {
+        addButtonToFrame(addPersonFrame, "Ajouter", e -> {
             try {
-                savePerson(isAuthor, addPersonFrame, nameField, surnameField, nationalityField,
-                        dobField, bioField, styleField);
+                String name = nameField.getText();
+                String surname = surnameField.getText();
+                String nationality = nationalityField.getText();
+                String dateOfBirth = dateOfBirthField.getText();
+                String biography = biographyField.getText();
+                String style = styleField.getText();
+
+                String filename = isAuthor ? "authors.json" : "illustrators.json";
+                Class<?> personClass = isAuthor ? Author.class : Illustrator.class;
+
+                Writer.writePersonFile(name, surname, nationality, dateOfBirth, biography, style,
+                        (Class)personClass, filename);
+
+                showSuccessAndClose(addPersonFrame,
+                        isAuthor ? "Auteur ajouté avec succès!" : "Illustrateur ajouté avec succès!");
             } catch (Exception ex) {
-                showError(addPersonFrame);
+                showError(addPersonFrame, ex);
             }
         });
 
@@ -77,18 +80,12 @@ public class PersonFormManager {
     private static void addFieldsToFrame(JFrame frame, JTextField nameField, JTextField surnameField,
                                          JTextField nationalityField, JTextField dobField,
                                          JTextField bioField, JTextField styleField, String styleLabel) {
-        frame.add(new JLabel("Nom:"));
-        frame.add(nameField);
-        frame.add(new JLabel("Prénom:"));
-        frame.add(surnameField);
-        frame.add(new JLabel("Nationalité:"));
-        frame.add(nationalityField);
-        frame.add(new JLabel("Date de naissance:"));
-        frame.add(dobField);
-        frame.add(new JLabel("Biographie:"));
-        frame.add(bioField);
-        frame.add(new JLabel(styleLabel));
-        frame.add(styleField);
+        createLabeledTextField(frame, "Nom");
+        createLabeledTextField(frame, "Prénom");
+        createLabeledTextField(frame, "Nationalité");
+        createLabeledTextField(frame, "Date de naissance");
+        createLabeledTextField(frame, "Biographie");
+        createLabeledTextField(frame, styleLabel);
     }
 
     /**

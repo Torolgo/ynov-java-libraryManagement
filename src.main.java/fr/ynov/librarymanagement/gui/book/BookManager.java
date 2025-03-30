@@ -1,9 +1,9 @@
 package fr.ynov.librarymanagement.gui.book;
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import java.awt.GridLayout;
-import java.util.function.Consumer;
+
+import static fr.ynov.librarymanagement.gui.UiUtils.addButtonToFrame;
 
 public class BookManager {
 
@@ -40,27 +40,10 @@ public class BookManager {
         addBookTypeFrame.setSize(400, 200);
         addBookTypeFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        addButtonToFrame(addBookTypeFrame, "Ajouter un Manga", e -> BookFormManager.openAddMangaWindow());
-        addButtonToFrame(addBookTypeFrame, "Ajouter un Roman", e -> BookFormManager.openAddNovelWindow());
-        addButtonToFrame(addBookTypeFrame, "Ajouter une BD", e -> BookFormManager.openAddBdWindow());
+        addButtonToFrame(addBookTypeFrame, "Ajouter un Manga", e -> BookFormManager.openAddBookWindow("manga"));
+        addButtonToFrame(addBookTypeFrame, "Ajouter un Roman", e -> BookFormManager.openAddBookWindow("novel"));
+        addButtonToFrame(addBookTypeFrame, "Ajouter une BD", e -> BookFormManager.openAddBookWindow("bd"));
 
         addBookTypeFrame.setVisible(true);
-    }
-
-    /**
-     * Adds a button to the specified frame with the given action.
-     * <p>
-     * This method creates a JButton with the specified text and adds it to the provided frame.
-     * The button is configured to perform the specified action when clicked.
-     * </p>
-     *
-     * @param frame      The JFrame to which the button will be added
-     * @param buttonText The text to display on the button
-     * @param action     The action to perform when the button is clicked
-     */
-    static void addButtonToFrame(JFrame frame, String buttonText, Consumer<java.awt.event.ActionEvent> action) {
-        JButton button = new JButton(buttonText);
-        button.addActionListener(action::accept);
-        frame.add(button);
     }
 }

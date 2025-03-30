@@ -10,12 +10,9 @@ import fr.ynov.librarymanagement.domain.Novel;
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Writer;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
@@ -24,113 +21,96 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreatePerson;
-import static fr.ynov.librarymanagement.gui.GuiManager.showError;
+import static fr.ynov.librarymanagement.gui.UiUtils.*;
 
 
 public class BookFormManager {
 
     /**
-     * Opens a form window for adding a new manga to the library.
+     * Ouvre une fenêtre pour ajouter un nouveau livre (Roman, Manga ou BD).
      * <p>
-     * This method creates and displays a form with fields for entering manga details.
-     * It includes fields for title, author, genre (as a dropdown), year, pages, and sub-genre.
-     * When the user submits the form, it creates a new manga entry using the BookWriter
-     * and displays a success message if the operation completes without errors.
+     * Cette méthode crée et affiche un formulaire pour saisir les détails du livre selon son type.
+     * Les champs communs incluent titre, auteur, genre, année et nombre de pages.
+     * Des champs spécifiques sont ajoutés selon le type:
+     * - Roman: chapitres
+     * - Manga: sous-genre
+     * - BD: illustrateur et style d'illustration
      * </p>
+     *
+     * @param bookType Le type de livre à ajouter ("novel", "manga" ou "bd")
      */
-    public static void openAddMangaWindow() {
-        Map<String, String> additionalFields = Map.of("subGenre", "Sous-genre");
+    public static void openAddBookWindow(String bookType) {
+        String windowTitle;
+        Map<String, String> additionalFields = new HashMap<>();
 
-        createBookWindow("Ajouter un Manga", 7, fields -> {
+        switch (bookType) {
+            case "novel":
+                windowTitle = "Ajouter un Roman";
+                additionalFields.put("chapters", "Chapitres");
+                break;
+            case "manga":
+                windowTitle = "Ajouter un Manga";
+                additionalFields.put("subGenre", "Sous-genre");
+                break;
+            case "bd":
+                windowTitle = "Ajouter une BD";
+                additionalFields.put("illustrator", "Illustrateur");
+                additionalFields.put("illustrationStyle", "Style d'illustration");
+                break;
+            default:
+                throw new IllegalArgumentException("Type de livre non reconnu: " + bookType);
+        }
+
+        int rows = bookType.equals("bd") ? 8 : 7;
+
+        createBookWindow(windowTitle, rows, fields -> {
             try {
                 String title = ((JTextField)fields.get("title")).getText();
                 Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
                 Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
-                String subGenre = ((JTextField)fields.get("subGenre")).getText();
 
-                Writer.writeBookFile(
-                        () -> new Manga(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, subGenre),
-                        "mangas.json",
-                        Manga.class
-                );
-                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Manga ajouté avec succès!");
+                String successMessage;
+                String filename;
+
+                switch (bookType) {
+                    case "novel":
+                        int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
+                        Writer.writeBookFile(
+                                () -> new Novel(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, chapters),
+                                "novels.json",
+                                Novel.class
+                        );
+                        successMessage = "Roman ajouté avec succès!";
+                        break;
+                    case "manga":
+                        String subGenre = ((JTextField)fields.get("subGenre")).getText();
+                        Writer.writeBookFile(
+                                () -> new Manga(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, subGenre),
+                                "mangas.json",
+                                Manga.class
+                        );
+                        successMessage = "Manga ajouté avec succès!";
+                        break;
+                    case "bd":
+                        String illustratorName = ((JTextField)fields.get("illustrator")).getText();
+                        String illustrationStyle = ((JTextField)fields.get("illustrationStyle")).getText();
+                        Illustrator illustrator = findOrCreatePerson(illustratorName, Illustrator.class, illustrationStyle);
+                        Writer.writeBookFile(
+                                () -> new Bd(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, illustrator, illustrationStyle),
+                                "bds.json",
+                                Bd.class
+                        );
+                        successMessage = "BD ajoutée avec succès!";
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Type de livre non reconnu");
+                }
+
+                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), successMessage);
             } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor());
-            }
-        }, additionalFields);
-    }
-
-    /**
-     * Opens a form window for adding a new novel to the library.
-     * <p>
-     * This method creates and displays a form with fields for entering novel details.
-     * It includes fields for title, author, genre (as a dropdown), year, pages, and chapters.
-     * When the user submits the form, it creates a new novel entry using the BookWriter
-     * and displays a success message if the operation completes without errors.
-     * </p>
-     */
-    public static void openAddNovelWindow() {
-        Map<String, String> additionalFields = Map.of("chapters", "Chapitres");
-
-        createBookWindow("Ajouter un Roman", 7, fields -> {
-            try {
-                String title = ((JTextField)fields.get("title")).getText();
-                Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
-                Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
-                int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
-                int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
-                int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
-
-                Writer.writeBookFile(
-                        () -> new Novel(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, chapters),
-                        "novels.json",
-                        Novel.class
-                );
-                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "Roman ajouté avec succès!");
-            } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor());
-            }
-        }, additionalFields);
-    }
-
-    /**
-     * Opens a form window for adding a new BD (comic book) to the library.
-     * <p>
-     * This method creates and displays a form with fields for entering BD details.
-     * It includes fields for title, author, genre (as a dropdown), year, pages, illustrator, and illustration style.
-     * When the user submits the form, it creates a new BD entry using the BookWriter
-     * and displays a success message if the operation completes without errors.
-     * </p>
-     */
-    public static void openAddBdWindow() {
-        Map<String, String> additionalFields = Map.of(
-                "illustrator", "Illustrateur",
-                "illustrationStyle", "Style d'illustration"
-        );
-
-        createBookWindow("Ajouter une BD", 8, fields -> {
-            try {
-                String title = ((JTextField)fields.get("title")).getText();
-                Author author = findOrCreatePerson(((JTextField)fields.get("author")).getText(), Author.class, "");
-
-                String illustratorName = ((JTextField)fields.get("illustrator")).getText();
-                String illustrationStyle = ((JTextField)fields.get("illustrationStyle")).getText();
-                Illustrator illustrator = findOrCreatePerson(illustratorName, Illustrator.class, illustrationStyle);
-
-                Genre genre = (Genre) ((JComboBox<?>)fields.get("genre")).getSelectedItem();
-                int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
-                int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
-
-                Writer.writeBookFile(
-                        () -> new Bd(BookFactory.getNextAvailableBookId(), title, author, genre, year, pages, illustrator, illustrationStyle),
-                        "bds.json",
-                        Bd.class
-                );
-                showSuccessAndClose((JFrame)fields.get("title").getTopLevelAncestor(), "BD ajoutée avec succès!");
-            } catch (Exception ex) {
-                showError((JFrame)fields.get("title").getTopLevelAncestor());
+                showError(fields.get("title").getTopLevelAncestor(), ex);
             }
         }, additionalFields);
     }
@@ -155,13 +135,11 @@ public class BookFormManager {
         frame.setSize(400, 400);
         frame.setLayout(new GridLayout(rows, 2, 10, 10));
 
-        JTextField titleField = new JTextField();
-        JTextField authorField = new JTextField();
-        JComboBox<Genre> genreComboBox = createGenreComboBox();
-        JTextField yearField = new JTextField();
-        JTextField pagesField = new JTextField();
-
-        addFieldsToFrame(frame, titleField, authorField, genreComboBox, yearField, pagesField);
+        JTextField titleField = createLabeledTextField(frame, "Titre");
+        JTextField authorField = createLabeledTextField(frame, "Auteur");
+        JComboBox<Genre> genreComboBox = createLabeledComboBox(frame, "Genre", Genre.values());
+        JTextField yearField = createLabeledTextField(frame, "Année");
+        JTextField pagesField = createLabeledTextField(frame, "Pages");
 
         Map<String, JComponent> allFields = new HashMap<>();
         allFields.put("title", titleField);
@@ -172,75 +150,19 @@ public class BookFormManager {
 
         Map<String, JTextField> additionalJFields = new HashMap<>();
         for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
-            JTextField field = new JTextField();
-            frame.add(new JLabel(entry.getValue() + ":"));
-            frame.add(field);
+            JTextField field = createLabeledTextField(frame, entry.getValue());
             additionalJFields.put(entry.getKey(), field);
             allFields.put(entry.getKey(), field);
         }
 
-        JButton addButton = new JButton("Ajouter");
-        frame.add(addButton);
-
-        addButton.addActionListener(e -> {
+        addButtonToFrame(frame, "Ajouter", e -> {
             try {
                 onAdd.accept(allFields);
             } catch (Exception ex) {
-                showError(frame);
+                showError(frame, ex);
             }
         });
 
         frame.setVisible(true);
-    }
-
-    /**
-     * Creates a dropdown combobox containing all values of the Genre enum.
-     *
-     * @return A JComboBox containing all Genre values
-     */
-    private static JComboBox<Genre> createGenreComboBox() {
-        return new JComboBox<>(Genre.values());
-    }
-
-    /**
-     * Adds common fields to the book form frame.
-     * <p>
-     * This method adds labels and input fields for title, author, genre, year, and pages
-     * to the provided JFrame. It is used to set up the layout of the book form window.
-     * </p>
-     *
-     * @param frame        The JFrame to which the fields will be added
-     * @param titleField   The text field for the book title
-     * @param authorField  The text field for the author's name
-     * @param genreComboBox The dropdown for the book genre
-     * @param yearField    The text field for the publication year
-     * @param pagesField   The text field for the number of pages
-     */
-    private static void addFieldsToFrame(JFrame frame, JTextField titleField, JTextField authorField,
-                                         JComboBox<Genre> genreComboBox, JTextField yearField, JTextField pagesField) {
-        frame.add(new JLabel("Titre:"));
-        frame.add(titleField);
-        frame.add(new JLabel("Auteur:"));
-        frame.add(authorField);
-        frame.add(new JLabel("Genre:"));
-        frame.add(genreComboBox);
-        frame.add(new JLabel("Année:"));
-        frame.add(yearField);
-        frame.add(new JLabel("Pages:"));
-        frame.add(pagesField);
-    }
-
-    /**
-     * Displays a success message and closes the frame.
-     * <p>
-     * This method shows a message dialog with the provided message and then disposes of the frame.
-     * </p>
-     *
-     * @param frame   The JFrame to be closed
-     * @param message The success message to be displayed
-     */
-    static void showSuccessAndClose(JFrame frame, String message) {
-        JOptionPane.showMessageDialog(frame, message);
-        frame.dispose();
     }
 }

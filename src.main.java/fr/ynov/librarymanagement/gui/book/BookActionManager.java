@@ -6,7 +6,7 @@ import fr.ynov.librarymanagement.domain.Manga;
 import fr.ynov.librarymanagement.domain.Novel;
 import fr.ynov.librarymanagement.factory.Updater;
 
-import static fr.ynov.librarymanagement.gui.book.BookDisplayManager.addDetailRow;
+import static fr.ynov.librarymanagement.gui.UiUtils.addDetailRow;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -66,6 +66,7 @@ public class BookActionManager {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        addDetailRow(panel, "ID", String.valueOf(book.getId()));
         addDetailRow(panel, "Titre", book.getTitle());
         addDetailRow(panel, "Auteur", book.getAuthor().getNameAndSurname());
         addDetailRow(panel, "Genre", book.getGenre().toString());

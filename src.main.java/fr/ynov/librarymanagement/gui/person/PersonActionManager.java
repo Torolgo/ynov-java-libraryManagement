@@ -16,6 +16,10 @@ import javax.swing.BoxLayout;
 
 import java.awt.BorderLayout;
 
+import static fr.ynov.librarymanagement.factory.Updater.updateBiography;
+import static fr.ynov.librarymanagement.gui.UiUtils.addDetailRow;
+import static fr.ynov.librarymanagement.gui.UiUtils.showSuccessAndClose;
+
 public class PersonActionManager {
 
     /**
@@ -62,17 +66,17 @@ public class PersonActionManager {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        PersonDisplayManager.addDetailRow(panel, "ID", String.valueOf(person.getId()));
-        PersonDisplayManager.addDetailRow(panel, "Nom", person.getNameAndSurname());
-        PersonDisplayManager.addDetailRow(panel, "Date de naissance", person.getDateOfBirth());
-        PersonDisplayManager.addDetailRow(panel, "Biographie", person.getBiography());
+        addDetailRow(panel, "ID", String.valueOf(person.getId()));
+        addDetailRow(panel, "Nom", person.getNameAndSurname());
+        addDetailRow(panel, "Date de naissance", person.getDateOfBirth());
+        addDetailRow(panel, "Biographie", person.getBiography());
 
         if (isAuthor) {
             Author author = (Author) person;
-            PersonDisplayManager.addDetailRow(panel, "Style d'écriture", author.getWritingStyle());
+            addDetailRow(panel, "Style d'écriture", author.getWritingStyle());
         } else {
             Illustrator illustrator = (Illustrator) person;
-            PersonDisplayManager.addDetailRow(panel, "Style d'illustration", illustrator.getIllustrationStyle());
+            addDetailRow(panel, "Style d'illustration", illustrator.getIllustrationStyle());
         }
 
         return panel;
@@ -99,9 +103,8 @@ public class PersonActionManager {
 
         JButton updateButton = new JButton("Mettre à jour");
         updateButton.addActionListener(e -> {
-            fr.ynov.librarymanagement.factory.Updater.updateBiography(person, bioTextArea.getText());
-            JOptionPane.showMessageDialog(parentFrame, "Biographie mise à jour!");
-            parentFrame.dispose();
+            updateBiography(person, bioTextArea.getText());
+            showSuccessAndClose(parentFrame, "Biographie mise à jour!");
             showPersonDetails(person);
         });
 

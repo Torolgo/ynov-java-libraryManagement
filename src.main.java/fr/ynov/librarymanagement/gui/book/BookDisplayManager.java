@@ -7,15 +7,12 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Font;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
@@ -108,27 +105,5 @@ public class BookDisplayManager {
         });
 
         return list;
-    }
-
-    /**
-     * Adds a detail row to the given panel.
-     * <p>
-     * This method creates a new row with a label and value, and adds it to the specified panel.
-     * The label is displayed in bold font for emphasis.
-     * </p>
-     *
-     * @param panel  The panel to which the detail row will be added
-     * @param label  The label for the detail row
-     * @param value  The value corresponding to the label
-     */
-    static void addDetailRow(JPanel panel, String label, String value) {
-        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel labelComponent = new JLabel(label + ":");
-        labelComponent.setFont(new Font("Arial", Font.BOLD, 12));
-        JLabel valueComponent = new JLabel(value);
-
-        rowPanel.add(labelComponent);
-        rowPanel.add(valueComponent);
-        panel.add(rowPanel);
     }
 }

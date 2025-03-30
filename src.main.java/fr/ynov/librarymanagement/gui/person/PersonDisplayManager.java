@@ -12,12 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JFrame;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Font;
 
 import java.util.List;
 
@@ -100,27 +97,5 @@ public class PersonDisplayManager {
             }
         });
         return personJList;
-    }
-
-    /**
-     * Adds a detail row to a panel with a label and value.
-     * <p>
-     * This method creates a new row in the specified panel, containing a label and its corresponding value.
-     * The label is styled with bold font for better visibility.
-     * </p>
-     *
-     * @param panel  The panel to which the detail row will be added
-     * @param label  The label text to display
-     * @param value  The value text to display
-     */
-    static void addDetailRow(JPanel panel, String label, String value) {
-        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel labelComponent = new JLabel(label + ":");
-        labelComponent.setFont(new Font("Arial", Font.BOLD, 12));
-        JLabel valueComponent = new JLabel(value);
-
-        rowPanel.add(labelComponent);
-        rowPanel.add(valueComponent);
-        panel.add(rowPanel);
     }
 }

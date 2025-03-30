@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 
+import static fr.ynov.librarymanagement.gui.UiUtils.addButtonToFrame;
+
 public class LoanManager {
 
     /**
@@ -20,14 +22,9 @@ public class LoanManager {
         loanFrame.setSize(400, 300);
         loanFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton btnTakeBook = new JButton("Emprunter un Livre");
-        JButton btnReturnBook = new JButton("Retourner un Livre");
+        addButtonToFrame(loanFrame, "Emprunter un Livre", e -> LoanWindowManager.openTakeBookWindow());
+        addButtonToFrame(loanFrame, "Retourner un Livre", e -> LoanWindowManager.openReturnBookWindow());
 
-        btnTakeBook.addActionListener(e -> LoanWindowManager.openTakeBookWindow());
-        btnReturnBook.addActionListener(e -> LoanWindowManager.openReturnBookWindow());
-
-        loanFrame.add(btnTakeBook);
-        loanFrame.add(btnReturnBook);
         loanFrame.setVisible(true);
     }
 }

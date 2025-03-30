@@ -5,67 +5,45 @@ import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Updater;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
+import static fr.ynov.librarymanagement.gui.UiUtils.*;
 
 public class LoanBookProcessor {
 
     /**
-     * Processes a book borrowing request using the book's ID.
-     * <p>
-     * This method searches for a book with the specified ID in the book collection.
-     * If found, it checks if the book is available for borrowing. If available,
-     * the book's status is updated to borrowed, and a success message is displayed.
-     * If the book is already borrowed or not found, an appropriate message is shown.
-     * </p>
+     * Traite une demande d'emprunt ou de retour de livre.
      *
-     * @param id          The unique identifier of the book to borrow
-     * @param parentFrame The parent frame from which this action was triggered
+     * @param id L'identifiant du livre
+     * @param isBorrow true pour un emprunt, false pour un retour
+     * @param parentFrame La fenêtre parente
      */
-    static void processBorrowBook(int id, JFrame parentFrame) {
+    static void processBookAction(int id, boolean isBorrow, JFrame parentFrame) {
         for (Book book : BookFactory.getBookList()) {
             if (book.getId() == id) {
-                if (book.isTaken()) {
-                    JOptionPane.showMessageDialog(parentFrame, "Ce livre est déjà emprunté!",
-                            "Information", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                book.takeBook();
-                Updater.updateBookStatus(book);
-                JOptionPane.showMessageDialog(parentFrame, "Livre emprunté avec succès!");
-                parentFrame.dispose();
-                return;
-            }
-        }
-        JOptionPane.showMessageDialog(parentFrame, "Livre non trouvé!", "Erreur", JOptionPane.ERROR_MESSAGE);
-    }
+                boolean currentlyTaken = book.isTaken();
 
-    /**
-     * Processes the return of a book by its ID.
-     * <p>
-     * This method searches for a book with the specified ID in the book collection.
-     * If found, it checks if the book is currently borrowed. If borrowed,
-     * the book's status is updated to available, and a success message is displayed.
-     * If the book is not borrowed or not found, an appropriate message is shown.
-     * </p>
-     *
-     * @param id          The unique identifier of the book to return
-     * @param parentFrame The parent frame from which this action was triggered
-     */
-    static void processReturnBook(int id, JFrame parentFrame) {
-        for (Book book : BookFactory.getBookList()) {
-            if (book.getId() == id) {
-                if (!book.isTaken()) {
-                    JOptionPane.showMessageDialog(parentFrame, "Ce livre n'est pas emprunté!",
-                            "Information", JOptionPane.INFORMATION_MESSAGE);
+                if (isBorrow && currentlyTaken) {
+                    showError(parentFrame, new Exception("Ce livre est déjà emprunté!"));
                     return;
                 }
-                book.returnBook();
+
+                if (!isBorrow && !currentlyTaken) {
+                    showError(parentFrame, new Exception("Ce livre n'est pas emprunté!"));
+                    return;
+                }
+
+                if (isBorrow) {
+                    book.takeBook();
+                } else {
+                    book.returnBook();
+                }
+
                 Updater.updateBookStatus(book);
-                JOptionPane.showMessageDialog(parentFrame, "Livre retourné avec succès!");
-                parentFrame.dispose();
+                showSuccessAndClose(parentFrame,
+                        isBorrow ? "Livre emprunté avec succès!" : "Livre retourné avec succès!");
                 return;
             }
         }
-        JOptionPane.showMessageDialog(parentFrame, "Livre non trouvé!", "Erreur", JOptionPane.ERROR_MESSAGE);
+        showError(parentFrame, new Exception("Livre non trouvé!"));
     }
 }

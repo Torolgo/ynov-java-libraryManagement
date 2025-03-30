@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 
+import static fr.ynov.librarymanagement.gui.UiUtils.addButtonToFrame;
+
 public class PersonManager {
 
     /**
@@ -15,19 +17,14 @@ public class PersonManager {
      * management windows for further operations.
      * </p>
      */
-    public static void openAuthorWindow() {
+    public static void openPersonWindows() {
         JFrame authorFrame = new JFrame("Gérer les Auteurs et Illustrateurs");
         authorFrame.setSize(400, 300);
         authorFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton btnAddPerson = new JButton("Ajouter une Personne");
-        JButton btnViewAuthors = new JButton("Consulter les Auteurs");
+        addButtonToFrame(authorFrame, "Ajouter un Auteur/Illustrateur", e -> openAddPersonTypeWindow());
+        addButtonToFrame(authorFrame, "Consulter les Auteurs/Illustrateurs", e -> PersonDisplayManager.viewPersonsList());
 
-        btnAddPerson.addActionListener(e -> openAddPersonTypeWindow());
-        btnViewAuthors.addActionListener(e -> PersonDisplayManager.viewPersonsList());
-
-        authorFrame.add(btnAddPerson);
-        authorFrame.add(btnViewAuthors);
         authorFrame.setVisible(true);
     }
 
@@ -45,14 +42,8 @@ public class PersonManager {
         addPersonTypeFrame.setSize(400, 200);
         addPersonTypeFrame.setLayout(new GridLayout(2, 1, 10, 10));
 
-        JButton btnAddAuthor = new JButton("Ajouter un Auteur");
-        JButton btnAddIllustrator = new JButton("Ajouter un Illustrateur");
-
-        btnAddAuthor.addActionListener(e -> PersonFormManager.openAddPersonWindow(true));
-        btnAddIllustrator.addActionListener(e -> PersonFormManager.openAddPersonWindow(false));
-
-        addPersonTypeFrame.add(btnAddAuthor);
-        addPersonTypeFrame.add(btnAddIllustrator);
+        addButtonToFrame(addPersonTypeFrame, "Ajouter un Auteur", e -> PersonFormManager.openAddPersonWindow(true));
+        addButtonToFrame(addPersonTypeFrame, "Ajouter un Illustrateur", e -> PersonFormManager.openAddPersonWindow(false));
 
         addPersonTypeFrame.setVisible(true);
     }
