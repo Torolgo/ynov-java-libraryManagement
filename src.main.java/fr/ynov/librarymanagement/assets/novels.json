@@ -1,3 +1,38 @@
 [
-
+  {
+    "chapters": 48,
+    "id": 1,
+    "title": "Les Misérables",
+    "author": {
+      "writingStyle": "Romantisme",
+      "id": 1,
+      "name": "Victor",
+      "surname": "Hugo",
+      "nationality": "Française",
+      "dateOfBirth": "26 février 1802",
+      "biography": "Victor Hugo est un poète, dramaturge et romancier français considéré comme l\u0027un des plus importants écrivains de langue française."
+    },
+    "genre": "DRAMA",
+    "year": 1862,
+    "pages": 1900,
+    "taken": true
+  },
+  {
+    "chapters": 49,
+    "id": 2,
+    "title": "Kafka sur le rivage",
+    "author": {
+      "writingStyle": "Réalisme magique",
+      "id": 3,
+      "name": "Haruki",
+      "surname": "Murakami",
+      "nationality": "Japonaise",
+      "dateOfBirth": "12 janvier 1949",
+      "biography": "Écrivain japonais dont les œuvres mêlent réalisme et fantastique, abordant la solitude et la quête d\u0027identité."
+    },
+    "genre": "FANTASY",
+    "year": 2002,
+    "pages": 592,
+    "taken": false
+  }
 ]

@@ -1,3 +1,65 @@
 [
-
+  {
+    "writingStyle": "Romantisme",
+    "id": 1,
+    "name": "Victor",
+    "surname": "Hugo",
+    "nationality": "Française",
+    "dateOfBirth": "26 février 1802",
+    "biography": "Victor Hugo est un poète, dramaturge et romancier français considéré comme l\u0027un des plus importants écrivains de langue française."
+  },
+  {
+    "writingStyle": "Contemporain",
+    "id": 2,
+    "name": "Amélie",
+    "surname": "Nothomb",
+    "nationality": "Belge",
+    "dateOfBirth": "13 août 1967",
+    "biography": "Écrivaine belge prolifique connue pour son style unique et ses romans autobiographiques."
+  },
+  {
+    "writingStyle": "Réalisme magique",
+    "id": 3,
+    "name": "Haruki",
+    "surname": "Murakami",
+    "nationality": "Japonaise",
+    "dateOfBirth": "12 janvier 1949",
+    "biography": "Écrivain japonais dont les œuvres mêlent réalisme et fantastique, abordant la solitude et la quête d\u0027identité."
+  },
+  {
+    "writingStyle": "Ligne claire",
+    "id": 4,
+    "name": "Hergé",
+    "surname": "Georges Remi",
+    "nationality": "Belge",
+    "dateOfBirth": "22 mai 1907",
+    "biography": "Auteur et illustrateur belge, principalement connu pour Les Aventures de Tintin."
+  },
+  {
+    "writingStyle": "Polar noir",
+    "id": 11,
+    "name": "Juan",
+    "surname": "Díaz Canales",
+    "nationality": "Espagnole",
+    "dateOfBirth": "1972",
+    "biography": "Scénariste espagnol de bande dessinée."
+  },
+  {
+    "writingStyle": "Shonen",
+    "id": 12,
+    "name": "Akira",
+    "surname": "Toriyama",
+    "nationality": "Japonais",
+    "dateOfBirth": "5 avril 1955",
+    "biography": "Mangaka japonais, créateur de Dragon Ball et Dr. Slump."
+  },
+  {
+    "writingStyle": "Shonen",
+    "id": 13,
+    "name": "Eiichiro",
+    "surname": "Oda",
+    "nationality": "Japonais",
+    "dateOfBirth": " janvier 1975",
+    "biography": "Mangaka japonais, créateur de la série au long cours One Piece."
+  }
 ]

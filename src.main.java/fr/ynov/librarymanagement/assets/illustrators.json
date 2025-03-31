@@ -1,3 +1,20 @@
 [
-
+  {
+    "illustrationStyle": "Ligne claire",
+    "id": 5,
+    "name": "Hergé",
+    "surname": "Georges Remi",
+    "nationality": "Belge",
+    "dateOfBirth": "22 mai 1907",
+    "biography": "Auteur et illustrateur belge, principalement connu pour Les Aventures de Tintin."
+  },
+  {
+    "illustrationStyle": "Réalisme animalier",
+    "id": 6,
+    "name": "Juanjo",
+    "surname": "Guarnido",
+    "nationality": "Guarnido",
+    "dateOfBirth": "1967",
+    "biography": "Illustrateur espagnol, connu pour la série Blacksad et son travail chez Disney."
+  }
 ]

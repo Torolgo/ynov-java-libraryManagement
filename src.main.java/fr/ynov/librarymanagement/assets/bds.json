@@ -1,0 +1,56 @@
+[
+  {
+    "illustrator": {
+      "illustrationStyle": "Ligne claire",
+      "id": 5,
+      "name": "Hergé",
+      "surname": "Georges Remi",
+      "nationality": "Belge",
+      "dateOfBirth": "22 mai 1907",
+      "biography": "Auteur et illustrateur belge, principalement connu pour Les Aventures de Tintin."
+    },
+    "illustrationStyle": "Ligne claire",
+    "id": 5,
+    "title": "Les Aventures de Tintin: Le Secret de la Licorne",
+    "author": {
+      "writingStyle": "Ligne claire",
+      "id": 4,
+      "name": "Hergé",
+      "surname": "Georges Remi",
+      "nationality": "Belge",
+      "dateOfBirth": "22 mai 1907",
+      "biography": "Auteur et illustrateur belge, principalement connu pour Les Aventures de Tintin."
+    },
+    "genre": "FANTASY",
+    "year": 1943,
+    "pages": 62,
+    "taken": true
+  },
+  {
+    "illustrator": {
+      "illustrationStyle": "Réalisme animalier",
+      "id": 6,
+      "name": "Juanjo",
+      "surname": "Guarnido",
+      "nationality": "Guarnido",
+      "dateOfBirth": "1967",
+      "biography": "Illustrateur espagnol, connu pour la série Blacksad et son travail chez Disney."
+    },
+    "illustrationStyle": "Réalisme animalier",
+    "id": 6,
+    "title": "Blacksad: Quelque part entre les ombres",
+    "author": {
+      "writingStyle": "Polar noir",
+      "id": 11,
+      "name": "Juan",
+      "surname": "Díaz Canales",
+      "nationality": "Espagnole",
+      "dateOfBirth": "1972",
+      "biography": "Scénariste espagnol de bande dessinée."
+    },
+    "genre": "DETECTIVE",
+    "year": 2000,
+    "pages": 56,
+    "taken": false
+  }
+]

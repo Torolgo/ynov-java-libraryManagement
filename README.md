@@ -82,6 +82,7 @@ The GUI is built using Java Swing and organized into three main sections:
 3. **Loan Management**: Borrowing and returning books
 
 ### Class diagram
+The class diagram illustrates the relationships between the main classes in the project. It includes the following key classes:
 <img src="diagram.png" alt="Diagram" width="500"/>
 
 ## Use

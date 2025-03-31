@@ -1,0 +1,38 @@
+[
+  {
+    "subGenre": "Shonen",
+    "id": 7,
+    "title": "Dragon Ball",
+    "author": {
+      "writingStyle": "Shonen",
+      "id": 12,
+      "name": "Akira",
+      "surname": "Toriyama",
+      "nationality": "Japonais",
+      "dateOfBirth": "5 avril 1955",
+      "biography": "Mangaka japonais, créateur de Dragon Ball et Dr. Slump."
+    },
+    "genre": "FANTASY",
+    "year": 1984,
+    "pages": 8000,
+    "taken": true
+  },
+  {
+    "subGenre": "Shonen",
+    "id": 8,
+    "title": "One Piece",
+    "author": {
+      "writingStyle": "Shonen",
+      "id": 13,
+      "name": "Eiichiro",
+      "surname": "Oda",
+      "nationality": "Japonais",
+      "dateOfBirth": " janvier 1975",
+      "biography": "Mangaka japonais, créateur de la série au long cours One Piece."
+    },
+    "genre": "ADVENTURE",
+    "year": 1997,
+    "pages": 20000,
+    "taken": false
+  }
+]
