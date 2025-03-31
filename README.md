@@ -1,6 +1,6 @@
 # Library Management System
 
-## Project Overview
+## 📚 Project Overview
 
 ### Introduction
 
@@ -30,7 +30,7 @@ The primary objectives of this system are to:
     - Return borrowed books
     - Track loan status
 
-## Getting Started
+## 🛠️ Getting Started
 
 ### Prerequisites
 
@@ -54,7 +54,7 @@ The primary objectives of this system are to:
         - Click on the "+" icon and select "Java" to add the Gson jar file
 4. Run the `ApplicationRunner` class to start the application
 
-## Technical Architecture
+## 💻 Technical Architecture
 
 ### Package Organization
 
@@ -83,9 +83,11 @@ The GUI is built using Java Swing and organized into three main sections:
 
 ### Class diagram
 The class diagram illustrates the relationships between the main classes in the project. It includes the following key classes:
-<img src="diagram.png" alt="Diagram" width="500"/>
+<p align="center">
+  <img src="diagram.png" alt="Class Diagram" width="500"/>
+</p>
 
-## Use
+## ▶️ Use
 
 ### Main interface: The main window offers three options:
 Manage Authors/Illustrators
