@@ -1,13 +1,27 @@
 package fr.ynov.librarymanagement.domain;
 
 public abstract class Person {
-    protected int id;
-    protected String name;
-    protected String surname;
-    protected String nationality;
-    protected String dateOfBirth;
+    protected final int id;
+    protected final String name;
+    protected final String surname;
+    protected final String nationality;
+    protected final String dateOfBirth;
     protected String biography;
 
+    /**
+     * Constructs a new Person with the specified attributes.
+     * <p>
+     * This constructor initializes a Person object with personal information
+     * including identification, name details, nationality, date of birth, and biography.
+     * </p>
+     *
+     * @param id The unique identifier for the person
+     * @param name The first name of the person
+     * @param surname The last name of the person
+     * @param nationality The nationality of the person
+     * @param dateOfBirth The date of birth of the person
+     * @param biography Brief description of the person's life and career
+     */
     public Person(int id, String name, String surname, String nationality, String dateOfBirth, String biography) {
         this.id = id;
         this.name = name;
@@ -31,6 +45,10 @@ public abstract class Person {
 
     public String getBiography() {
         return biography;
+    }
+
+    public String getNationality() {
+        return nationality;
     }
 
     public void setBiography(String biography) {
