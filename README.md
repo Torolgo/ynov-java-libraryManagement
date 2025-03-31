@@ -17,7 +17,7 @@ The primary objectives of this system are to:
 ## Core Features
 
 - **Book Management**:
-    - Add different book types (Novels, Manga, Comic Books)
+    - Add and delete different book types (Novels, Manga, Comic Books)
     - Browse the complete collection with detailed information
     - View availability status of each book
 
@@ -38,11 +38,21 @@ The primary objectives of this system are to:
 - IntelliJ IDEA or any Java IDE
 - Gson library for JSON manipulation
 
-### Running the Application
+### Setup Instructions
 
 1. Clone the repository
+    ```ssh
+    git clone https://github.com/Torolgo/ynov-java-libraryManagement.git
+    ```
 2. Open the project in your IDE
-3. Run the `ApplicationRunner` class to start the application
+3. Make sure that the Gson library is correctly configured in the project classpath.
+      It is supposed to be contained in the lib package. If this is not the case, you can add it manually:
+    - [Download Gson from the official website](https://mvnrepository.com/artifact/com.google.code.gson/gson)
+    - Take version 2.12.1
+    - Add the jar file to your project:
+        - In IntelliJ IDEA, go to File > Project Structure > Libraries
+        - Click on the "+" icon and select "Java" to add the Gson jar file
+4. Run the `ApplicationRunner` class to start the application
 
 ## Technical Architecture
 
@@ -71,25 +81,29 @@ The GUI is built using Java Swing and organized into three main sections:
 2. **Person Management**: Adding and viewing authors and illustrators
 3. **Loan Management**: Borrowing and returning books
 
-## Application Workflow
+### Class diagram
+<img src="diagram.png" alt="Diagram" width="500"/>
 
-1. **Main Navigation**:
-    - The application starts with `GuiManager.guiInterfaceManager()` presenting three main options
-    - Users can navigate to Book Management, Person Management, or Loan Management
+## Use
 
-2. **Book Management Flow**:
-    - Adding books: Choose book type (Novel, Manga, Comic) and fill in details
-    - Viewing books: Browse all books with filtering options
-    - Book details view: See complete information and borrow/return options
+### Main interface: The main window offers three options:
+Manage Authors/Illustrators
+Manage Books
+Manage Borrowings
 
-3. **Person Management Flow**:
-    - Adding persons: Choose between Author or Illustrator and fill in details
-    - Viewing persons: Browse all authors and illustrators
-    - Person details view: See complete biographical information
+### Manage Authors and Illustrators :
+Add: Create new authors or illustrators with their detailed information
+View: See the complete list and access each person's details
+Delete: Remove authors/illustrators from the database
 
-4. **Loan Management Flow**:
-    - Borrowing books: Enter book ID to check out
-    - Returning books: Enter book ID to check in
+### Book management :
+Add: Create new books (Novels, Mangas or Comics)
+View: View complete list of books with status
+Delete: Remove books from the library
+
+#### Borrowing management :
+Borrow a book: Mark a book as borrowed
+Return a book: Mark a borrowed book as available
 
 ## Contributors
 
