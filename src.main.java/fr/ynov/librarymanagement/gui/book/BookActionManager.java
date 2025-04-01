@@ -6,7 +6,7 @@ import fr.ynov.librarymanagement.domain.Manga;
 import fr.ynov.librarymanagement.domain.Novel;
 import fr.ynov.librarymanagement.factory.Updater;
 
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addDetailRow;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addDetailRow;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

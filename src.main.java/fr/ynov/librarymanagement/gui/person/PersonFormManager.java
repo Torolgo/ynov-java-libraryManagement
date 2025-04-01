@@ -3,8 +3,8 @@ package fr.ynov.librarymanagement.gui.person;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.factory.Writer;
-import fr.ynov.librarymanagement.gui.uiutils.Creater;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Creater;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import java.awt.GridLayout;
 
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
 public class PersonFormManager {
 

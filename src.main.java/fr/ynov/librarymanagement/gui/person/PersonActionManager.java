@@ -3,7 +3,7 @@ package fr.ynov.librarymanagement.gui.person;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.domain.Person;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +17,7 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 
 import static fr.ynov.librarymanagement.factory.Updater.updateBiography;
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addDetailRow;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addDetailRow;
 
 public class PersonActionManager {
 

@@ -4,7 +4,7 @@ import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Deleter;
 import fr.ynov.librarymanagement.factory.FilesManagement;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

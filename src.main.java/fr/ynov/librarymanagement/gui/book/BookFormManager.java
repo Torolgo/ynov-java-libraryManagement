@@ -9,8 +9,8 @@ import fr.ynov.librarymanagement.domain.Novel;
 
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Writer;
-import fr.ynov.librarymanagement.gui.uiutils.Creater;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Creater;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreatePerson;
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
 
 public class BookFormManager {

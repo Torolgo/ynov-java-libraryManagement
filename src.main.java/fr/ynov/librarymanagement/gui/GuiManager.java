@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import static fr.ynov.librarymanagement.gui.book.BookManager.openBookWindow;
 import static fr.ynov.librarymanagement.gui.loan.LoanManager.openLoanWindow;
 import static fr.ynov.librarymanagement.gui.person.PersonManager.openPersonWindows;
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
 public class GuiManager {
 

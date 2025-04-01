@@ -1,4 +1,4 @@
-package fr.ynov.librarymanagement.gui.uiutils;
+package fr.ynov.librarymanagement.gui.utils;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;

@@ -5,7 +5,7 @@ import fr.ynov.librarymanagement.domain.Person;
 import fr.ynov.librarymanagement.factory.FilesManagement;
 import fr.ynov.librarymanagement.factory.PersonFactory;
 import fr.ynov.librarymanagement.factory.Deleter;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;

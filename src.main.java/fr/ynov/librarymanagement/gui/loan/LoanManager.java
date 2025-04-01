@@ -3,7 +3,7 @@ package fr.ynov.librarymanagement.gui.loan;
 import fr.ynov.librarymanagement.domain.Book;
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Updater;
-import fr.ynov.librarymanagement.gui.uiutils.Display;
+import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -11,8 +11,8 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
-import static fr.ynov.librarymanagement.gui.uiutils.Adder.addButtonToFrame;
-import static fr.ynov.librarymanagement.gui.uiutils.Creater.createLabeledTextField;
+import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
+import static fr.ynov.librarymanagement.gui.utils.Creater.createLabeledTextField;
 
 public class LoanManager {
 
