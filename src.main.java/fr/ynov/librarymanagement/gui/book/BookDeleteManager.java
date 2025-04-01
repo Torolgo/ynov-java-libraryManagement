@@ -20,6 +20,9 @@ import java.awt.Component;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
+/**
+ * Manages book deletion operations by providing a user interface to select and delete books with confirmation from the library system.
+ */
 public class BookDeleteManager extends FilesManagement {
     /**
      * Opens a window for deleting books.

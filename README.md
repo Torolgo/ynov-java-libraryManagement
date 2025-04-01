@@ -14,7 +14,7 @@ The primary objectives of this system are to:
 - Track book borrowings and returns
 - Ensure data persistence via JSON files
 
-## Core Features
+## ✨ Core Features
 
 - **Book Management**:
     - Add and delete different book types (Novels, Manga, Comic Books)

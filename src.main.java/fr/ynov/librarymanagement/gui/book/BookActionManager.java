@@ -19,6 +19,10 @@ import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
 
 
+
+/**
+ * Manages book-related actions including displaying details, handling borrowing and returning operations, and updating the system accordingly.
+ */
 public class BookActionManager {
 
     /**

@@ -14,6 +14,9 @@ import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 import static fr.ynov.librarymanagement.gui.utils.Creater.createLabeledTextField;
 
+/**
+ * Manages book loan operations by providing interfaces to borrow and return books while ensuring proper status updates and user feedback.
+ */
 public class LoanManager {
 
     /**

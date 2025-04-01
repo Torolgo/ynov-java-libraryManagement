@@ -14,6 +14,9 @@ import java.awt.GridLayout;
 
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
+/**
+ * Manages the creation of authors and illustrators by providing a form interface for entering and saving person details.
+ */
 public class PersonFormManager {
 
     /**

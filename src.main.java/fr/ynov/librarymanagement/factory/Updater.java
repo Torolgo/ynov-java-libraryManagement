@@ -13,6 +13,10 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * The Updater class is responsible for updating the status of books and biographies of authors or illustrators
+ * in their respective JSON files. It extends the FilesManagement class to utilize file handling methods.
+ */
 public class Updater extends FilesManagement {
     /**
      * Updates a book's status in the corresponding JSON file.

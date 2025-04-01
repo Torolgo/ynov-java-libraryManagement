@@ -1,5 +1,9 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Abstract class representing a person with common attributes and methods.
+ * This class serves as a base for specific types of persons, such as authors or readers.
+ */
 public abstract class Person {
     protected final int id;
     protected final String name;
@@ -10,10 +14,6 @@ public abstract class Person {
 
     /**
      * Constructs a new Person with the specified attributes.
-     * <p>
-     * This constructor initializes a Person object with personal information
-     * including identification, name details, nationality, date of birth, and biography.
-     * </p>
      *
      * @param id The unique identifier for the person
      * @param name The first name of the person

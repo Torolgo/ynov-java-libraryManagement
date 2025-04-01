@@ -8,6 +8,9 @@ import javax.swing.JScrollPane;
 
 import java.awt.Container;
 
+/**
+ * Provides utility methods for creating labeled UI components like text fields, combo boxes, and text areas for efficient Swing container population.
+ */
 public class Creater {
 
     /**

@@ -1,15 +1,14 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents a Manga book with specific attributes such as sub-genre.
+ * It extends the Book class to include manga-specific information.
+ */
 public class Manga extends Book {
     private final String subGenre;
 
     /**
      * Constructs a new Manga with the specified attributes.
-     * <p>
-     * This constructor initializes a Manga object with all the basic book properties
-     * inherited from the Book class along with the specific sub-genre that further
-     * categorizes this manga.
-     * </p>
      *
      * @param id The unique identifier for the manga
      * @param title The title of the manga

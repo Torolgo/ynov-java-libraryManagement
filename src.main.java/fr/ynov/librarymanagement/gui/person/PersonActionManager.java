@@ -19,6 +19,9 @@ import java.awt.BorderLayout;
 import static fr.ynov.librarymanagement.factory.Updater.updateBiography;
 import static fr.ynov.librarymanagement.gui.utils.Adder.addDetailRow;
 
+/**
+ * Manages person information display and interaction, showing details specific to Authors and Illustrators and enabling biography editing directly from the view.
+ */
 public class PersonActionManager {
 
     /**

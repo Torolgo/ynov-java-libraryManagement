@@ -10,6 +10,9 @@ import java.util.List;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllPersons;
 
+/**
+ * Factory class for managing a list of persons (Authors and Illustrators) and ID generation.
+ */
 public class PersonFactory {
     private static final ArrayList<Person> PERSON_LIST = new ArrayList<>();
 

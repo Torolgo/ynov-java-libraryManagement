@@ -10,6 +10,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
+/**
+ * Provides utility methods for adding UI components like buttons and detail rows to Swing containers to simplify GUI construction.
+ */
 public class Adder {
     /**
      * Creates a button with the specified text and action, then adds it to the container.

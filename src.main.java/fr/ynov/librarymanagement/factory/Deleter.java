@@ -1,7 +1,13 @@
 package fr.ynov.librarymanagement.factory;
 
 import com.google.gson.internal.LinkedTreeMap;
-import fr.ynov.librarymanagement.domain.*;
+import fr.ynov.librarymanagement.domain.Book;
+import fr.ynov.librarymanagement.domain.Bd;
+import fr.ynov.librarymanagement.domain.Novel;
+import fr.ynov.librarymanagement.domain.Manga;
+import fr.ynov.librarymanagement.domain.Person;
+import fr.ynov.librarymanagement.domain.Author;
+import fr.ynov.librarymanagement.domain.Illustrator;
 
 import java.io.File;
 import java.io.FileReader;
@@ -12,6 +18,12 @@ import java.util.stream.Collectors;
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 import static fr.ynov.librarymanagement.factory.Reader.loadAllPersons;
 
+
+/**
+ * The Deleter class is responsible for deleting entities (books or persons) from their respective JSON files.
+ * It ensures that the deletion process maintains referential integrity, especially when dealing with authors
+ * and illustrators associated with books.
+ */
 public class Deleter extends FilesManagement{
 
     /**

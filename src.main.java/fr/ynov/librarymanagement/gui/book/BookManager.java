@@ -5,6 +5,9 @@ import java.awt.GridLayout;
 
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
+/**
+ * Manages the book management interface, providing functionality for adding, viewing, and deleting books of various types (Manga, Novel, Comic Book) in the library system.
+ */
 public class BookManager {
 
     /**

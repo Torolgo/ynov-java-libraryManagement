@@ -1,14 +1,14 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents an illustrator with personal details and a specific illustration style.
+ * It extends the Person class to include illustrator-specific information.
+ */
 public class Illustrator extends Person {
     private final String illustrationStyle;
 
     /**
      * Constructs a new Illustrator with the specified attributes.
-     * <p>
-     * This constructor initializes an illustrator with personal information inherited from
-     * the Person class along with the specific illustration style that characterizes their work.
-     * </p>
      *
      * @param id The unique identifier for the illustrator
      * @param name The first name of the illustrator

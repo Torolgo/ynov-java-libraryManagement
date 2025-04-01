@@ -13,6 +13,9 @@ import static fr.ynov.librarymanagement.gui.loan.LoanManager.openLoanWindow;
 import static fr.ynov.librarymanagement.gui.person.PersonManager.openPersonWindows;
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
+/**
+ * Creates and manages the main application window with navigation buttons to access different modules of the library management system.
+ */
 public class GuiManager {
 
     /**

@@ -7,6 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 
+
+/**
+ * The FilesManagement class provides utility methods for reading and writing JSON files.
+ * It uses the Gson library for serialization and deserialization of objects.
+ * This class is designed to be extended by other classes that require file management functionality.
+ */
 public class FilesManagement {
     protected static final String BASE_PATH = "src.main.java/fr/ynov/librarymanagement/assets/";
     protected static final Gson GSON = new Gson();

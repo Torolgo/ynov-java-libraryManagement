@@ -5,6 +5,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.Component;
 
+/**
+ * Provides utility methods for displaying error and success message dialogs to provide user feedback throughout the application.
+ */
 public class Display {
 
     /**

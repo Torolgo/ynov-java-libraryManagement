@@ -5,6 +5,9 @@ import java.awt.GridLayout;
 
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
+/**
+ * Provides a centralized interface for managing authors and illustrators with options to add, view, and delete persons in the library system.
+ */
 public class PersonManager {
 
     /**

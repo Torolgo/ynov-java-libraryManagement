@@ -16,6 +16,10 @@ import java.util.List;
 import static fr.ynov.librarymanagement.factory.BookFactory.clearBookList;
 import static fr.ynov.librarymanagement.factory.PersonFactory.clearPersonList;
 
+/**
+ * The Reader class is responsible for reading JSON files containing book and person data.
+ * It uses the Gson library to deserialize JSON data into Java objects.
+ */
 public class Reader extends FilesManagement {
 
     /**

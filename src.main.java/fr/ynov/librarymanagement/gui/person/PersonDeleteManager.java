@@ -22,6 +22,9 @@ import java.awt.Component;
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 import static fr.ynov.librarymanagement.factory.Reader.loadAllPersons;
 
+/**
+ * Manages the deletion of authors and illustrators with verification to prevent removal of persons referenced in books.
+ */
 public class PersonDeleteManager extends FilesManagement {
 
 

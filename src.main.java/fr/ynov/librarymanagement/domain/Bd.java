@@ -1,15 +1,15 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents a comic book (BD) in the library management system.
+ * It extends the Book class and includes additional attributes specific to comic books.
+ */
 public class Bd extends Book{
     private final Illustrator illustrator;
     private final String illustrationStyle;
 
     /**
      * Constructs a new comic book (BD) with the specified attributes.
-     * <p>
-     * This constructor initializes a comic book object with all necessary information,
-     * extending the Book class with comic-specific details like illustrator and illustration style.
-     * </p>
      *
      * @param id The unique identifier for the comic book
      * @param title The title of the comic book

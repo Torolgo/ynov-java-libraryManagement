@@ -6,6 +6,9 @@ import java.util.List;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
+/**
+ * Factory class for managing a list of books and ID generation.
+ */
 public class BookFactory {
     private static final ArrayList<Book> BOOK_LIST = new ArrayList<>();
 

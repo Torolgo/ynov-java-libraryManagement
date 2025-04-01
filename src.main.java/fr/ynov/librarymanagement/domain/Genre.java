@@ -1,5 +1,8 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Enum representing various genres of books.
+ */
 public enum Genre {
     ADULT,
     ADVENTURE,

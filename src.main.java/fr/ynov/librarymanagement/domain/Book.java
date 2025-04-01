@@ -1,5 +1,10 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents a book with various attributes such as title, author, genre, publication year,
+ * number of pages, and its availability status.
+ * This class implements the Takeable interface to manage the book's availability status.
+ */
 public abstract class Book implements Takeable {
     private final int id;
     private final String title;
@@ -11,10 +16,6 @@ public abstract class Book implements Takeable {
 
     /**
      * Constructs a new Book with the specified attributes.
-     * <p>
-     * This constructor initializes a Book object with its unique identifier, title, author,
-     * genre, publication year, and number of pages.
-     * </p>
      *
      * @param id The unique identifier for the book
      * @param title The title of the book

@@ -1,14 +1,14 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents an author with personal details and a specific writing style.
+ * It extends the Person class to include author-specific information.
+ */
 public class Author extends Person {
     private final String writingStyle;
 
     /**
      * Constructs a new Author with the specified attributes.
-     * <p>
-     * This constructor initializes an Author object with personal information and writing style.
-     * It extends the Person class by adding author-specific information.
-     * </p>
      *
      * @param id The unique identifier for the author
      * @param name The first name of the author

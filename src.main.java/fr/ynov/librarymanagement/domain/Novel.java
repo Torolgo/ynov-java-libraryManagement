@@ -1,14 +1,14 @@
 package fr.ynov.librarymanagement.domain;
 
+/**
+ * Represents a Novel book with specific attributes such as chapters.
+ * It extends the Book class to include novel-specific information.
+ */
 public class Novel extends Book {
     private final int chapters;
 
     /**
      * Constructs a new Novel with the specified attributes.
-     * <p>
-     * This constructor initializes a Novel object with all the basic book properties
-     * inherited from the Book class along with the number of chapters in the novel.
-     * </p>
      *
      * @param id The unique identifier for the novel
      * @param title The title of the novel

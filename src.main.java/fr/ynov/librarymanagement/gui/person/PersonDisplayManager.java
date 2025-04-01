@@ -20,7 +20,9 @@ import java.util.List;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllPersons;
 
-
+/**
+ * Manages the display of Authors and Illustrators, handling person listing, selection and detailed information viewing with custom type indication.
+ */
 public class PersonDisplayManager {
 
     /**

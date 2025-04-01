@@ -16,6 +16,9 @@ import java.awt.Component;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 
+/**
+ * Manages the display of books in the library system, showing their details, status, and handling the related GUI components.
+ */
 public class BookDisplayManager {
 
     /**

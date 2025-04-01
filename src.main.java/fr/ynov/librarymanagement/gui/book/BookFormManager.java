@@ -26,6 +26,9 @@ import static fr.ynov.librarymanagement.factory.PersonFactory.findOrCreatePerson
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
 
 
+/**
+ * Manages book form creation and display for adding different types of books (Novel, Manga, Comic) with type-specific fields to the library system.
+ */
 public class BookFormManager {
 
     /**
