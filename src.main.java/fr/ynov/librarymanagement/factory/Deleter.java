@@ -87,6 +87,7 @@ public class Deleter extends FilesManagement{
                 return true;
             }
 
+            // Check if the book is a Bd and if the illustrator matches the person
             if (book instanceof Bd bd &&
                     bd.getIllustrator() != null &&
                     bd.getIllustrator().getId() == person.getId()) {

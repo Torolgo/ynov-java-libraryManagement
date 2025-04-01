@@ -30,6 +30,7 @@ public class Updater extends FilesManagement {
      */
     public static void updateBookStatus(Book book) {
         String fileName;
+        // Determine the file name based on the book's type
         switch (book) {
             case Novel ignored -> fileName = "novels.json";
             case Bd ignored -> fileName = "bds.json";
@@ -41,6 +42,7 @@ public class Updater extends FilesManagement {
             }
         }
 
+        // Read the existing data from the file and update the book's status
         File file = new File(BASE_PATH + fileName);
         try {
             List<? extends Book> books = readExistingData(file, TypeToken.getParameterized(List.class, book.getClass()).getType());
@@ -94,6 +96,7 @@ public class Updater extends FilesManagement {
         String fileName;
         Type typeToken;
 
+        // Determine the file name and type token based on the person's type
         if (person instanceof Author) {
             fileName = "authors.json";
             typeToken = new TypeToken<List<Author>>() {}.getType();
@@ -122,7 +125,7 @@ public class Updater extends FilesManagement {
             }
         }
 
-        // If found, write the updated list back to the file
+        // If the person was found, write the updated list back to the file
         if (found) {
             try {
                 writeToFile(file, personList);

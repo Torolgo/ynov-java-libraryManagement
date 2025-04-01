@@ -89,6 +89,7 @@ public class PersonFactory {
             Reader.readPersonFile("illustrators.json", new TypeToken<List<Illustrator>>() {});
         }
 
+        // Search for the person by name in the loaded list
         for (Person person : PersonFactory.getPersonList()) {
             if (personClass.isInstance(person) &&
                     person.getNameAndSurname().toLowerCase().contains(name.toLowerCase())) {
