@@ -1,4 +1,4 @@
-# Library Management System
+# Library Management System - DESSENNE Ylan
 
 ## 📚 Project Overview
 
