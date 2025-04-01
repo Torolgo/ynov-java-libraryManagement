@@ -6,7 +6,7 @@
 
 This comprehensive Library Management System is developed in Java with a Swing GUI interface. It allows librarians to efficiently manage books, authors, and illustrators. The application provides an intuitive interface for adding different types of books (Novels, Manga, Comic Books), viewing existing collections, and managing loans. All data persists through JSON files.
 
-### Key Project Goals
+### Project Goals
 
 The primary objectives of this system are to:
 - Maintain a comprehensive catalog of different book types
@@ -84,7 +84,7 @@ The GUI is built using Java Swing and organized into three main sections:
 ### Class diagram
 The class diagram illustrates the relationships between the main classes in the project. It includes the following key classes:
 <p align="center">
-  <img src="diagram.png" alt="Class Diagram" width="500"/>
+  <img src="img/diagram.png" alt="Class Diagram" width="500"/>
 </p>
 
 ## ▶️ Use
@@ -108,6 +108,8 @@ Delete: Remove books from the library
 Borrow a book: Mark a book as borrowed
 Return a book: Mark a borrowed book as available
 
-## Contributors
+## 👥 Contributors
 
-* [DESSENNE Ylan](https://github.com/Torolgo) - Developer
+This project was developed by:
+<br>
+<a href="https://github.com/Torolgo"><img src="/img/Torolgo.png" alt="DESSENNE Ylan" width="69" height="69"/></a>
