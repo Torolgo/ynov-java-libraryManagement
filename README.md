@@ -30,6 +30,10 @@ The primary objectives of this system are to:
     - Return borrowed books
     - Track loan status
 
+- **Data persistence**:
+    - Automatic backup of all changes
+    - Easily exportable JSON data structure
+
 ## 🛠️ Getting Started
 
 ### Prerequisites
@@ -89,24 +93,39 @@ The class diagram illustrates the relationships between the main classes in the 
 
 ## ▶️ Use
 
-### Main interface: The main window offers three options:
-Manage Authors/Illustrators
-Manage Books
-Manage Borrowings
+### Main Interface: The main window offers three options:
 
-### Manage Authors and Illustrators :
-Add: Create new authors or illustrators with their detailed information
-View: See the complete list and access each person's details
-Delete: Remove authors/illustrators from the database
+- Manage Authors/Illustrators
+- Manage Books
+- Manage Loans
 
-### Book management :
-Add: Create new books (Novels, Mangas or Comics)
-View: View complete list of books with status
-Delete: Remove books from the library
+### Author and Illustrator Management:
+- Add: Create new authors or illustrators with their detailed information
+- View: See the complete list and access details for each person, including the ability to edit their biography
+- Delete: Remove authors/illustrators from the database (not possible if they are referenced in books)
 
-#### Borrowing management :
-Borrow a book: Mark a book as borrowed
-Return a book: Mark a borrowed book as available
+### Book Management:
+- Add: Create new books according to their type:
+    - Novels: title, author, genre, year, pages, chapters
+    - Manga: title, author, genre, year, pages, sub-genre
+    - Comics: title, author, genre, year, pages, illustrator, illustration style
+- View: See the complete list of books with their status (available or borrowed)
+- Delete: Remove books from the library
+- Details: Display complete information about a book by clicking on it in the list
+
+### Loan Management:
+- Borrow a book: Mark a book as borrowed using its ID
+- Return a book: Mark a borrowed book as available again
+- Automatic verification: The system checks if a book is already borrowed or available
+
+### Additional Features:
+- Data persistence: All information is saved in JSON files
+- Refresh: "Refresh" button to update lists after modifications
+- Confirmation messages: Visual feedback for all important actions
+- Error prevention: Input validation and explicit error messages
+
+## 🎥 Demo
+  <img src="img/demo.gif" alt="demo" width="400"/>
 
 ## 👥 Contributors
 
