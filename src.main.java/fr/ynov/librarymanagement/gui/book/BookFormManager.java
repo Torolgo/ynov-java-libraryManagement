@@ -9,7 +9,7 @@ import fr.ynov.librarymanagement.domain.Novel;
 
 import fr.ynov.librarymanagement.factory.BookFactory;
 import fr.ynov.librarymanagement.factory.Writer;
-import fr.ynov.librarymanagement.gui.utils.Creater;
+import fr.ynov.librarymanagement.gui.utils.Creator;
 import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JComboBox;
@@ -81,6 +81,7 @@ public class BookFormManager {
                 int year = Integer.parseInt(((JTextField)fields.get("year")).getText());
                 int pages = Integer.parseInt(((JTextField)fields.get("pages")).getText());
 
+                // Checks whether data has been entered for each field
                 if (title.isEmpty()) {
                     throw new Exception("Le titre est obligatoire");
                 }
@@ -98,8 +99,8 @@ public class BookFormManager {
                 }
 
                 String successMessage;
-
                 switch (bookType) {
+                    // Handle each book type, create the corresponding object and save it
                     case "novel":
                         int chapters = Integer.parseInt(((JTextField)fields.get("chapters")).getText());
                         if (chapters <= 0) {
@@ -172,11 +173,11 @@ public class BookFormManager {
         frame.setSize(400, 400);
         frame.setLayout(new GridLayout(rows, 2, 10, 10));
 
-        JTextField titleField = Creater.createLabeledTextField(frame, "Titre");
-        JTextField authorField = Creater.createLabeledTextField(frame, "Auteur");
-        JComboBox<Genre> genreComboBox = Creater.createLabeledComboBox(frame, "Genre", Genre.values());
-        JTextField yearField = Creater.createLabeledTextField(frame, "Année");
-        JTextField pagesField = Creater.createLabeledTextField(frame, "Pages");
+        JTextField titleField = Creator.createLabeledTextField(frame, "Titre");
+        JTextField authorField = Creator.createLabeledTextField(frame, "Auteur");
+        JComboBox<Genre> genreComboBox = Creator.createLabeledComboBox(frame, "Genre", Genre.values());
+        JTextField yearField = Creator.createLabeledTextField(frame, "Année");
+        JTextField pagesField = Creator.createLabeledTextField(frame, "Pages");
 
         Map<String, JComponent> allFields = new HashMap<>();
         allFields.put("title", titleField);
@@ -187,7 +188,7 @@ public class BookFormManager {
 
         Map<String, JTextField> additionalJFields = new HashMap<>();
         for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
-            JTextField field = Creater.createLabeledTextField(frame, entry.getValue());
+            JTextField field = Creator.createLabeledTextField(frame, entry.getValue());
             additionalJFields.put(entry.getKey(), field);
             allFields.put(entry.getKey(), field);
         }

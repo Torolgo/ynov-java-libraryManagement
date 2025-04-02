@@ -3,7 +3,7 @@ package fr.ynov.librarymanagement.gui.person;
 import fr.ynov.librarymanagement.domain.Author;
 import fr.ynov.librarymanagement.domain.Illustrator;
 import fr.ynov.librarymanagement.factory.Writer;
-import fr.ynov.librarymanagement.gui.utils.Creater;
+import fr.ynov.librarymanagement.gui.utils.Creator;
 import fr.ynov.librarymanagement.gui.utils.Display;
 
 import javax.swing.JFrame;
@@ -33,12 +33,12 @@ public class PersonFormManager {
         addPersonFrame.setSize(500, 600);
         addPersonFrame.setLayout(new GridLayout(7, 2, 10, 10));
 
-        JTextField nameField = Creater.createLabeledTextField(addPersonFrame, "Nom");
-        JTextField surnameField = Creater.createLabeledTextField(addPersonFrame, "Prénom");
-        JTextField nationalityField = Creater.createLabeledTextField(addPersonFrame, "Nationalité");
-        JTextField dateOfBirthField = Creater.createLabeledTextField(addPersonFrame, "Date de naissance");
-        JTextArea biographyField = Creater.createLabeledTextArea(addPersonFrame, "Biographie", 5, 20);
-        JTextField styleField = Creater.createLabeledTextField(addPersonFrame,
+        JTextField nameField = Creator.createLabeledTextField(addPersonFrame, "Nom");
+        JTextField surnameField = Creator.createLabeledTextField(addPersonFrame, "Prénom");
+        JTextField nationalityField = Creator.createLabeledTextField(addPersonFrame, "Nationalité");
+        JTextField dateOfBirthField = Creator.createLabeledTextField(addPersonFrame, "Date de naissance");
+        JTextArea biographyField = Creator.createLabeledTextArea(addPersonFrame, "Biographie", 5, 20);
+        JTextField styleField = Creator.createLabeledTextField(addPersonFrame,
                 isAuthor ? "Style d'écriture" : "Style d'illustration");
 
         addButtonToFrame(addPersonFrame, "Ajouter", e -> {
@@ -50,6 +50,7 @@ public class PersonFormManager {
                 String biography = biographyField.getText();
                 String style = styleField.getText();
 
+                //Checks whether data has been entered for each field
                 if (name.isEmpty()) {
                     throw new Exception("Le nom est obligatoire");
                 }

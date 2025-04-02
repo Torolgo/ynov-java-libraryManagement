@@ -74,6 +74,7 @@ public class PersonActionManager {
         addDetailRow(panel, "Nationalité", person.getNationality());
         addDetailRow(panel, "Biographie", person.getBiography());
 
+        // Add specific details based on the type of person
         if (isAuthor) {
             Author author = (Author) person;
             addDetailRow(panel, "Style d'écriture", author.getWritingStyle());

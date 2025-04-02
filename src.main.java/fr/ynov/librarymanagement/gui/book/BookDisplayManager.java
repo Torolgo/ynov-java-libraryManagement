@@ -85,11 +85,13 @@ public class BookDisplayManager {
      */
     private static JList<Book> createBookJList(DefaultListModel<Book> model, JFrame parentFrame) {
         JList<Book> list = new JList<>(model);
+        // Set a custom cell renderer to format how each Book is displayed
         list.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                // Customize the display of each book
                 if (value instanceof Book book) {
                     setText(book.getTitle() + " by " + book.getAuthor().getNameAndSurname() +
                             (book.isTaken() ? " (Emprunté)" : " (Disponible)"));
@@ -98,6 +100,7 @@ public class BookDisplayManager {
             }
         });
 
+        // Add a selection listener to handle book selection events
         list.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 Book selectedBook = list.getSelectedValue();

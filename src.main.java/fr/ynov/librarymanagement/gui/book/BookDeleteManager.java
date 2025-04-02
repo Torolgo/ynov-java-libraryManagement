@@ -107,6 +107,7 @@ public class BookDeleteManager extends FilesManagement {
             Book selectedBook = bookList.getSelectedValue();
 
             if (selectedBook != null) {
+                // Check if the book is referenced in any loans
                 int confirm = JOptionPane.showConfirmDialog(
                         deleteBookFrame,
                     "Êtes-vous sûr de vouloir supprimer le livre:\n" + selectedBook.getTitle() + "?",

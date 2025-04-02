@@ -77,10 +77,12 @@ public class PersonDisplayManager {
      */
     private static JList<Person> createPersonJList(DefaultListModel<Person> personListModel) {
         JList<Person> personJList = new JList<>(personListModel);
+        // Custom cell renderer to display person type and name
         personJList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
+                // Get the default component from the parent renderer
                 Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Person person) {
                     String type = (person instanceof Author) ? "Auteur" : "Illustrateur";
@@ -90,6 +92,7 @@ public class PersonDisplayManager {
             }
         });
 
+        // Add a selection listener to handle person selection events
         personJList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 Person selectedPerson = personJList.getSelectedValue();

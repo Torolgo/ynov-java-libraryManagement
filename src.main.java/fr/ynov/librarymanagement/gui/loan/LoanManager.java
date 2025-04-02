@@ -12,7 +12,7 @@ import java.awt.GridLayout;
 
 import static fr.ynov.librarymanagement.factory.Reader.loadAllBooks;
 import static fr.ynov.librarymanagement.gui.utils.Adder.addButtonToFrame;
-import static fr.ynov.librarymanagement.gui.utils.Creater.createLabeledTextField;
+import static fr.ynov.librarymanagement.gui.utils.Creator.createLabeledTextField;
 
 /**
  * Manages book loan operations by providing interfaces to borrow and return books while ensuring proper status updates and user feedback.
@@ -66,6 +66,7 @@ public class LoanManager {
 
         String buttonText = isTakingBook ? "Emprunter" : "Retourner";
         addButtonToFrame(bookLoanFrame, buttonText, e -> {
+            // Validate the input and process the loan operation
             try {
                 int id = Integer.parseInt(idField.getText());
                 processBookAction(id, isTakingBook, bookLoanFrame);
