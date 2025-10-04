@@ -1,4 +1,5 @@
 # Library Management System - DESSENNE Ylan
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## 📚 Project Overview
 
